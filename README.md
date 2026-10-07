@@ -5,7 +5,7 @@ A plain HTML/CSS/JS portfolio for photography, videography and design. It has no
 ## Structure
 
 ```
-index.html          Home: endless gallery of all work (List / Slider views)
+index.html          Home: endless gallery of all work
 photography.html    Same gallery, filtered by category
 videography.html
 design.html
@@ -60,6 +60,6 @@ Any static host will do. Upload the whole folder to Netlify (drag and drop), Git
 
 ## Design notes
 
-The design draws on cathydolle.com: a white page, small uppercase type pinned to the corners, and a single column (or strip) of images that loops forever. Every image gets roughly the same area, so portrait shots come out narrow and landscape shots wide.
+The design draws on cathydolle.com: a white page, small uppercase type pinned to the corners, and a single column of images that loops forever. Every image gets roughly the same area, so portrait shots come out narrow and landscape shots wide.
 
 The font is **Inter Tight** from Google Fonts. To get closer to the reference, license **Neue Montreal** (free for personal use from Pangram Pangram), add the font files and change `--font` at the top of `css/style.css`.

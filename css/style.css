@@ -122,13 +122,11 @@ p {
   right: var(--pad);
 }
 
-.slot-a button[aria-pressed="false"],
 .slot-b a:not([aria-current]) {
   color: var(--muted);
   transition: color 0.25s;
 }
 
-.slot-a button:hover,
 .slot-b a:hover {
   color: var(--fg) !important;
 }
@@ -236,7 +234,7 @@ p {
   }
 }
 
-/* ── Gallery stage (infinite list / slider) ─────────────── */
+/* ── Gallery stage (infinite list) ──────────────────────── */
 
 body.gallery {
   overflow: hidden;
@@ -250,26 +248,13 @@ body.gallery {
   inset: 0;
   overflow: hidden;
   touch-action: none;
-  transition: opacity 0.35s ease;
-}
-
-#stage.switching {
-  opacity: 0;
 }
 
 .item {
   position: absolute;
   top: 0;
-  left: 0;
-  will-change: transform;
-}
-
-.mode-list .item {
   left: 50%;
-}
-
-.mode-slider .item {
-  top: 50%;
+  will-change: transform;
 }
 
 .item img {
@@ -310,12 +295,6 @@ body.gallery {
   inset: 0;
   z-index: 10;
   pointer-events: none;
-  transition: opacity 0.35s;
-}
-
-.mode-slider #index {
-  opacity: 0;
-  visibility: hidden;
 }
 
 .index-col {
@@ -368,13 +347,9 @@ body.gallery {
   justify-content: space-between;
 }
 
+/* Desktop shows the index instead; phones show this label. */
 .active-label {
   opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.mode-slider .active-label {
-  opacity: 1;
 }
 
 @media (max-width: 760px) {

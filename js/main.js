@@ -16,15 +16,6 @@ const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
 const isMobile = () => innerWidth <= 760;
 
-const store = {
-  get(key) {
-    try { return localStorage.getItem(key); } catch { return null; }
-  },
-  set(key, value) {
-    try { localStorage.setItem(key, value); } catch {}
-  },
-};
-
 /* ── Header, about overlay ──────────────────────────────── */
 
 function renderHeader(activeCategory) {
@@ -34,10 +25,7 @@ function renderHeader(activeCategory) {
     ["videography", "videography.html", "Video"],
     ["design", "design.html", "Design"],
   ];
-  const slotA =
-    PAGE === "project"
-      ? `<a href="index.html">← Index</a>`
-      : `<button data-mode="list">List</button><button data-mode="slider">Slider</button>`;
+  const slotA = PAGE === "project" ? `<a href="index.html">← Index</a>` : "";
 
   $("#site-header").innerHTML = `
     <a class="name" href="index.html">${esc(SITE.name)}</a>
@@ -181,7 +169,6 @@ async function initGallery() {
 
   const ratios = await runLoader(projects);
 
-  let mode = store.get("gallery-mode") === "slider" ? "slider" : "list";
   let els = [];
   let total = 0;
   let current = 0;
@@ -190,32 +177,20 @@ async function initGallery() {
 
   // Every image gets roughly the same visual area, so portraits are narrow and landscapes wide.
   function sizeFor(ar) {
-    const vw = innerWidth, vh = innerHeight;
-    let w;
-    if (mode === "list") {
-      const portraitW = isMobile() ? vw * 0.6 : Math.max(vw * 0.16, 170);
-      w = Math.sqrt(((portraitW * portraitW) / (2 / 3)) * ar);
-      w = Math.min(w, vw - 32);
-    } else {
-      const portraitH = isMobile() ? vh * 0.55 : vh * 0.74;
-      w = Math.sqrt(portraitH * (portraitH * (2 / 3)) * ar);
-      w = Math.min(w, vw * (isMobile() ? 0.85 : 0.6));
-    }
+    const vw = innerWidth;
+    const portraitW = isMobile() ? vw * 0.6 : Math.max(vw * 0.16, 170);
+    const w = Math.min(Math.sqrt(((portraitW * portraitW) / (2 / 3)) * ar), vw - 32);
     return [w, w / ar];
   }
 
-  const span = () => (mode === "list" ? innerHeight : innerWidth);
+  const span = () => innerHeight;
 
   function build(focus = 0) {
-    document.body.classList.toggle("mode-list", mode === "list");
-    document.body.classList.toggle("mode-slider", mode === "slider");
-    document.querySelectorAll("[data-mode]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.mode === mode));
-
     stage.innerHTML = "";
     els = [];
     total = 0;
     const sizes = projects.map((p, i) => sizeFor(ratios[i]));
-    const maxSize = Math.max(...sizes.map(([w, h]) => (mode === "list" ? h : w)));
+    const maxSize = Math.max(...sizes.map(([, h]) => h));
 
     // Repeat the set until it's long enough to loop seamlessly.
     for (let rep = 0; rep === 0 || (total < span() + maxSize * 2 && rep < 30); rep++) {
@@ -235,9 +210,8 @@ async function initGallery() {
           p.media.some(isVideo) ? '<span class="badge ui">Video</span>' : ""
         }`;
         stage.appendChild(a);
-        const size = mode === "list" ? h : w;
-        els.push({ el: a, pi, size, offset: total });
-        total += size;
+        els.push({ el: a, pi, size: h, offset: total });
+        total += h;
       });
     }
     current = target = centerOf(focus);
@@ -268,7 +242,7 @@ async function initGallery() {
     let found = -1;
     for (const it of els) {
       const pos = mod(it.offset - current + margin, total) - margin;
-      it.el.style.transform = mode === "list" ? `translate3d(-50%, ${pos}px, 0)` : `translate3d(${pos}px, -50%, 0)`;
+      it.el.style.transform = `translate3d(-50%, ${pos}px, 0)`;
       if (pos <= center && pos + it.size > center) found = it.pi;
     }
     setActive(found);
@@ -280,7 +254,7 @@ async function initGallery() {
   setTimeout(() => document.body.classList.add("ready"), 30);
   render();
 
-  /* Input: wheel, touch, keys, index clicks, mode toggle */
+  /* Input: wheel, touch, keys, index clicks */
 
   addEventListener(
     "wheel",
@@ -293,17 +267,16 @@ async function initGallery() {
   );
 
   let touchPos = null, velocity = 0, dragged = false;
-  const touchCoord = (t) => (mode === "list" ? t.clientY : Math.abs(t.clientX - touchPos.x0) > Math.abs(t.clientY - touchPos.y0) ? t.clientX : t.clientY);
   stage.addEventListener("touchstart", (e) => {
     const t = e.touches[0];
-    touchPos = { x0: t.clientX, y0: t.clientY, last: mode === "list" ? t.clientY : t.clientX };
+    touchPos = { x0: t.clientX, y0: t.clientY, last: t.clientY };
     velocity = 0;
     dragged = false;
   }, { passive: true });
   stage.addEventListener("touchmove", (e) => {
     if (!touchPos) return;
     e.preventDefault();
-    const now = touchCoord(e.touches[0]);
+    const now = e.touches[0].clientY;
     const delta = touchPos.last - now;
     touchPos.last = now;
     velocity = delta;
@@ -329,19 +302,6 @@ async function initGallery() {
     const btn = e.target.closest("button");
     if (btn) target = centerOf(Number(btn.dataset.i));
   });
-
-  function switchMode(next) {
-    if (next === mode) return;
-    const focus = Math.max(active, 0);
-    stage.classList.add("switching");
-    setTimeout(() => {
-      mode = next;
-      store.set("gallery-mode", mode);
-      build(focus);
-      stage.classList.remove("switching");
-    }, reducedMotion ? 0 : 350);
-  }
-  document.querySelectorAll("[data-mode]").forEach((b) => b.addEventListener("click", () => switchMode(b.dataset.mode)));
 
   let resizeTimer;
   addEventListener("resize", () => {
