@@ -1,481 +1,1477 @@
 /*
   ─────────────────────────────────────────────────────────────
-  SITE CONTENT
-  Everything on the site comes from this file. To add work:
-    1. Put your files in assets/<project-slug>/
-    2. Copy a project block below and edit it.
-  Images: use paths like "assets/my-project/01.jpg".
-  Videos: { type: "youtube", id: "..." } | { type: "vimeo", id: "..." }
-          | { type: "file", src: "assets/my-project/reel.mp4" }
-  Placeholder images come from picsum.photos — replace them.
+  SITE CONTENT — everything the site shows comes from this file.
+
+  PROJECTS are listed in the order they appear (and are numbered).
+  Each project uses one of three page templates:
+    "series" — photography: fixed text column + editorial image flow
+    "film"   — videography: full-screen video, then the editorial grid
+    "case"   — digital / branding: case study with sections
+  Images live in assets/<slug>/ ; w/h are the image's pixel size.
+  Videos currently stream from Cargo (freight.cargo.site). To move
+  them to Vimeo, replace the URL with a direct video file URL.
   ─────────────────────────────────────────────────────────────
 */
 
 const SITE = {
-  name: "Marguerite Le Petit",
-  tagline: "Photographer, filmmaker and designer.",
-  intro:
-    "I make images, moving pictures and visual identities. Based in Paris, working everywhere.",
-  email: "hello@example.com",
-  location: "Paris, France",
-  socials: [
-    { label: "Instagram", url: "https://instagram.com/" },
-    { label: "Vimeo", url: "https://vimeo.com/" },
-    { label: "Behance", url: "https://behance.net/" },
+  "name": "Marguerite Le Petit",
+  "disciplines": [
+    "Image production",
+    "Art direction",
+    "Digital project management"
   ],
-  about: [
-    "I’m a multidisciplinary visual artist working across photography, film and graphic design. My work moves between commissioned projects for brands and editorial clients and long-form personal series.",
-    "I care about light, rhythm and restraint: images that hold attention without shouting, and design that gets out of the way of the story.",
+  "statement": [
+    "What began as childhood curiosity has grown into a practice centred on editorial, fashion and artistic storytelling. Today I bridge my background in photography with my training as a digital project manager. To me, a photograph is more than a composition — it is a vessel for feeling and meaning.",
+    "Bringing visual craft and digital strategy together lets me approach every project with a dual perspective: the sensitivity of an artist and the structure of a project lead. Whether it is a high-fashion editorial or a brand campaign, my intention stays the same — to work with deep human consideration."
   ],
-  services: [
-    "Editorial & portrait photography",
-    "Brand & campaign photography",
-    "Short films & music videos",
-    "Visual identity & art direction",
-    "Print & editorial design",
+  "education": [
+    [
+      "Penninghen",
+      "Preparatory year"
+    ],
+    [
+      "EFET",
+      "Bachelor's degree in photography"
+    ],
+    [
+      "ESD",
+      "Third year, in progress — digital project management"
+    ]
   ],
-  clients: ["Client One", "Client Two", "Client Three", "Client Four", "Client Five"],
-  portrait: "https://picsum.photos/seed/portrait-mlp/900/1200",
+  "occupation": [
+    [
+      "Student",
+      "Digital project manager"
+    ],
+    [
+      "Freelance",
+      "Photography — videography"
+    ]
+  ],
+  "email": "margueritelepetit1@gmail.com",
+  "location": "Paris",
+  "socials": [
+    {
+      "label": "Instagram",
+      "handle": "@margueritelfabre",
+      "url": "https://www.instagram.com/margueritelfabre/"
+    }
+  ]
 };
 
 const CATEGORIES = {
-  photography: "Photography",
-  videography: "Videography",
-  design: "Design",
+  "photography": "Photography",
+  "videography": "Videography",
+  "digital": "Digital / Branding"
 };
-
-// Helper for placeholder images — delete once you use real files.
-const ph = (seed, w, h) => `https://picsum.photos/seed/${seed}/${w}/${h}`;
 
 const PROJECTS = [
   {
-    slug: "coastal-light",
-    title: "Coastal Light",
-    category: "photography",
-    year: 2026,
-    client: "Personal",
-    role: "Photography",
-    cover: ph("coast1", 1200, 1500),
-    summary: "A slow study of the Atlantic coast through winter.",
-    description: [
-      "Shot over three months along the Breton coastline, Coastal Light follows the shifting quality of winter light on water, stone and fog.",
-      "The series was made entirely on medium format film and printed as a limited edition of silver gelatin prints.",
+    "slug": "rooting-mother",
+    "title": "Rooting Mother",
+    "category": "photography",
+    "template": "series",
+    "cover": {
+      "src": "assets/rooting-mother/cover.jpg",
+      "w": 800,
+      "h": 1201
+    },
+    "subtitle": "Mother's roots",
+    "meta": [
+      [
+        "Category",
+        "Photography"
+      ],
+      [
+        "Type",
+        "Personal series"
+      ],
+      [
+        "Role",
+        "Photography"
+      ]
     ],
-    media: [
-      { type: "image", src: ph("coast1", 1600, 2000) },
-      { type: "image", src: ph("coast2", 2000, 1333) },
-      { type: "image", src: ph("coast3", 1600, 2000) },
-      { type: "image", src: ph("coast4", 1600, 2000) },
-      { type: "image", src: ph("coast5", 2000, 1333) },
+    "text": [
+      "There is a specific kind of grief in watching someone who cannot get better.",
+      "In a studio turned parlour, I set aside the mother I had hoped for and turned to the woman who is actually there. These photographs depict a harsh reality: a bond built on trust and vulnerability, yet shadowed by the lasting scars of addiction, grief and time.",
+      "The camera opened a rare, silent space. It let me reach her in a way that bypassed her usual instability, offering a stillness our shared history has never had. She never posed and I never directed — the lens simply followed a woman unfolding, in all her complexity, through an honest conversation.",
+      "I am documenting the woman who brought me into this world, and acknowledging both the beauty and the tragedy of her many faces."
     ],
+    "media": [
+      {
+        "src": "assets/rooting-mother/01.jpg",
+        "w": 1181,
+        "h": 1773
+      },
+      {
+        "src": "assets/rooting-mother/02.jpg",
+        "w": 1400,
+        "h": 2100
+      },
+      {
+        "src": "assets/rooting-mother/03.jpg",
+        "w": 1185,
+        "h": 1659
+      },
+      {
+        "src": "assets/rooting-mother/04.jpg",
+        "w": 1400,
+        "h": 2100
+      },
+      {
+        "src": "assets/rooting-mother/05.jpg",
+        "w": 2000,
+        "h": 1333
+      },
+      {
+        "src": "assets/rooting-mother/06.jpg",
+        "w": 1400,
+        "h": 2101
+      }
+    ]
   },
   {
-    slug: "brand-campaign-film",
-    title: "Atelier — Brand Film",
-    category: "videography",
-    year: 2026,
-    client: "Atelier Studio",
-    role: "Director, DP, Editor",
-    cover: ph("atelierfilm", 1600, 900),
-    summary: "A 90-second brand film about craft and patience.",
-    description: [
-      "A short brand film for a ceramics studio, focusing on hands, material and the quiet rhythm of making.",
+    "slug": "beau",
+    "title": "Beau",
+    "category": "photography",
+    "template": "series",
+    "cover": {
+      "src": "assets/beau/cover.jpg",
+      "w": 609,
+      "h": 914
+    },
+    "subtitle": "A study of form",
+    "meta": [
+      [
+        "Category",
+        "Photography"
+      ],
+      [
+        "Type",
+        "Fashion / fine art"
+      ],
+      [
+        "Role",
+        "Photography"
+      ]
     ],
-    media: [
-      // Placeholder video — replace with your own YouTube/Vimeo ID or file.
-      { type: "youtube", id: "aqz-KE-bpKQ" },
-      { type: "image", src: ph("atelier2", 2000, 1125) },
-      { type: "image", src: ph("atelier3", 2000, 1125) },
+    "text": [
+      "Beau explores the complete erasure of the individual in favour of form. Merged with an oversized, hand-sculpted bow — crafted from repurposed curtains — the body stops being a person and becomes a foundation for the garment.",
+      "The elusive quality of the series comes from the play of light and shadow: the subject does not simply wear the piece but melts into its graphic structure. It is a study of enforced anonymity, where identity is given up to achieve a single, monolithic silhouette."
     ],
+    "media": [
+      {
+        "src": "assets/beau/01.jpg",
+        "w": 1400,
+        "h": 2100
+      },
+      {
+        "src": "assets/beau/02.jpg",
+        "w": 609,
+        "h": 914
+      },
+      {
+        "src": "assets/beau/03.jpg",
+        "w": 1400,
+        "h": 2100
+      },
+      {
+        "src": "assets/beau/04.jpg",
+        "w": 715,
+        "h": 1073
+      }
+    ]
   },
   {
-    slug: "maison-identity",
-    title: "Maison Identity",
-    category: "design",
-    year: 2025,
-    client: "Maison Café",
-    role: "Visual identity, Art direction",
-    cover: ph("maison1", 1200, 1200),
-    summary: "Identity system for a neighbourhood café and bakery.",
-    description: [
-      "A warm, typographic identity for a family-run café: wordmark, colour system, packaging and signage.",
-      "The system is built around a custom monogram and a palette taken from the bakery’s original 1950s tiles.",
+    "slug": "tech-archives",
+    "title": "Tech Archives",
+    "category": "photography",
+    "template": "series",
+    "cover": {
+      "src": "assets/tech-archives/cover.jpg",
+      "w": 800,
+      "h": 1200
+    },
+    "subtitle": "A documentation of sound through sight",
+    "meta": [
+      [
+        "Category",
+        "Photography"
+      ],
+      [
+        "Type",
+        "Documentary"
+      ],
+      [
+        "Subject",
+        "DJ collective"
+      ],
+      [
+        "Role",
+        "Photography"
+      ]
     ],
-    media: [
-      { type: "image", src: ph("maison1", 2000, 2000) },
-      { type: "image", src: ph("maison2", 2000, 1333) },
-      { type: "image", src: ph("maison3", 2000, 1333) },
-      { type: "image", src: ph("maison4", 1600, 2000) },
+    "text": [
+      "For several months I immersed myself in a DJ collective, with complete artistic freedom to document the pulse of their movement. Tech Archives is the result: a raw, unfiltered look at what happens when the music takes over.",
+      "Beyond the decks and the speakers, the series looks at the human experience of nightlife — at liberation and the search for a safe space. In the darkness of the club boundaries dissolve, and people lose themselves only to find themselves again.",
+      "Shot entirely in black and white, it strips away neon and strobe to focus on what matters: sweat, tension, collective euphoria and fleeting moments of pure presence."
     ],
+    "quote": "A documentation of sound through sight — capturing the soul of the rave.",
+    "media": [
+      {
+        "src": "assets/tech-archives/01.jpg",
+        "w": 1400,
+        "h": 2100
+      },
+      {
+        "src": "assets/tech-archives/02.jpg",
+        "w": 1080,
+        "h": 608
+      },
+      {
+        "src": "assets/tech-archives/03.jpg",
+        "w": 1976,
+        "h": 1317
+      },
+      {
+        "src": "assets/tech-archives/04.jpg",
+        "w": 711,
+        "h": 1067
+      },
+      {
+        "src": "assets/tech-archives/05.jpg",
+        "w": 2000,
+        "h": 1333
+      },
+      {
+        "src": "assets/tech-archives/06.jpg",
+        "w": 2000,
+        "h": 1125
+      },
+      {
+        "src": "assets/tech-archives/07.jpg",
+        "w": 1400,
+        "h": 2100
+      },
+      {
+        "src": "assets/tech-archives/08.jpg",
+        "w": 1400,
+        "h": 1400
+      },
+      {
+        "src": "assets/tech-archives/09.jpg",
+        "w": 1080,
+        "h": 1349
+      },
+      {
+        "src": "assets/tech-archives/10.jpg",
+        "w": 1080,
+        "h": 1350
+      },
+      {
+        "src": "assets/tech-archives/11.jpg",
+        "w": 1080,
+        "h": 1350
+      },
+      {
+        "src": "assets/tech-archives/12.jpg",
+        "w": 1080,
+        "h": 1350
+      },
+      {
+        "src": "assets/tech-archives/13.jpg",
+        "w": 1080,
+        "h": 1350
+      }
+    ]
   },
   {
-    slug: "portraits-of-the-market",
-    title: "Portraits of the Market",
-    category: "photography",
-    year: 2025,
-    client: "Editorial",
-    role: "Photography",
-    cover: ph("market1", 1200, 1600),
-    summary: "Vendors and regulars of a Saturday market.",
-    description: [
-      "An editorial portrait series made over six Saturdays, published as a photo essay.",
+    "slug": "ghorba-club",
+    "title": "Ghorba Club",
+    "category": "photography",
+    "template": "series",
+    "cover": {
+      "src": "assets/ghorba-club/cover.jpg",
+      "w": 800,
+      "h": 1200
+    },
+    "subtitle": "Against boxes",
+    "meta": [
+      [
+        "Category",
+        "Photography"
+      ],
+      [
+        "Type",
+        "Brand campaign"
+      ],
+      [
+        "Client",
+        "Ghorba"
+      ],
+      [
+        "Role",
+        "Photography"
+      ]
     ],
-    media: [
-      { type: "image", src: ph("market1", 1500, 2000) },
-      { type: "image", src: ph("market2", 1500, 2000) },
-      { type: "image", src: ph("market3", 1500, 2000) },
-      { type: "image", src: ph("market4", 1500, 2000) },
+    "text": [
+      "Ghorba takes its name from a word that resists translation. In Arabic it evokes exile — an exile that brings people closer rather than pulling them apart; a tension between what is left behind and what is being built. Perhaps the most beautiful starting point a house could have.",
+      "Since 2023 the brand has been doing what no one else was: dressing the diaspora with the same exacting standards they apply to their own lives. No folklore, no clichés — Ghorba speaks to those who never had to choose between here and there.",
+      "Against boxes. For the freedom to be everything we are, all at once."
     ],
+    "media": [
+      {
+        "src": "assets/ghorba-club/01.jpg",
+        "w": 1080,
+        "h": 1440
+      },
+      {
+        "src": "assets/ghorba-club/02.jpg",
+        "w": 1080,
+        "h": 1440
+      },
+      {
+        "src": "assets/ghorba-club/03.jpg",
+        "w": 1080,
+        "h": 1440
+      },
+      {
+        "src": "assets/ghorba-club/04.jpg",
+        "w": 1080,
+        "h": 1440
+      },
+      {
+        "src": "assets/ghorba-club/05.jpg",
+        "w": 1080,
+        "h": 1440
+      },
+      {
+        "src": "assets/ghorba-club/06.jpg",
+        "w": 1080,
+        "h": 1440
+      },
+      {
+        "src": "assets/ghorba-club/07.jpg",
+        "w": 1080,
+        "h": 1440
+      },
+      {
+        "src": "assets/ghorba-club/08.jpg",
+        "w": 1080,
+        "h": 1440
+      },
+      {
+        "src": "assets/ghorba-club/09.jpg",
+        "w": 1080,
+        "h": 1440
+      },
+      {
+        "src": "assets/ghorba-club/10.jpg",
+        "w": 1080,
+        "h": 1440
+      },
+      {
+        "src": "assets/ghorba-club/11.jpg",
+        "w": 2000,
+        "h": 1066
+      }
+    ]
   },
   {
-    slug: "night-swim-music-video",
-    title: "Night Swim — Music Video",
-    category: "videography",
-    year: 2025,
-    client: "Artist Name",
-    role: "Director, Editor",
-    cover: ph("nightswim", 1600, 1000),
-    summary: "Music video shot in a single night at a city pool.",
-    description: [
-      "A one-night shoot in an empty municipal pool, lit entirely with practicals and handheld LEDs.",
+    "slug": "nothing-changed",
+    "title": "Nothing Changed",
+    "category": "videography",
+    "template": "film",
+    "cover": {
+      "src": "assets/nothing-changed/cover.jpg",
+      "w": 1100,
+      "h": 718
+    },
+    "video": {
+      "src": "https://freight.cargo.site/m/O2841332771117651242101057786029/NOTHING-CHANGED-web-.mp4",
+      "poster": "assets/nothing-changed/cover.jpg"
+    },
+    "subtitle": "Fashion editorial",
+    "meta": [
+      [
+        "Category",
+        "Videography"
+      ],
+      [
+        "Type",
+        "Fashion editorial"
+      ],
+      [
+        "Roles",
+        "Videographer / Editor, Music composer"
+      ],
+      [
+        "Press",
+        "Featured in Vanguard Magazine"
+      ]
     ],
-    media: [
-      { type: "youtube", id: "aqz-KE-bpKQ" },
-      { type: "image", src: ph("nightswim2", 2000, 1125) },
+    "text": [
+      "Nothing Changed explores the anatomy of a lingering absence, and a silence that grows deafening. Between raw nostalgia and exposed vulnerability, the images capture a shared solitude in which bodies become echoes of what once was.",
+      "It is an immersion into the intimacy of the void, where love dissolves into a distant idea and every gaze becomes a desperate attempt not to disappear from the frame."
     ],
+    "media": [
+      {
+        "src": "assets/nothing-changed/01.jpg",
+        "w": 1400,
+        "h": 1960
+      },
+      {
+        "src": "assets/nothing-changed/02.jpg",
+        "w": 1400,
+        "h": 1960
+      },
+      {
+        "src": "assets/nothing-changed/03.jpg",
+        "w": 1400,
+        "h": 1960
+      },
+      {
+        "src": "assets/nothing-changed/04.jpg",
+        "w": 1400,
+        "h": 1960
+      },
+      {
+        "src": "assets/nothing-changed/05.jpg",
+        "w": 1400,
+        "h": 1960
+      },
+      {
+        "src": "assets/nothing-changed/06.jpg",
+        "w": 941,
+        "h": 1318
+      },
+      {
+        "src": "assets/nothing-changed/07.jpg",
+        "w": 1020,
+        "h": 1251
+      },
+      {
+        "src": "assets/nothing-changed/08.jpg",
+        "w": 1400,
+        "h": 2104
+      },
+      {
+        "src": "assets/nothing-changed/09.jpg",
+        "w": 1020,
+        "h": 1251
+      },
+      {
+        "src": "assets/nothing-changed/10.jpg",
+        "w": 1400,
+        "h": 1987
+      },
+      {
+        "src": "assets/nothing-changed/11.jpg",
+        "w": 1020,
+        "h": 1251
+      },
+      {
+        "src": "assets/nothing-changed/12.jpg",
+        "w": 2000,
+        "h": 1265
+      },
+      {
+        "src": "assets/nothing-changed/13.jpg",
+        "w": 2000,
+        "h": 1347
+      },
+      {
+        "src": "assets/nothing-changed/14.jpg",
+        "w": 1400,
+        "h": 2104
+      },
+      {
+        "src": "assets/nothing-changed/15.jpg",
+        "w": 2000,
+        "h": 1306
+      },
+      {
+        "src": "assets/nothing-changed/16.jpg",
+        "w": 2000,
+        "h": 1331
+      },
+      {
+        "src": "assets/nothing-changed/17.jpg",
+        "w": 1400,
+        "h": 2186
+      }
+    ]
   },
   {
-    slug: "risograph-zine",
-    title: "Risograph Zine",
-    category: "design",
-    year: 2025,
-    client: "Self-published",
-    role: "Design, Print production",
-    cover: ph("zine1", 1200, 1500),
-    summary: "A two-colour riso zine collecting a year of photographs.",
-    description: [
-      "32 pages, printed in fluorescent pink and blue on recycled stock in an edition of 200.",
+    "slug": "2-much",
+    "title": "2 Much",
+    "category": "videography",
+    "template": "film",
+    "cover": {
+      "src": "assets/2-much/cover.jpg",
+      "w": 1100,
+      "h": 619
+    },
+    "video": {
+      "src": "https://freight.cargo.site/m/V2841251704613423060336496873645/2MUCH_WEB.mp4",
+      "poster": "assets/2-much/cover.jpg"
+    },
+    "subtitle": "Fashion editorial",
+    "meta": [
+      [
+        "Category",
+        "Videography"
+      ],
+      [
+        "Type",
+        "Fashion editorial"
+      ],
+      [
+        "Roles",
+        "Videographer / Editor, Technician"
+      ],
+      [
+        "Press",
+        "Featured in PAP Magazine"
+      ]
     ],
-    media: [
-      { type: "image", src: ph("zine1", 1600, 2000) },
-      { type: "image", src: ph("zine2", 2000, 1333) },
-      { type: "image", src: ph("zine3", 2000, 1333) },
+    "text": [
+      "2 Much tells the story of a generation unafraid to express itself — too free to be contained, too expressive to be silenced, too multifaceted to be locked away.",
+      "Its silhouettes move between bruised romanticism, punk energy and utilitarian details that anchor the chaos in reality. Together they map a territory where identities overlap, collide and embrace — without asking for forgiveness."
     ],
+    "media": [
+      {
+        "src": "assets/2-much/01.jpg",
+        "w": 2000,
+        "h": 1331
+      },
+      {
+        "src": "assets/2-much/02.jpg",
+        "w": 2000,
+        "h": 1331
+      },
+      {
+        "src": "assets/2-much/03.jpg",
+        "w": 2000,
+        "h": 1331
+      },
+      {
+        "src": "assets/2-much/04.jpg",
+        "w": 2000,
+        "h": 1331
+      },
+      {
+        "src": "assets/2-much/05.jpg",
+        "w": 2000,
+        "h": 1331
+      },
+      {
+        "src": "assets/2-much/06.jpg",
+        "w": 1400,
+        "h": 2104
+      },
+      {
+        "src": "assets/2-much/07.jpg",
+        "w": 2000,
+        "h": 1331
+      },
+      {
+        "src": "assets/2-much/08.jpg",
+        "w": 1400,
+        "h": 2104
+      },
+      {
+        "src": "assets/2-much/09.jpg",
+        "w": 2000,
+        "h": 1331
+      },
+      {
+        "src": "assets/2-much/10.jpg",
+        "w": 1400,
+        "h": 2104
+      },
+      {
+        "src": "assets/2-much/11.jpg",
+        "w": 2000,
+        "h": 1331
+      },
+      {
+        "src": "assets/2-much/12.jpg",
+        "w": 2000,
+        "h": 1125
+      },
+      {
+        "src": "assets/2-much/13.jpg",
+        "w": 2000,
+        "h": 1331
+      },
+      {
+        "src": "assets/2-much/14.jpg",
+        "w": 1400,
+        "h": 2104
+      },
+      {
+        "src": "assets/2-much/15.jpg",
+        "w": 2000,
+        "h": 1125
+      }
+    ]
   },
   {
-    slug: "still-life-series",
-    title: "Still Life",
-    category: "photography",
-    year: 2024,
-    client: "Personal",
-    role: "Photography, Styling",
-    cover: ph("still1", 1200, 1200),
-    summary: "Everyday objects arranged in natural light.",
-    description: ["A studio series exploring form, shadow and colour in domestic objects."],
-    media: [
-      { type: "image", src: ph("still1", 2000, 2000) },
-      { type: "image", src: ph("still2", 2000, 2000) },
-      { type: "image", src: ph("still3", 2000, 2000) },
+    "slug": "oxy",
+    "title": "Oxy",
+    "category": "digital",
+    "template": "case",
+    "cover": {
+      "src": "assets/oxy/cover.jpg",
+      "w": 800,
+      "h": 1199
+    },
+    "subtitle": "The breath of the earth",
+    "meta": [
+      [
+        "Category",
+        "Digital / Branding"
+      ],
+      [
+        "Type",
+        "Fictional project"
+      ],
+      [
+        "Scope",
+        "Branding, Art direction, Product concept"
+      ]
     ],
+    "text": [
+      "OXY is a fragrance born from a need for clarity. In a world of digital noise and synthetic artifice, it stands for a sensory return to the essential — a reconnection with the self through the most vital human act: breathing.",
+      "More than a scent, it is an atmospheric reset."
+    ],
+    "hero": {
+      "src": "assets/oxy/hero.jpg",
+      "w": 1400,
+      "h": 1750
+    },
+    "sections": [
+      {
+        "layout": "grid-3",
+        "media": [
+          {
+            "src": "assets/oxy/01.jpg",
+            "w": 1008,
+            "h": 1266
+          },
+          {
+            "src": "assets/oxy/02.jpg",
+            "w": 1298,
+            "h": 1622
+          },
+          {
+            "src": "assets/oxy/03.jpg",
+            "w": 1080,
+            "h": 1350
+          }
+        ],
+        "title": "Art direction",
+        "text": [
+          "Water, stone and light: the visual world of OXY is built from raw natural textures and a restrained, almost clinical palette."
+        ]
+      },
+      {
+        "quote": "OXY doesn't just rest on your skin; it breathes into you. It is the scent of a woman who knows the truest path is the one you forge yourself — deeply, authentically alive."
+      },
+      {
+        "layout": "grid-4",
+        "media": [
+          {
+            "src": "assets/oxy/04.jpg",
+            "w": 1080,
+            "h": 1350
+          },
+          {
+            "src": "assets/oxy/05.jpg",
+            "w": 1080,
+            "h": 1350
+          },
+          {
+            "src": "assets/oxy/06.jpg",
+            "w": 1080,
+            "h": 1350
+          },
+          {
+            "src": "assets/oxy/07.jpg",
+            "w": 1080,
+            "h": 1350
+          }
+        ],
+        "title": "Campaign"
+      }
+    ]
   },
   {
-    slug: "documentary-short",
-    title: "Hands — Documentary Short",
-    category: "videography",
-    year: 2024,
-    client: "Personal",
-    role: "Director, Camera",
-    cover: ph("hands", 1600, 900),
-    summary: "Six minutes with a third-generation bookbinder.",
-    description: ["A short observational documentary about a craft that is quietly disappearing."],
-    media: [{ type: "youtube", id: "aqz-KE-bpKQ" }],
+    "slug": "pop-beauty",
+    "title": "Pop Beauty",
+    "category": "digital",
+    "template": "case",
+    "cover": {
+      "src": "assets/pop-beauty/cover.jpg",
+      "w": 800,
+      "h": 1200
+    },
+    "subtitle": "Skincare you can chew",
+    "meta": [
+      [
+        "Category",
+        "Digital / Branding"
+      ],
+      [
+        "Type",
+        "Brand concept"
+      ],
+      [
+        "Scope",
+        "Branding, Product design, Packaging"
+      ]
+    ],
+    "text": [
+      "How can a mundane daily habit become a radical act of self-care? Pop Beauty reimagines chewing gum as a portable skincare delivery system. By infusing supplements and vitamins into an everyday item, the project blurs the line between nutricosmetics and street culture."
+    ],
+    "hero": {
+      "src": "assets/pop-beauty/hero.jpg",
+      "w": 1400,
+      "h": 2100
+    },
+    "sections": [
+      {
+        "layout": "grid-3",
+        "media": [
+          {
+            "src": "assets/pop-beauty/01.jpg",
+            "w": 2000,
+            "h": 1414
+          },
+          {
+            "src": "assets/pop-beauty/02.jpg",
+            "w": 2000,
+            "h": 1414
+          },
+          {
+            "src": "assets/pop-beauty/03.jpg",
+            "w": 2000,
+            "h": 1414
+          }
+        ],
+        "title": "The lineup",
+        "text": [
+          "Three targeted formulas, each designed to treat the skin from the inside out."
+        ],
+        "items": [
+          [
+            "Hydrate",
+            "Hyaluronic acid, vitamin E and vitamin C for a deep glow."
+          ],
+          [
+            "Clear It Up",
+            "Zinc, niacinamide and probiotics to refine and balance."
+          ],
+          [
+            "Repair",
+            "Hydrolysed collagen and essential minerals to restore."
+          ]
+        ]
+      },
+      {
+        "layout": "grid-2",
+        "media": [
+          {
+            "src": "assets/pop-beauty/04.jpg",
+            "w": 1400,
+            "h": 2100
+          },
+          {
+            "src": "assets/pop-beauty/05.jpg",
+            "w": 791,
+            "h": 1418
+          }
+        ],
+        "title": "Visual identity",
+        "text": [
+          "The art direction plays on the contrast between clinical precision and pop aesthetics. Blister packs usually reserved for pharmaceuticals underline the treatment side of the product, while bold typography and gritty, high-flash photography keep it rooted in fashion and nightlife."
+        ]
+      },
+      {
+        "quote": "Pop Beauty is more than gum — it's a supplement you actually want to carry."
+      },
+      {
+        "layout": "grid-3",
+        "media": [
+          {
+            "src": "assets/pop-beauty/06.jpg",
+            "w": 1400,
+            "h": 1600
+          },
+          {
+            "src": "assets/pop-beauty/07.jpg",
+            "w": 1400,
+            "h": 1661
+          },
+          {
+            "src": "assets/pop-beauty/08.jpg",
+            "w": 2000,
+            "h": 1500
+          }
+        ],
+        "title": "Packaging",
+        "text": [
+          "The packaging follows a clinical hierarchy — medical blister packs and slide-drawer boxes evoke lab-grade efficacy. That surgical minimalism is disrupted by industrial textures such as silver bubble mailers, grounding the brand in a raw, editorial aesthetic and turning a daily object into a functional, high-end accessory."
+        ]
+      },
+      {
+        "layout": "stack",
+        "media": [
+          {
+            "src": "assets/pop-beauty/09.jpg",
+            "w": 2000,
+            "h": 1280
+          },
+          {
+            "src": "assets/pop-beauty/10.jpg",
+            "w": 2000,
+            "h": 1556
+          }
+        ],
+        "title": "Posters & ads"
+      }
+    ]
   },
   {
-    slug: "urban-geometry",
-    title: "Urban Geometry",
-    category: "photography",
-    year: 2024,
-    client: "Personal",
-    role: "Photography",
-    cover: ph("urban1", 1200, 900),
-    summary: "Architecture, lines and shadow.",
-    description: [
-      "Fragments of the city reduced to line, plane and shadow.",
+    "slug": "lululemon-edge",
+    "title": "Lululemon Edge",
+    "category": "digital",
+    "template": "case",
+    "cover": {
+      "src": "assets/lululemon-edge/cover.jpg",
+      "w": 800,
+      "h": 1200
+    },
+    "subtitle": "Campaign strategy",
+    "meta": [
+      [
+        "Category",
+        "Digital / Branding"
+      ],
+      [
+        "Type",
+        "Campaign strategy"
+      ],
+      [
+        "Client",
+        "Lululemon (concept)"
+      ]
     ],
-    media: [
-      { type: "image", src: ph("urban1", 2000, 1500) },
-      { type: "image", src: ph("urban2", 2000, 1500) },
-      { type: "image", src: ph("urban3", 2000, 1500) },
+    "text": [
+      "Edge is a campaign strategy for Lululemon. The deck takes the brand from context and objectives to target audiences, strategic levers and channels, an activation calendar, social media, influencer partnerships, paid media and the KPIs used to measure performance."
     ],
+    "hero": {
+      "src": "assets/lululemon-edge/hero.jpg",
+      "w": 2000,
+      "h": 1039
+    },
+    "sections": [
+      {
+        "layout": "grid-2",
+        "media": [
+          {
+            "src": "assets/lululemon-edge/01.jpg",
+            "w": 2000,
+            "h": 1123
+          },
+          {
+            "src": "assets/lululemon-edge/02.jpg",
+            "w": 2000,
+            "h": 1121
+          },
+          {
+            "src": "assets/lululemon-edge/03.jpg",
+            "w": 2000,
+            "h": 1116
+          },
+          {
+            "src": "assets/lululemon-edge/04.jpg",
+            "w": 2000,
+            "h": 1123
+          },
+          {
+            "src": "assets/lululemon-edge/05.jpg",
+            "w": 2000,
+            "h": 1119
+          },
+          {
+            "src": "assets/lululemon-edge/06.jpg",
+            "w": 2000,
+            "h": 1126
+          }
+        ],
+        "title": "Strategy",
+        "text": [
+          "Context, objectives, targets and the strategic levers behind the campaign."
+        ]
+      },
+      {
+        "layout": "grid-2",
+        "media": [
+          {
+            "src": "assets/lululemon-edge/07.jpg",
+            "w": 2000,
+            "h": 1128
+          },
+          {
+            "src": "assets/lululemon-edge/08.jpg",
+            "w": 2000,
+            "h": 1123
+          },
+          {
+            "src": "assets/lululemon-edge/09.jpg",
+            "w": 2000,
+            "h": 1125
+          },
+          {
+            "src": "assets/lululemon-edge/10.jpg",
+            "w": 2000,
+            "h": 1121
+          },
+          {
+            "src": "assets/lululemon-edge/11.jpg",
+            "w": 2000,
+            "h": 1120
+          },
+          {
+            "src": "assets/lululemon-edge/12.jpg",
+            "w": 2000,
+            "h": 1113
+          },
+          {
+            "src": "assets/lululemon-edge/13.jpg",
+            "w": 2000,
+            "h": 1120
+          },
+          {
+            "src": "assets/lululemon-edge/14.jpg",
+            "w": 2000,
+            "h": 1123
+          },
+          {
+            "src": "assets/lululemon-edge/15.jpg",
+            "w": 2000,
+            "h": 1118
+          }
+        ],
+        "title": "Activation",
+        "text": [
+          "Calendar, social media, influence and paid media — and how performance is tracked."
+        ]
+      },
+      {
+        "layout": "single-narrow",
+        "media": [
+          {
+            "src": "assets/lululemon-edge/16.jpg",
+            "w": 472,
+            "h": 1022
+          }
+        ],
+        "title": "Mobile"
+      }
+    ]
   },
   {
-    slug: "summer-in-the-south",
-    title: "Summer in the South",
-    category: "photography",
-    year: 2025,
-    client: "Travel magazine",
-    role: "Photography",
-    cover: ph("south1", 1200, 1500),
-    summary: "A travel story along the Mediterranean.",
-    description: [
-      "Commissioned travel essay shot over two weeks between Marseille and Nice.",
+    "slug": "dripped",
+    "title": "Dripped",
+    "category": "digital",
+    "template": "case",
+    "cover": {
+      "src": "assets/dripped/cover.jpg",
+      "w": 800,
+      "h": 1200
+    },
+    "subtitle": "A smart digital wardrobe & AI stylist",
+    "meta": [
+      [
+        "Category",
+        "Digital / Branding"
+      ],
+      [
+        "Type",
+        "Mobile app concept"
+      ],
+      [
+        "Scope",
+        "UI/UX design"
+      ]
     ],
-    media: [
-      { type: "image", src: ph("south1", 1600, 2000) },
-      { type: "image", src: ph("south2", 1600, 2000) },
-      { type: "image", src: ph("south3", 1600, 2000) },
+    "text": [
+      "Dripped is a mobile app that bridges the gap between a physical wardrobe and digital self-expression. Acting as a personal style assistant, it removes choice paralysis by organising the user's wardrobe and offering daily, AI-driven outfit ideas.",
+      "The goal: make getting dressed efficient, sustainable and genuinely fun."
     ],
+    "hero": {
+      "src": "assets/dripped/hero.jpg",
+      "w": 1584,
+      "h": 986
+    },
+    "sections": [
+      {
+        "layout": "grid-2",
+        "media": [
+          {
+            "src": "assets/dripped/01.jpg",
+            "w": 586,
+            "h": 1290
+          },
+          {
+            "src": "assets/dripped/02.jpg",
+            "w": 988,
+            "h": 1186
+          }
+        ],
+        "title": "Design system & UX",
+        "items": [
+          [
+            "Visual identity",
+            "A high-contrast dark mode lets the clothing photography stand out, with fluorescent green as the primary action colour to guide the eye to key buttons and states."
+          ],
+          [
+            "Simple yet fun",
+            "Clean lines and generous negative space make the app feel premium, while a sketchy avatar adds an indie personality that keeps the brand approachable."
+          ],
+          [
+            "User flow",
+            "Built for speed: from the home screen the user is one tap away from their Dressing or a New Look — matching the pace of a morning routine."
+          ]
+        ]
+      },
+      {
+        "layout": "grid-2",
+        "media": [
+          {
+            "src": "assets/dripped/03.jpg",
+            "w": 1088,
+            "h": 1114
+          },
+          {
+            "src": "assets/dripped/04.jpg",
+            "w": 1850,
+            "h": 1398
+          }
+        ],
+        "title": "Key features",
+        "items": [
+          [
+            "Today's look",
+            "An outfit of the day generated by AI from the user's existing wardrobe."
+          ],
+          [
+            "The dressing",
+            "A digital inventory where pieces are uploaded and sorted — tops, jackets, bottoms — for a bird's-eye view of everything owned."
+          ],
+          [
+            "Avatar builder",
+            "A hand-drawn workspace where items are dragged onto an avatar to try proportions and styles without changing clothes."
+          ],
+          [
+            "Lookbook",
+            "Favourite combinations are saved to My Looks, sorted (Chill Guy, Office…) and shared with the community."
+          ],
+          [
+            "Under the hood",
+            "Item IDs and brand tags (Uniqlo, Dr. Martens…) keep the wardrobe searchable; profile settings come with a cheeky “Anna Wintour” placeholder."
+          ]
+        ]
+      }
+    ]
   },
   {
-    slug: "dancers",
-    title: "Dancers",
-    category: "photography",
-    year: 2025,
-    client: "Ballet company",
-    role: "Portrait photography",
-    cover: ph("dance1", 1200, 1600),
-    summary: "Portraits of a contemporary dance company.",
-    description: [
-      "A season campaign for a contemporary dance company, shot in rehearsal.",
+    "slug": "grdf",
+    "title": "GRDF",
+    "category": "digital",
+    "template": "case",
+    "cover": {
+      "src": "assets/grdf/cover.jpg",
+      "w": 800,
+      "h": 1203
+    },
+    "subtitle": "Internship — communication & UI/UX",
+    "meta": [
+      [
+        "Category",
+        "Digital / Branding"
+      ],
+      [
+        "Type",
+        "Internship"
+      ],
+      [
+        "Scope",
+        "Internal communication, UI/UX"
+      ],
+      [
+        "Award",
+        "1st prize — Hackathon"
+      ]
     ],
-    media: [
-      { type: "image", src: ph("dance1", 1600, 2000) },
-      { type: "image", src: ph("dance2", 1600, 2000) },
-      { type: "image", src: ph("dance3", 1600, 2000) },
+    "text": [
+      "A selection of the work I produced during my internship at GRDF, combining internal communication with UI/UX design for tools and apps used by employees."
     ],
-  },
-  {
-    slug: "quiet-interiors",
-    title: "Quiet Interiors",
-    category: "photography",
-    year: 2024,
-    client: "Interior studio",
-    role: "Photography",
-    cover: ph("interior1", 1500, 1200),
-    summary: "Interiors photographed in natural light.",
-    description: [
-      "An interiors series for an architecture studio's new monograph.",
-    ],
-    media: [
-      { type: "image", src: ph("interior1", 2000, 1600) },
-      { type: "image", src: ph("interior2", 2000, 1600) },
-      { type: "image", src: ph("interior3", 2000, 1600) },
-    ],
-  },
-  {
-    slug: "night-walks",
-    title: "Night Walks",
-    category: "photography",
-    year: 2023,
-    client: "Personal",
-    role: "Photography",
-    cover: ph("night1", 1200, 1500),
-    summary: "The city after midnight.",
-    description: [
-      "A personal series made on long walks through empty streets at night.",
-    ],
-    media: [
-      { type: "image", src: ph("night1", 1600, 2000) },
-      { type: "image", src: ph("night2", 1600, 2000) },
-      { type: "image", src: ph("night3", 1600, 2000) },
-    ],
-  },
-  {
-    slug: "fashion-week-recap",
-    title: "Fashion Week Recap",
-    category: "videography",
-    year: 2026,
-    client: "Fashion label",
-    role: "Director, Editor",
-    cover: ph("fashion1", 1600, 900),
-    summary: "Backstage film from a Paris show.",
-    description: [
-      "A two-minute backstage film cut overnight for release the morning after the show.",
-    ],
-    media: [
-      { type: "youtube", id: "aqz-KE-bpKQ" },
-      { type: "image", src: ph("fashion2", 2000, 1125) },
-      { type: "image", src: ph("fashion3", 2000, 1125) },
-    ],
-  },
-  {
-    slug: "chef-portrait",
-    title: "The Chef",
-    category: "videography",
-    year: 2025,
-    client: "Restaurant",
-    role: "Director, DP",
-    cover: ph("chef1", 1600, 1000),
-    summary: "A short portrait of a young chef.",
-    description: [
-      "A three-minute portrait film made for a restaurant opening.",
-    ],
-    media: [
-      { type: "youtube", id: "aqz-KE-bpKQ" },
-      { type: "image", src: ph("chef2", 2000, 1250) },
-      { type: "image", src: ph("chef3", 2000, 1250) },
-    ],
-  },
-  {
-    slug: "product-launch",
-    title: "Product Launch Film",
-    category: "videography",
-    year: 2025,
-    client: "Design brand",
-    role: "Director, Editor",
-    cover: ph("lamp1", 1600, 900),
-    summary: "Launch film for a lighting collection.",
-    description: [
-      "A 45-second launch film for a new collection of table lamps.",
-    ],
-    media: [
-      { type: "youtube", id: "aqz-KE-bpKQ" },
-      { type: "image", src: ph("lamp2", 2000, 1125) },
-      { type: "image", src: ph("lamp3", 2000, 1125) },
-    ],
-  },
-  {
-    slug: "road-trip",
-    title: "Road Trip",
-    category: "videography",
-    year: 2024,
-    client: "Personal",
-    role: "Camera, Editor",
-    cover: ph("road1", 1600, 1000),
-    summary: "Super 8 diary from a road trip.",
-    description: [
-      "Shot on Super 8 during a week-long drive through Portugal.",
-    ],
-    media: [
-      { type: "youtube", id: "aqz-KE-bpKQ" },
-      { type: "image", src: ph("road2", 2000, 1250) },
-      { type: "image", src: ph("road3", 2000, 1250) },
-    ],
-  },
-  {
-    slug: "wedding-film",
-    title: "A Wedding in Provence",
-    category: "videography",
-    year: 2023,
-    client: "Private client",
-    role: "Director, Camera",
-    cover: ph("wedding1", 1600, 900),
-    summary: "A wedding film in the countryside.",
-    description: [
-      "A documentary-style wedding film shot over a weekend in Provence.",
-    ],
-    media: [
-      { type: "youtube", id: "aqz-KE-bpKQ" },
-      { type: "image", src: ph("wedding2", 2000, 1125) },
-      { type: "image", src: ph("wedding3", 2000, 1125) },
-    ],
-  },
-  {
-    slug: "festival-poster-series",
-    title: "Festival Posters",
-    category: "design",
-    year: 2024,
-    client: "Film Festival",
-    role: "Poster design",
-    cover: ph("poster1", 1200, 1700),
-    summary: "Poster series for a small independent film festival.",
-    description: [
-      "A set of five posters built on a shared grid and a single typeface.",
-    ],
-    media: [
-      { type: "image", src: ph("poster1", 1600, 2000) },
-      { type: "image", src: ph("poster2", 1600, 2000) },
-      { type: "image", src: ph("poster3", 1600, 2000) },
-    ],
-  },
-  {
-    slug: "bookshop-identity",
-    title: "Bookshop Identity",
-    category: "design",
-    year: 2026,
-    client: "Independent bookshop",
-    role: "Visual identity",
-    cover: ph("books1", 1200, 1200),
-    summary: "Identity and signage for a neighbourhood bookshop.",
-    description: [
-      "Logo, bags, bookmarks and shop signage for an independent bookshop.",
-    ],
-    media: [
-      { type: "image", src: ph("books1", 1600, 2000) },
-      { type: "image", src: ph("books2", 1600, 2000) },
-      { type: "image", src: ph("books3", 1600, 2000) },
-    ],
-  },
-  {
-    slug: "album-artwork",
-    title: "Album Artwork",
-    category: "design",
-    year: 2025,
-    client: "Musician",
-    role: "Art direction, Design",
-    cover: ph("album1", 1200, 1200),
-    summary: "Cover and vinyl packaging for a debut album.",
-    description: [
-      "Cover artwork, vinyl sleeve and social assets for a debut album.",
-    ],
-    media: [
-      { type: "image", src: ph("album1", 1600, 2000) },
-      { type: "image", src: ph("album2", 1600, 2000) },
-      { type: "image", src: ph("album3", 1600, 2000) },
-    ],
-  },
-  {
-    slug: "exhibition-catalogue",
-    title: "Exhibition Catalogue",
-    category: "design",
-    year: 2025,
-    client: "Gallery",
-    role: "Editorial design",
-    cover: ph("catalogue1", 1200, 1500),
-    summary: "Catalogue for a group photography show.",
-    description: [
-      "A 96-page catalogue designed for a group exhibition.",
-    ],
-    media: [
-      { type: "image", src: ph("catalogue1", 1600, 2000) },
-      { type: "image", src: ph("catalogue2", 1600, 2000) },
-      { type: "image", src: ph("catalogue3", 1600, 2000) },
-    ],
-  },
-  {
-    slug: "wine-labels",
-    title: "Wine Labels",
-    category: "design",
-    year: 2024,
-    client: "Vineyard",
-    role: "Packaging design",
-    cover: ph("wine1", 1200, 1600),
-    summary: "Label series for a natural wine producer.",
-    description: [
-      "A family of labels for six natural wines, printed on textured paper.",
-    ],
-    media: [
-      { type: "image", src: ph("wine1", 1600, 2000) },
-      { type: "image", src: ph("wine2", 1600, 2000) },
-      { type: "image", src: ph("wine3", 1600, 2000) },
-    ],
-  },
-  {
-    slug: "website-design",
-    title: "Studio Website",
-    category: "design",
-    year: 2023,
-    client: "Architecture studio",
-    role: "Web design",
-    cover: ph("web1", 1600, 1000),
-    summary: "Website for a small architecture practice.",
-    description: [
-      "A minimal website design for an architecture studio's portfolio.",
-    ],
-    media: [
-      { type: "image", src: ph("web1", 2000, 1250) },
-      { type: "image", src: ph("web2", 2000, 1250) },
-      { type: "image", src: ph("web3", 2000, 1250) },
-    ],
-  },
+    "hero": {
+      "src": "assets/grdf/hero.jpg",
+      "w": 1400,
+      "h": 2100
+    },
+    "sections": [
+      {
+        "layout": "grid-2",
+        "media": [
+          {
+            "src": "assets/grdf/01.jpg",
+            "w": 1920,
+            "h": 1080
+          },
+          {
+            "src": "assets/grdf/02.jpg",
+            "w": 1920,
+            "h": 1080
+          },
+          {
+            "src": "assets/grdf/03.jpg",
+            "w": 1920,
+            "h": 1080
+          },
+          {
+            "src": "assets/grdf/04.jpg",
+            "w": 1920,
+            "h": 1080
+          },
+          {
+            "src": "assets/grdf/05.jpg",
+            "w": 1920,
+            "h": 1080
+          },
+          {
+            "src": "assets/grdf/06.jpg",
+            "w": 1920,
+            "h": 1080
+          }
+        ],
+        "title": "Pimp My App",
+        "text": [
+          "Flyers and screen displays announcing upcoming innovation events."
+        ]
+      },
+      {
+        "layout": "grid-4",
+        "media": [
+          {
+            "src": "assets/grdf/07.jpg",
+            "w": 595,
+            "h": 842
+          },
+          {
+            "src": "assets/grdf/08.jpg",
+            "w": 595,
+            "h": 842
+          },
+          {
+            "src": "assets/grdf/09.jpg",
+            "w": 595,
+            "h": 842
+          },
+          {
+            "src": "assets/grdf/10.jpg",
+            "w": 595,
+            "h": 842
+          }
+        ]
+      },
+      {
+        "layout": "grid-5",
+        "media": [
+          {
+            "src": "assets/grdf/11.jpg",
+            "w": 734,
+            "h": 1080
+          },
+          {
+            "src": "assets/grdf/12.jpg",
+            "w": 734,
+            "h": 1080
+          },
+          {
+            "src": "assets/grdf/13.jpg",
+            "w": 595,
+            "h": 842
+          },
+          {
+            "src": "assets/grdf/14.jpg",
+            "w": 595,
+            "h": 842
+          },
+          {
+            "src": "assets/grdf/15.jpg",
+            "w": 595,
+            "h": 842
+          }
+        ],
+        "title": "Hackathon",
+        "text": [
+          "Internal communication for the hackathon — a competition in which employees teamed up to find a tech solution to a given brief: running order, posters, schedule and on-the-day slides."
+        ]
+      },
+      {
+        "layout": "grid-2",
+        "media": [
+          {
+            "src": "assets/grdf/16.jpg",
+            "w": 1920,
+            "h": 1080
+          },
+          {
+            "src": "assets/grdf/17.jpg",
+            "w": 1926,
+            "h": 1086
+          },
+          {
+            "src": "assets/grdf/18.jpg",
+            "w": 1926,
+            "h": 1086
+          },
+          {
+            "src": "assets/grdf/19.jpg",
+            "w": 1926,
+            "h": 1086
+          },
+          {
+            "src": "assets/grdf/20.jpg",
+            "w": 1926,
+            "h": 1086
+          },
+          {
+            "src": "assets/grdf/21.jpg",
+            "w": 1926,
+            "h": 1086
+          }
+        ]
+      },
+      {
+        "layout": "grid-2",
+        "media": [
+          {
+            "src": "assets/grdf/22.jpg",
+            "w": 1920,
+            "h": 1080
+          },
+          {
+            "src": "assets/grdf/23.jpg",
+            "w": 1920,
+            "h": 1080
+          },
+          {
+            "src": "assets/grdf/24.jpg",
+            "w": 1920,
+            "h": 1080
+          },
+          {
+            "src": "assets/grdf/25.jpg",
+            "w": 1920,
+            "h": 1080
+          }
+        ],
+        "title": "Presentation",
+        "text": [
+          "A short presentation of GRDF designed to be shown at universities and recruitment fairs."
+        ]
+      },
+      {
+        "layout": "grid-2",
+        "media": [
+          {
+            "src": "assets/grdf/26.jpg",
+            "w": 1920,
+            "h": 1080
+          },
+          {
+            "src": "assets/grdf/27.jpg",
+            "w": 1970,
+            "h": 1130
+          },
+          {
+            "src": "assets/grdf/28.jpg",
+            "w": 1970,
+            "h": 1130
+          },
+          {
+            "src": "assets/grdf/29.jpg",
+            "w": 1970,
+            "h": 1130
+          },
+          {
+            "src": "assets/grdf/30.jpg",
+            "w": 1808,
+            "h": 1544
+          }
+        ],
+        "title": "Green Score",
+        "text": [
+          "Full design and interface, built in Figma. Winner of the 1st prize at the hackathon.",
+          "In an era of digital overload, understanding our environmental impact matters more than ever. My Green Score Dashboard tracks, analyses and helps reduce the digital carbon footprint of corporate users — visualising data consumption and emissions in real time so people can make more responsible choices.",
+          "Developed in three days under competition conditions, the project won first prize: the jury praised its intuitive user journey, refined dark-mode design and potential to change behaviour at work."
+        ],
+        "items": [
+          [
+            "Personal analytics",
+            "A modular My Space where users choose which apps to monitor — Teams, Outlook, OneDrive…"
+          ],
+          [
+            "Data visualisation",
+            "Progress charts and gauges for storage (GB), emissions (gCO₂) and data exchanged (MB)."
+          ],
+          [
+            "OS integration",
+            "A native-feeling Green Score widget, reachable straight from the taskbar."
+          ],
+          [
+            "Gamification",
+            "Usage curves compared against system baselines to encourage better habits."
+          ]
+        ],
+        "video": {
+          "src": "https://freight.cargo.site/m/N2858516458102238138664097419437/grdf-demoo.mov",
+          "w": 1576,
+          "h": 882
+        }
+      }
+    ]
+  }
 ];
+
+// Images floating on the entry screen.
+const INTRO = [
+  {
+    "src": "assets/intro/01.jpg",
+    "w": 500,
+    "h": 625
+  },
+  {
+    "src": "assets/intro/02.jpg",
+    "w": 500,
+    "h": 751
+  },
+  {
+    "src": "assets/intro/03.jpg",
+    "w": 500,
+    "h": 750
+  },
+  {
+    "src": "assets/intro/04.jpg",
+    "w": 500,
+    "h": 750
+  },
+  {
+    "src": "assets/intro/05.jpg",
+    "w": 500,
+    "h": 750
+  },
+  {
+    "src": "assets/intro/06.jpg",
+    "w": 441,
+    "h": 661
+  },
+  {
+    "src": "assets/intro/07.jpg",
+    "w": 500,
+    "h": 750
+  },
+  {
+    "src": "assets/intro/08.jpg",
+    "w": 500,
+    "h": 750
+  },
+  {
+    "src": "assets/intro/09.jpg",
+    "w": 500,
+    "h": 625
+  },
+  {
+    "src": "assets/intro/10.jpg",
+    "w": 500,
+    "h": 750
+  },
+  {
+    "src": "assets/intro/11.jpg",
+    "w": 500,
+    "h": 333
+  },
+  {
+    "src": "assets/intro/12.jpg",
+    "w": 500,
+    "h": 750
+  },
+  {
+    "src": "assets/intro/13.jpg",
+    "w": 500,
+    "h": 333
+  },
+  {
+    "src": "assets/intro/14.jpg",
+    "w": 500,
+    "h": 751
+  },
+  {
+    "src": "assets/intro/15.jpg",
+    "w": 441,
+    "h": 662
+  },
+  {
+    "src": "assets/intro/16.jpg",
+    "w": 500,
+    "h": 750
+  }
+];
+
+const EXPERIMENTAL = {
+  "text": [
+    "Welcome to the experimental zone.",
+    "Here I explore art through technology — across mediums and creative coding — building shapes and interactive pieces with TouchDesigner, code and graphic software."
+  ],
+  "pieces": [
+    {
+      "video": "https://freight.cargo.site/m/J2857481310296338492163128561837/4374c5857618427a9acce6ba610a1cc4.MOV",
+      "w": 1080,
+      "h": 1920,
+      "title": "Study 01"
+    },
+    {
+      "video": "https://freight.cargo.site/m/I2853725503618083157322836218029/8ecb6f7b97a74209a4883dcbbc36a95a.mov",
+      "w": 720,
+      "h": 1174,
+      "title": "Study 02"
+    },
+    {
+      "video": "https://freight.cargo.site/m/T2863888343741102110339806793901/TD-FLOW.mov",
+      "w": 2984,
+      "h": 1962,
+      "title": "TD Flow"
+    },
+    {
+      "image": {
+        "src": "assets/experimental/01.jpg",
+        "w": 2000,
+        "h": 1147
+      },
+      "title": "TouchDesigner network"
+    },
+    {
+      "video": "https://freight.cargo.site/m/O2857711221549355588191628300461/tt.mov",
+      "w": 3014,
+      "h": 1864,
+      "title": "Study 03"
+    }
+  ]
+};

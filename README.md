@@ -1,50 +1,49 @@
-# Portfolio
+# Marguerite Le Petit — Portfolio
 
-A plain HTML/CSS/JS portfolio for photography, videography and design. It has no build step and no dependencies.
+A portfolio for photography, videography and digital / branding work, written in plain HTML, CSS and JS. It has no build step and no dependencies.
 
-## Structure
+## Pages
 
 ```
-index.html          Home: endless gallery of all work
-photography.html    Same gallery, filtered by category
-videography.html
-design.html
-project.html        One template for every project (project.html?p=<slug>)
-about.html          Gallery with the About overlay open (About is also a button on every page)
-css/style.css       All styling (colours & spacing are variables at the top)
-js/data.js          ← ALL CONTENT LIVES HERE
-js/main.js          Renders the pages from data.js
-assets/             Put your images & videos here
+index.html          Entry screen (once per visit) → endless project column + two-column index
+                    Category filter (All / Photography / Videography / Digital) works in place: index.html#photography
+project.html        Every project: project.html?p=<slug>, rendered with one of three layouts
+experimental.html   The experimental zone (TouchDesigner / creative coding)
+about.html          Home with the About panel open (About is also a button on every page)
 ```
 
-## Adding your work
+## Project layouts
 
-1. Make a folder per project, e.g. `assets/coastal-light/`, and put the images in it.
-   Export JPGs at about 2000px on the long edge, quality ~80, so pages load fast.
-2. In `js/data.js`, edit or copy a project:
+Each project in `js/data.js` has a `template`:
 
-```js
-{
-  slug: "coastal-light",                 // used in the URL, must be unique
-  title: "Coastal Light",
-  category: "photography",               // photography | videography | design
-  year: 2026,
-  client: "Personal",
-  role: "Photography",
-  cover: "assets/coastal-light/cover.jpg",   // shown in the gallery
-  // ratio: 0.8,                         // optional width/height; otherwise read from the image
-  summary: "One-line summary.",
-  description: ["Paragraph one.", "Paragraph two."],
-  media: [
-    { type: "image", src: "assets/coastal-light/01.jpg", caption: "Optional" },
-    { type: "vimeo", id: "123456789" },
-    { type: "youtube", id: "dQw4w9WgXcQ" },
-    { type: "file", src: "assets/coastal-light/clip.mp4", poster: "assets/coastal-light/poster.jpg" },
-  ],
-},
-```
+| template | used for | inspired by |
+|---|---|---|
+| `series` | photography | Pierre Cathala, Rue Saint Abel — fixed text column, editorial image flow with numbered captions |
+| `film` | videography | Iconoclast, Jean Khamkwan — full-screen film with big title, then a numbered image grid on black |
+| `case` | digital / branding | Ard, KLSR, Yard — three-column header, then sections with sticky labels and figure grids |
 
-Projects show up in the order they're listed and are numbered 01/, 02/… in the index. Your name, intro, about text, email and social links are in the `SITE` object at the top of the same file.
+All pages share the elements below. The home page and font size follow cathydolle.com:
+- the header with a live Paris clock
+- the square cursor, which turns into a diamond on links and a frame with a label over images
+- the image lightbox
+- "keep scrolling" to the next project (Rue Saint Abel)
+- page transitions: in Chrome, Edge and Safari 18+, the clicked image glides into the next page; other browsers fade
+
+## Editing content
+
+Everything is in **`js/data.js`**:
+- `SITE`: name, statement, education, contact
+- `PROJECTS`: in display order. Numbers (ID 01, 02…) come from this order.
+- `INTRO`: the images floating on the entry screen
+- `EXPERIMENTAL`: the experimental zone pieces
+
+Images are in `assets/<slug>/`, and `w`/`h` must match each image's pixel size. Export JPGs at about 2000px on the long edge, quality around 80.
+
+### Videos
+
+The videos currently stream from Cargo (`freight.cargo.site`) because the files are too big for GitHub (Nothing Changed is 139 MB). They will stop working if the Cargo site or its files are deleted. Before that happens, either:
+- upload compressed versions (H.264 .mp4, under ~30 MB) to `assets/` and point `video.src` at them, or
+- host them on Vimeo (a Pro plan gives a direct file link) and use that link.
 
 ## Preview locally
 
@@ -52,14 +51,12 @@ Projects show up in the order they're listed and are numbered 01/, 02/… in the
 python3 -m http.server 8080
 ```
 
-Then open http://localhost:8080.
+Then open http://localhost:8080. To see the entry screen again, open a new private window, or clear the site's session storage.
+
+## Font
+
+The site uses **Inter Tight** (Google Fonts) as a close, free match for Neue Montreal, the font on cathydolle.com. To use Neue Montreal itself (free for personal use from Pangram Pangram), add the font files and change `--font` at the top of `css/style.css`.
 
 ## Publishing
 
-Any static host will do. Upload the whole folder to Netlify (drag and drop), GitHub Pages, Cloudflare Pages or Vercel.
-
-## Design notes
-
-The design draws on cathydolle.com: a white page, small uppercase type pinned to the corners, and a single column of images that loops forever. Every image gets roughly the same area, so portrait shots come out narrow and landscape shots wide.
-
-The font is **Inter Tight** from Google Fonts. To get closer to the reference, license **Neue Montreal** (free for personal use from Pangram Pangram), add the font files and change `--font` at the top of `css/style.css`.
+Any static host works: GitHub Pages, Netlify, Cloudflare Pages or Vercel.
