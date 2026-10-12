@@ -31,10 +31,15 @@ const session = {
 
 /* ── Header ─────────────────────────────────────────────── */
 
+// The logo mark, drawn for small sizes (assets/logo.svg is the large one).
+const LOGO = `<svg class="logo" viewBox="0 0 9 26" aria-hidden="true" fill="none" stroke="currentColor"
+  stroke-width="1.3" stroke-linecap="round"><line x1="1.5" y1="1.2" x2="1.5" y2="24.8"/>
+  <line x1="6.6" y1="8.4" x2="6.6" y2="24.8"/><circle cx="6.6" cy="4.7" r="0.95" fill="currentColor" stroke="none"/></svg>`;
+
 function renderHeader() {
   const onProjects = PAGE === "home" || PAGE === "project";
   $("#site-header").innerHTML = `
-    <a class="name" href="index.html">${esc(SITE.name)}</a>
+    <a class="name" href="index.html" aria-label="${esc(SITE.name)} — home">${LOGO}<span>${esc(SITE.name)}</span></a>
     <a class="projects-link" href="index.html"${onProjects ? ' aria-current="page"' : ""}>Projects</a>
     <div class="right">
       <a href="experimental.html"${PAGE === "experimental" ? ' aria-current="page"' : ""}>

@@ -225,6 +225,16 @@ h2.ui {
 
 .name {
   left: var(--pad);
+  top: 8px !important;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.logo {
+  display: block;
+  width: auto;
+  height: 17px;
 }
 
 .projects-link {
