@@ -709,35 +709,69 @@ body.gallery {
   mix-blend-mode: difference;
 }
 
+/* A half-circle with a dot at its centre. White + "difference" blending
+   makes it black on white pages and white over dark images. */
 .cursor-box {
   position: absolute;
-  width: 9px;
-  height: 9px;
-  border: 1px solid #fff;
-  transform: translate(-50%, -50%);
-  transition: width 0.4s var(--ease), height 0.4s var(--ease), transform 0.4s var(--ease), background-color 0.25s;
+  width: 24px;
+  height: 24px;
+  border: 1px solid;
+  border-color: #fff #fff transparent transparent;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  transition: width 0.45s var(--ease), height 0.45s var(--ease), transform 0.6s var(--ease), border-color 0.3s;
 }
 
-.cursor.is-link .cursor-box {
-  width: 7px;
-  height: 7px;
+.cursor-box::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
   background: #fff;
-  transform: translate(-50%, -50%) rotate(45deg);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
 }
 
+/* Links: the arc closes into a full circle. */
+.cursor.is-link .cursor-box {
+  width: 18px;
+  height: 18px;
+  border-color: #fff;
+  transform: translate(-50%, -50%) rotate(135deg);
+}
+
+/* Images and media: a larger half-circle slowly turning, with a label. */
 .cursor.is-label .cursor-box {
-  width: 20px;
-  height: 20px;
+  width: 46px;
+  height: 46px;
+  animation: cursor-spin 2.4s linear infinite;
+}
+
+@keyframes cursor-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(315deg);
+  }
 }
 
 .cursor.is-down .cursor-box {
-  width: 5px;
-  height: 5px;
+  width: 14px;
+  height: 14px;
+}
+
+.cursor.is-down .cursor-box::after {
+  width: 6px;
+  height: 6px;
 }
 
 .cursor-label {
   position: absolute;
-  left: 18px;
+  left: 32px;
   top: -7px;
   font-size: 11px;
   font-weight: 500;
