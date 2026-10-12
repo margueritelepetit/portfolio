@@ -789,13 +789,13 @@ const PROJECTS = [
     },
     "thumb": {
       "src": "assets/pop-beauty/thumb.jpg",
-      "w": 800,
-      "h": 1200,
+      "w": 735,
+      "h": 918,
       "frame": [
         18,
         0.6667
       ],
-      "focus": "50% 40%"
+      "focus": "50% 50%"
     },
     "subtitle": "Skincare you can chew",
     "meta": [
