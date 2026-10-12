@@ -80,8 +80,8 @@ const PROJECTS = [
       "src": "assets/rooting-mother/thumb.jpg",
       "w": 799,
       "h": 1200,
-      "shape": "L",
-      "focus": "50% 28%"
+      "shape": "P",
+      "focus": "50% 30%"
     },
     "subtitle": "Mother's roots",
     "meta": [
@@ -134,6 +134,138 @@ const PROJECTS = [
         "src": "assets/rooting-mother/06.jpg",
         "w": 1400,
         "h": 2101
+      }
+    ]
+  },
+  {
+    "slug": "nothing-changed",
+    "title": "Nothing Changed",
+    "category": "videography",
+    "template": "film",
+    "cover": {
+      "src": "assets/nothing-changed/cover.jpg",
+      "w": 1100,
+      "h": 718
+    },
+    "thumb": {
+      "src": "assets/nothing-changed/thumb.jpg",
+      "w": 1200,
+      "h": 783,
+      "shape": "L",
+      "focus": "50% 45%"
+    },
+    "video": {
+      "src": "https://freight.cargo.site/m/O2841332771117651242101057786029/NOTHING-CHANGED-web-.mp4",
+      "poster": "assets/nothing-changed/cover.jpg"
+    },
+    "subtitle": "Fashion editorial",
+    "meta": [
+      [
+        "Category",
+        "Videography"
+      ],
+      [
+        "Type",
+        "Fashion editorial"
+      ],
+      [
+        "Roles",
+        "Videographer / Editor, Music composer"
+      ],
+      [
+        "Press",
+        "Featured in Vanguard Magazine"
+      ]
+    ],
+    "text": [
+      "Nothing Changed explores the anatomy of a lingering absence, and a silence that grows deafening. Between raw nostalgia and exposed vulnerability, the images capture a shared solitude in which bodies become echoes of what once was.",
+      "It is an immersion into the intimacy of the void, where love dissolves into a distant idea and every gaze becomes a desperate attempt not to disappear from the frame."
+    ],
+    "media": [
+      {
+        "src": "assets/nothing-changed/01.jpg",
+        "w": 1400,
+        "h": 1960
+      },
+      {
+        "src": "assets/nothing-changed/02.jpg",
+        "w": 1400,
+        "h": 1960
+      },
+      {
+        "src": "assets/nothing-changed/03.jpg",
+        "w": 1400,
+        "h": 1960
+      },
+      {
+        "src": "assets/nothing-changed/04.jpg",
+        "w": 1400,
+        "h": 1960
+      },
+      {
+        "src": "assets/nothing-changed/05.jpg",
+        "w": 1400,
+        "h": 1960
+      },
+      {
+        "src": "assets/nothing-changed/06.jpg",
+        "w": 941,
+        "h": 1318
+      },
+      {
+        "src": "assets/nothing-changed/07.jpg",
+        "w": 1020,
+        "h": 1251
+      },
+      {
+        "src": "assets/nothing-changed/08.jpg",
+        "w": 1400,
+        "h": 2104
+      },
+      {
+        "src": "assets/nothing-changed/09.jpg",
+        "w": 1020,
+        "h": 1251
+      },
+      {
+        "src": "assets/nothing-changed/10.jpg",
+        "w": 1400,
+        "h": 1987
+      },
+      {
+        "src": "assets/nothing-changed/11.jpg",
+        "w": 1020,
+        "h": 1251
+      },
+      {
+        "src": "assets/nothing-changed/12.jpg",
+        "w": 2000,
+        "h": 1265
+      },
+      {
+        "src": "assets/nothing-changed/13.jpg",
+        "w": 2000,
+        "h": 1347
+      },
+      {
+        "src": "assets/nothing-changed/14.jpg",
+        "w": 1400,
+        "h": 2104
+      },
+      {
+        "src": "assets/nothing-changed/15.jpg",
+        "w": 2000,
+        "h": 1306
+      },
+      {
+        "src": "assets/nothing-changed/16.jpg",
+        "w": 2000,
+        "h": 1331
+      },
+      {
+        "src": "assets/nothing-changed/17.jpg",
+        "w": 1400,
+        "h": 2186
       }
     ]
   },
@@ -406,134 +538,99 @@ const PROJECTS = [
     ]
   },
   {
-    "slug": "nothing-changed",
-    "title": "Nothing Changed",
-    "category": "videography",
-    "template": "film",
+    "slug": "oxy",
+    "title": "Oxy",
+    "category": "digital",
+    "template": "case",
     "cover": {
-      "src": "assets/nothing-changed/cover.jpg",
-      "w": 1100,
-      "h": 718
+      "src": "assets/oxy/cover.jpg",
+      "w": 800,
+      "h": 1199
     },
     "thumb": {
-      "src": "assets/nothing-changed/thumb.jpg",
-      "w": 1200,
-      "h": 783,
+      "src": "assets/oxy/thumb.jpg",
+      "w": 960,
+      "h": 1200,
       "shape": "L",
-      "focus": "50% 45%"
+      "focus": "50% 50%"
     },
-    "video": {
-      "src": "https://freight.cargo.site/m/O2841332771117651242101057786029/NOTHING-CHANGED-web-.mp4",
-      "poster": "assets/nothing-changed/cover.jpg"
-    },
-    "subtitle": "Fashion editorial",
+    "subtitle": "The breath of the earth",
     "meta": [
       [
         "Category",
-        "Videography"
+        "Digital / Branding"
       ],
       [
         "Type",
-        "Fashion editorial"
+        "Fictional project"
       ],
       [
-        "Roles",
-        "Videographer / Editor, Music composer"
-      ],
-      [
-        "Press",
-        "Featured in Vanguard Magazine"
+        "Scope",
+        "Branding, Art direction, Product concept"
       ]
     ],
     "text": [
-      "Nothing Changed explores the anatomy of a lingering absence, and a silence that grows deafening. Between raw nostalgia and exposed vulnerability, the images capture a shared solitude in which bodies become echoes of what once was.",
-      "It is an immersion into the intimacy of the void, where love dissolves into a distant idea and every gaze becomes a desperate attempt not to disappear from the frame."
+      "OXY is a fragrance born from a need for clarity. In a world of digital noise and synthetic artifice, it stands for a sensory return to the essential — a reconnection with the self through the most vital human act: breathing.",
+      "More than a scent, it is an atmospheric reset."
     ],
-    "media": [
+    "hero": {
+      "src": "assets/oxy/hero.jpg",
+      "w": 1400,
+      "h": 1750
+    },
+    "sections": [
       {
-        "src": "assets/nothing-changed/01.jpg",
-        "w": 1400,
-        "h": 1960
+        "layout": "grid-3",
+        "media": [
+          {
+            "src": "assets/oxy/01.jpg",
+            "w": 1008,
+            "h": 1266
+          },
+          {
+            "src": "assets/oxy/02.jpg",
+            "w": 1298,
+            "h": 1622
+          },
+          {
+            "src": "assets/oxy/03.jpg",
+            "w": 1080,
+            "h": 1350
+          }
+        ],
+        "title": "Art direction",
+        "text": [
+          "Water, stone and light: the visual world of OXY is built from raw natural textures and a restrained, almost clinical palette."
+        ]
       },
       {
-        "src": "assets/nothing-changed/02.jpg",
-        "w": 1400,
-        "h": 1960
+        "quote": "OXY doesn't just rest on your skin; it breathes into you. It is the scent of a woman who knows the truest path is the one you forge yourself — deeply, authentically alive."
       },
       {
-        "src": "assets/nothing-changed/03.jpg",
-        "w": 1400,
-        "h": 1960
-      },
-      {
-        "src": "assets/nothing-changed/04.jpg",
-        "w": 1400,
-        "h": 1960
-      },
-      {
-        "src": "assets/nothing-changed/05.jpg",
-        "w": 1400,
-        "h": 1960
-      },
-      {
-        "src": "assets/nothing-changed/06.jpg",
-        "w": 941,
-        "h": 1318
-      },
-      {
-        "src": "assets/nothing-changed/07.jpg",
-        "w": 1020,
-        "h": 1251
-      },
-      {
-        "src": "assets/nothing-changed/08.jpg",
-        "w": 1400,
-        "h": 2104
-      },
-      {
-        "src": "assets/nothing-changed/09.jpg",
-        "w": 1020,
-        "h": 1251
-      },
-      {
-        "src": "assets/nothing-changed/10.jpg",
-        "w": 1400,
-        "h": 1987
-      },
-      {
-        "src": "assets/nothing-changed/11.jpg",
-        "w": 1020,
-        "h": 1251
-      },
-      {
-        "src": "assets/nothing-changed/12.jpg",
-        "w": 2000,
-        "h": 1265
-      },
-      {
-        "src": "assets/nothing-changed/13.jpg",
-        "w": 2000,
-        "h": 1347
-      },
-      {
-        "src": "assets/nothing-changed/14.jpg",
-        "w": 1400,
-        "h": 2104
-      },
-      {
-        "src": "assets/nothing-changed/15.jpg",
-        "w": 2000,
-        "h": 1306
-      },
-      {
-        "src": "assets/nothing-changed/16.jpg",
-        "w": 2000,
-        "h": 1331
-      },
-      {
-        "src": "assets/nothing-changed/17.jpg",
-        "w": 1400,
-        "h": 2186
+        "layout": "grid-4",
+        "media": [
+          {
+            "src": "assets/oxy/04.jpg",
+            "w": 1080,
+            "h": 1350
+          },
+          {
+            "src": "assets/oxy/05.jpg",
+            "w": 1080,
+            "h": 1350
+          },
+          {
+            "src": "assets/oxy/06.jpg",
+            "w": 1080,
+            "h": 1350
+          },
+          {
+            "src": "assets/oxy/07.jpg",
+            "w": 1080,
+            "h": 1350
+          }
+        ],
+        "title": "Campaign"
       }
     ]
   },
@@ -656,246 +753,6 @@ const PROJECTS = [
         "src": "assets/2-much/15.jpg",
         "w": 2000,
         "h": 1125
-      }
-    ]
-  },
-  {
-    "slug": "oxy",
-    "title": "Oxy",
-    "category": "digital",
-    "template": "case",
-    "cover": {
-      "src": "assets/oxy/cover.jpg",
-      "w": 800,
-      "h": 1199
-    },
-    "thumb": {
-      "src": "assets/oxy/thumb.jpg",
-      "w": 960,
-      "h": 1200,
-      "shape": "L",
-      "focus": "50% 50%"
-    },
-    "subtitle": "The breath of the earth",
-    "meta": [
-      [
-        "Category",
-        "Digital / Branding"
-      ],
-      [
-        "Type",
-        "Fictional project"
-      ],
-      [
-        "Scope",
-        "Branding, Art direction, Product concept"
-      ]
-    ],
-    "text": [
-      "OXY is a fragrance born from a need for clarity. In a world of digital noise and synthetic artifice, it stands for a sensory return to the essential — a reconnection with the self through the most vital human act: breathing.",
-      "More than a scent, it is an atmospheric reset."
-    ],
-    "hero": {
-      "src": "assets/oxy/hero.jpg",
-      "w": 1400,
-      "h": 1750
-    },
-    "sections": [
-      {
-        "layout": "grid-3",
-        "media": [
-          {
-            "src": "assets/oxy/01.jpg",
-            "w": 1008,
-            "h": 1266
-          },
-          {
-            "src": "assets/oxy/02.jpg",
-            "w": 1298,
-            "h": 1622
-          },
-          {
-            "src": "assets/oxy/03.jpg",
-            "w": 1080,
-            "h": 1350
-          }
-        ],
-        "title": "Art direction",
-        "text": [
-          "Water, stone and light: the visual world of OXY is built from raw natural textures and a restrained, almost clinical palette."
-        ]
-      },
-      {
-        "quote": "OXY doesn't just rest on your skin; it breathes into you. It is the scent of a woman who knows the truest path is the one you forge yourself — deeply, authentically alive."
-      },
-      {
-        "layout": "grid-4",
-        "media": [
-          {
-            "src": "assets/oxy/04.jpg",
-            "w": 1080,
-            "h": 1350
-          },
-          {
-            "src": "assets/oxy/05.jpg",
-            "w": 1080,
-            "h": 1350
-          },
-          {
-            "src": "assets/oxy/06.jpg",
-            "w": 1080,
-            "h": 1350
-          },
-          {
-            "src": "assets/oxy/07.jpg",
-            "w": 1080,
-            "h": 1350
-          }
-        ],
-        "title": "Campaign"
-      }
-    ]
-  },
-  {
-    "slug": "pop-beauty",
-    "title": "Pop Beauty",
-    "category": "digital",
-    "template": "case",
-    "cover": {
-      "src": "assets/pop-beauty/cover.jpg",
-      "w": 800,
-      "h": 1200
-    },
-    "thumb": {
-      "src": "assets/pop-beauty/thumb.jpg",
-      "w": 735,
-      "h": 918,
-      "shape": "P",
-      "focus": "50% 50%"
-    },
-    "subtitle": "Skincare you can chew",
-    "meta": [
-      [
-        "Category",
-        "Digital / Branding"
-      ],
-      [
-        "Type",
-        "Brand concept"
-      ],
-      [
-        "Scope",
-        "Branding, Product design, Packaging"
-      ]
-    ],
-    "text": [
-      "How can a mundane daily habit become a radical act of self-care? Pop Beauty reimagines chewing gum as a portable skincare delivery system. By infusing supplements and vitamins into an everyday item, the project blurs the line between nutricosmetics and street culture."
-    ],
-    "hero": {
-      "src": "assets/pop-beauty/hero.jpg",
-      "w": 1400,
-      "h": 2100
-    },
-    "sections": [
-      {
-        "layout": "grid-3",
-        "media": [
-          {
-            "src": "assets/pop-beauty/01.jpg",
-            "w": 2000,
-            "h": 1414
-          },
-          {
-            "src": "assets/pop-beauty/02.jpg",
-            "w": 2000,
-            "h": 1414
-          },
-          {
-            "src": "assets/pop-beauty/03.jpg",
-            "w": 2000,
-            "h": 1414
-          }
-        ],
-        "title": "The lineup",
-        "text": [
-          "Three targeted formulas, each designed to treat the skin from the inside out."
-        ],
-        "items": [
-          [
-            "Hydrate",
-            "Hyaluronic acid, vitamin E and vitamin C for a deep glow."
-          ],
-          [
-            "Clear It Up",
-            "Zinc, niacinamide and probiotics to refine and balance."
-          ],
-          [
-            "Repair",
-            "Hydrolysed collagen and essential minerals to restore."
-          ]
-        ]
-      },
-      {
-        "layout": "grid-2",
-        "media": [
-          {
-            "src": "assets/pop-beauty/04.jpg",
-            "w": 1400,
-            "h": 2100
-          },
-          {
-            "src": "assets/pop-beauty/05.jpg",
-            "w": 791,
-            "h": 1418
-          }
-        ],
-        "title": "Visual identity",
-        "text": [
-          "The art direction plays on the contrast between clinical precision and pop aesthetics. Blister packs usually reserved for pharmaceuticals underline the treatment side of the product, while bold typography and gritty, high-flash photography keep it rooted in fashion and nightlife."
-        ]
-      },
-      {
-        "quote": "Pop Beauty is more than gum — it's a supplement you actually want to carry."
-      },
-      {
-        "layout": "grid-3",
-        "media": [
-          {
-            "src": "assets/pop-beauty/06.jpg",
-            "w": 1400,
-            "h": 1600
-          },
-          {
-            "src": "assets/pop-beauty/07.jpg",
-            "w": 1400,
-            "h": 1661
-          },
-          {
-            "src": "assets/pop-beauty/08.jpg",
-            "w": 2000,
-            "h": 1500
-          }
-        ],
-        "title": "Packaging",
-        "text": [
-          "The packaging follows a clinical hierarchy — medical blister packs and slide-drawer boxes evoke lab-grade efficacy. That surgical minimalism is disrupted by industrial textures such as silver bubble mailers, grounding the brand in a raw, editorial aesthetic and turning a daily object into a functional, high-end accessory."
-        ]
-      },
-      {
-        "layout": "stack",
-        "media": [
-          {
-            "src": "assets/pop-beauty/09.jpg",
-            "w": 2000,
-            "h": 1280
-          },
-          {
-            "src": "assets/pop-beauty/10.jpg",
-            "w": 2000,
-            "h": 1556
-          }
-        ],
-        "title": "Posters & ads"
       }
     ]
   },
@@ -1043,6 +900,149 @@ const PROJECTS = [
           }
         ],
         "title": "Mobile"
+      }
+    ]
+  },
+  {
+    "slug": "pop-beauty",
+    "title": "Pop Beauty",
+    "category": "digital",
+    "template": "case",
+    "cover": {
+      "src": "assets/pop-beauty/cover.jpg",
+      "w": 800,
+      "h": 1200
+    },
+    "thumb": {
+      "src": "assets/pop-beauty/thumb.jpg",
+      "w": 735,
+      "h": 918,
+      "shape": "P",
+      "focus": "50% 50%"
+    },
+    "subtitle": "Skincare you can chew",
+    "meta": [
+      [
+        "Category",
+        "Digital / Branding"
+      ],
+      [
+        "Type",
+        "Brand concept"
+      ],
+      [
+        "Scope",
+        "Branding, Product design, Packaging"
+      ]
+    ],
+    "text": [
+      "How can a mundane daily habit become a radical act of self-care? Pop Beauty reimagines chewing gum as a portable skincare delivery system. By infusing supplements and vitamins into an everyday item, the project blurs the line between nutricosmetics and street culture."
+    ],
+    "hero": {
+      "src": "assets/pop-beauty/hero.jpg",
+      "w": 1400,
+      "h": 2100
+    },
+    "sections": [
+      {
+        "layout": "grid-3",
+        "media": [
+          {
+            "src": "assets/pop-beauty/01.jpg",
+            "w": 2000,
+            "h": 1414
+          },
+          {
+            "src": "assets/pop-beauty/02.jpg",
+            "w": 2000,
+            "h": 1414
+          },
+          {
+            "src": "assets/pop-beauty/03.jpg",
+            "w": 2000,
+            "h": 1414
+          }
+        ],
+        "title": "The lineup",
+        "text": [
+          "Three targeted formulas, each designed to treat the skin from the inside out."
+        ],
+        "items": [
+          [
+            "Hydrate",
+            "Hyaluronic acid, vitamin E and vitamin C for a deep glow."
+          ],
+          [
+            "Clear It Up",
+            "Zinc, niacinamide and probiotics to refine and balance."
+          ],
+          [
+            "Repair",
+            "Hydrolysed collagen and essential minerals to restore."
+          ]
+        ]
+      },
+      {
+        "layout": "grid-2",
+        "media": [
+          {
+            "src": "assets/pop-beauty/04.jpg",
+            "w": 1400,
+            "h": 2100
+          },
+          {
+            "src": "assets/pop-beauty/05.jpg",
+            "w": 791,
+            "h": 1418
+          }
+        ],
+        "title": "Visual identity",
+        "text": [
+          "The art direction plays on the contrast between clinical precision and pop aesthetics. Blister packs usually reserved for pharmaceuticals underline the treatment side of the product, while bold typography and gritty, high-flash photography keep it rooted in fashion and nightlife."
+        ]
+      },
+      {
+        "quote": "Pop Beauty is more than gum — it's a supplement you actually want to carry."
+      },
+      {
+        "layout": "grid-3",
+        "media": [
+          {
+            "src": "assets/pop-beauty/06.jpg",
+            "w": 1400,
+            "h": 1600
+          },
+          {
+            "src": "assets/pop-beauty/07.jpg",
+            "w": 1400,
+            "h": 1661
+          },
+          {
+            "src": "assets/pop-beauty/08.jpg",
+            "w": 2000,
+            "h": 1500
+          }
+        ],
+        "title": "Packaging",
+        "text": [
+          "The packaging follows a clinical hierarchy — medical blister packs and slide-drawer boxes evoke lab-grade efficacy. That surgical minimalism is disrupted by industrial textures such as silver bubble mailers, grounding the brand in a raw, editorial aesthetic and turning a daily object into a functional, high-end accessory."
+        ]
+      },
+      {
+        "layout": "stack",
+        "media": [
+          {
+            "src": "assets/pop-beauty/09.jpg",
+            "w": 2000,
+            "h": 1280
+          },
+          {
+            "src": "assets/pop-beauty/10.jpg",
+            "w": 2000,
+            "h": 1556
+          }
+        ],
+        "title": "Posters & ads"
       }
     ]
   }
