@@ -81,7 +81,7 @@ function filmHtml(p, num) {
       <div class="film-controls ui">
         <button class="film-sound" aria-pressed="false">Sound off</button>
         <span class="film-progress" aria-hidden="true"><span></span></span>
-        <span class="film-time">00:00</span>
+        <span class="film-time">Loading</span>
         <button class="film-full">Full screen</button>
       </div>
     </section>
@@ -118,6 +118,7 @@ function initFilm(root) {
   const fmt = (s) => `${pad(Math.floor(s / 60))}:${pad(Math.floor(s % 60))}`;
 
   const setMuted = (muted) => {
+    video.dataset.soundChosen = "1";
     video.muted = muted;
     if (!muted) {
       video.volume = 0.6;
@@ -139,8 +140,37 @@ function initFilm(root) {
     bar.style.transform = `scaleX(${video.currentTime / video.duration})`;
     time.textContent = fmt(video.currentTime);
   });
+
+  // Autoplay, always muted (the only kind browsers allow); sound is the
+  // visitor's choice. Retry as soon as there is data, and — if a browser
+  // still refuses (e.g. iOS Low Power Mode) — on the first interaction.
+  let onScreen = true;
+  const tryPlay = () => {
+    if (!onScreen || !video.paused) return;
+    if (!video.dataset.soundChosen) video.muted = true;
+    video.play().catch(() => {});
+  };
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+  tryPlay();
+  ["loadedmetadata", "canplay"].forEach((ev) => video.addEventListener(ev, tryPlay));
+  const unlock = () => {
+    tryPlay();
+    ["pointerdown", "keydown", "wheel", "touchstart"].forEach((ev) => removeEventListener(ev, unlock));
+  };
+  ["pointerdown", "keydown", "wheel", "touchstart"].forEach((ev) => addEventListener(ev, unlock, { passive: true }));
+  // Browsers pause muted video in hidden tabs; pick up again on return.
+  document.addEventListener("visibilitychange", () => document.visibilityState === "visible" && tryPlay());
+  // Show that the film is buffering rather than frozen.
+  video.addEventListener("waiting", () => (time.textContent = "Loading"));
+  video.addEventListener("playing", () => (time.textContent = fmt(video.currentTime)));
+
   // Pause when scrolled away, resume when back.
-  new IntersectionObserver(([e]) => (e.isIntersecting ? video.play().catch(() => {}) : video.pause()), { threshold: 0.15 }).observe(video);
+  new IntersectionObserver(([e]) => {
+    onScreen = e.isIntersecting;
+    onScreen ? tryPlay() : video.pause();
+  }, { threshold: 0.15 }).observe(video);
 }
 
 /* ── Case study (digital / branding) ────────────────────── */
