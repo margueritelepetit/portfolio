@@ -689,7 +689,7 @@ const PROJECTS = [
     },
     "thumb": {
       "src": "assets/oxy/thumb.jpg",
-      "w": 800,
+      "w": 960,
       "h": 1200,
       "frame": [
         26,
