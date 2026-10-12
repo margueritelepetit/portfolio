@@ -543,69 +543,36 @@ body.gallery {
   mix-blend-mode: difference;
 }
 
-/* A half-circle with a dot at its centre. White + "difference" blending
-   makes it black on white pages and white over dark images. */
+/* A small solid circle. White + "difference" blending makes it black on
+   white pages and white over dark images. */
 .cursor-box {
   position: absolute;
-  width: 24px;
-  height: 24px;
-  border: 1px solid;
-  border-color: #fff #fff transparent transparent;
-  border-radius: 50%;
-  transform: translate(-50%, -50%) rotate(-45deg);
-  transition: width 0.45s var(--ease), height 0.45s var(--ease), transform 0.6s var(--ease), border-color 0.3s;
-}
-
-.cursor-box::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 4px;
-  height: 4px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: #fff;
   transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s;
+  transition: width 0.4s var(--ease), height 0.4s var(--ease);
 }
 
-/* Links: the arc closes into a full circle. */
 .cursor.is-link .cursor-box {
-  width: 18px;
-  height: 18px;
-  border-color: #fff;
-  transform: translate(-50%, -50%) rotate(135deg);
+  width: 16px;
+  height: 16px;
 }
 
-/* Images and media: a larger half-circle slowly turning, with a label. */
 .cursor.is-label .cursor-box {
-  width: 46px;
-  height: 46px;
-  animation: cursor-spin 2.4s linear infinite;
-}
-
-@keyframes cursor-spin {
-  from {
-    transform: translate(-50%, -50%) rotate(-45deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(315deg);
-  }
+  width: 22px;
+  height: 22px;
 }
 
 .cursor.is-down .cursor-box {
-  width: 14px;
-  height: 14px;
-}
-
-.cursor.is-down .cursor-box::after {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 .cursor-label {
   position: absolute;
-  left: 32px;
+  left: 20px;
   top: -7px;
   font-size: 11px;
   font-weight: 500;

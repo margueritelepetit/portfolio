@@ -24,7 +24,7 @@ Each project in `js/data.js` has a `template`:
 
 All pages share the elements below. The home page and font size follow cathydolle.com:
 - a minimal header: name and Projects on the left, Experimental zone and About on the right
-- the cursor: a half-circle with a centre dot; it closes into a full circle on links and grows, turning slowly, with a label over images
+- the cursor: a small solid circle that grows slightly on links and shows a label over images
 - the image lightbox
 - a slim "next project" line at the end of each project: keep scrolling to fill it, then a wipe opens the next one
 - page transitions: in Chrome, Edge and Safari 18+, the clicked image glides into the next page; other browsers fade
