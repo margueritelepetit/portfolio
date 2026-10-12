@@ -5,7 +5,7 @@ A portfolio for photography, videography and digital / branding work, written in
 ## Pages
 
 ```
-index.html          Intro (~5 s, once per visit): black mosaic of photos on a hairline grid, glitches,
+index.html          Intro (~5 s; on first visit and on every refresh): black mosaic of photos on a hairline grid, glitches,
                     the name decoding, cursor crosshairs → white wave into "Projects" (endless column + index)
 project.html        Every project: project.html?p=<slug>, rendered with one of three layouts
 experimental.html   The experimental zone (TouchDesigner / creative coding)
@@ -35,7 +35,7 @@ Everything is in **`js/data.js`**:
 - `SITE`: name, statement, education, contact
 - `PROJECTS`: in display order. Numbers (ID 01, 02…) come from this order.
 - `INTRO`: extra images for the opening mosaic (project previews are used too)
-- each project's `thumb` is its preview in the projects column: `frame` is [width in % of the screen, width/height ratio] and `focus` is the crop point. The frames alternate tall / square / wide on purpose, and any image from the project can be used
+- each project's `thumb` is its preview in the projects column. Like cathydolle.com, the column alternates two frames (portrait 16×24vw, landscape 24.25×13.9vw), so every preview appears in both shapes; `focusP` / `focusL` set the crop point for each
 - `EXPERIMENTAL`: the experimental zone pieces
 
 Images are in `assets/<slug>/`, and `w`/`h` must match each image's pixel size. Export JPGs at about 2000px on the long edge, quality around 80.

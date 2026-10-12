@@ -1,7 +1,7 @@
 // Home: the entry screen (once per visit) and the endless project column.
 
 // Preview shown in the column (falls back to the cover).
-const thumbOf = (p) => p.thumb || { ...p.cover, frame: [20, p.cover.w / p.cover.h] };
+const thumbOf = (p) => p.thumb || p.cover;
 
 /* ── Intro ──────────────────────────────────────────────── */
 // Once per visit, ~5 s, runs by itself (a click skips ahead):
@@ -34,7 +34,8 @@ function scramble(el, text, duration = 900) {
 
 function runEntry() {
   const el = $("#entry");
-  const skip = session.get("entered") || document.body.dataset.about === "open";
+  const reloaded = performance.getEntriesByType("navigation")[0]?.type === "reload";
+  const skip = (session.get("entered") && !reloaded) || document.body.dataset.about === "open";
   if (skip) {
     el.remove();
     return Promise.resolve();
@@ -207,13 +208,14 @@ function initGallery() {
 
   // Each project has its own frame (width in vw, ratio) so the column
   // alternates tall, square and wide previews; images are cropped to fit.
-  function sizeFor(p) {
-    const [vwShare, ratio] = thumbOf(p).frame;
-    const vw = innerWidth;
-    const w = isMobile()
-      ? vw * clamp(vwShare * 2.4, 46, 92) / 100
-      : Math.max((vw * vwShare) / 100, vwShare * 9);
-    return [Math.min(w, vw - 32), Math.min(w, vw - 32) / ratio];
+  // Same two frames as cathydolle.com, alternating down the column:
+  // portrait 16vw × 24vw (2:3) and landscape 24.25vw × 13.9vw (≈ 7:4).
+  // Images are cropped to fit; each project can set a crop point per shape.
+  const FRAMES = { P: [16, 24], L: [24.25, 13.9] };
+  function sizeFor(shape) {
+    const [w, h] = FRAMES[shape];
+    const unit = (innerWidth / 100) * (isMobile() ? 3.1 : 1); // larger on phones
+    return [w * unit, h * unit];
   }
 
   function renderIndex() {
@@ -231,13 +233,16 @@ function initGallery() {
     stage.innerHTML = "";
     els = [];
     total = 0;
-    const sizes = list.map(sizeFor);
-    const maxH = Math.max(...sizes.map(([, h]) => h));
+    const sizes = { P: sizeFor("P"), L: sizeFor("L") };
+    const maxH = sizes.P[1];
 
-    // Repeat the set until it's long enough to loop seamlessly.
-    for (let rep = 0; rep === 0 || (total < innerHeight + maxH * 2 && rep < 30); rep++) {
+    // Repeat the set until it's long enough to loop seamlessly. The shape
+    // alternates by position, so the item count must be even for the
+    // alternation to carry on across the loop's seam.
+    for (let rep = 0; rep === 0 || ((total < innerHeight + maxH * 2 || els.length % 2) && rep < 30); rep++) {
       list.forEach((p, pi) => {
-        const [w, h] = sizes[pi];
+        const shape = els.length % 2 ? "L" : "P";
+        const [w, h] = sizes[shape];
         const a = document.createElement("a");
         a.className = "item";
         a.href = projectUrl(p);
@@ -250,7 +255,8 @@ function initGallery() {
           a.setAttribute("aria-hidden", "true");
         }
         const t = thumbOf(p);
-        a.innerHTML = `<img src="${esc(t.src)}" alt="${esc(p.title)}" draggable="false" style="object-position:${t.focus || "50% 50%"}">${
+        const focus = (shape === "P" ? t.focusP : t.focusL) || t.focus || "50% 50%";
+        a.innerHTML = `<img src="${esc(t.src)}" alt="${esc(p.title)}" draggable="false" style="object-position:${focus}">${
           p.template === "film" ? '<span class="badge ui">Film</span>' : ""
         }`;
         a.addEventListener("click", () => {
@@ -291,6 +297,8 @@ function initGallery() {
     for (const it of els) {
       const pos = mod(it.offset - current + margin, total) - margin;
       it.el.style.transform = `translate3d(-50%, ${pos}px, 0)`;
+      // The picture drifts inside its frame as it travels up the screen.
+      it.el.style.setProperty("--py", clamp((pos + it.size / 2 - center) / (center + it.size / 2), -1, 1).toFixed(3));
       if (pos <= center && pos + it.size > center) found = it.pi;
     }
     setActive(found);
