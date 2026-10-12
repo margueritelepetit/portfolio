@@ -325,10 +325,10 @@ h2.ui {
   position: fixed;
   inset: 0;
   z-index: 90;
-  background: #000;
-  color: #fff;
+  background: #fff;
+  color: #000;
   overflow: hidden;
-  transition: opacity 0.6s ease, visibility 0.6s;
+  transition: opacity 0.7s ease, visibility 0.7s;
 }
 
 .entry.done {
@@ -336,230 +336,65 @@ h2.ui {
   visibility: hidden;
 }
 
-/* Mosaic of cells; photos flicker in and out. */
 .mosaic {
   position: absolute;
   inset: 0;
-  display: grid;
 }
 
-.tile {
-  position: relative;
-  overflow: hidden;
-  background: #000;
-  transition: background-color 0.5s ease calc(var(--w) * 45ms);
+/* Small portrait tiles; "on" fades them in, off fades them to white. */
+.m-tile {
+  position: absolute;
+  will-change: transform;
 }
 
-.tile img {
+.m-tile img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  filter: grayscale(1) contrast(1.1) brightness(0.8);
-  transform: scale(1.08);
-  transition: opacity 0.45s ease, transform 1.4s var(--ease-out), filter 0.4s;
+  transform: scale(0.92);
+  transition: opacity 0.7s ease, transform 0.9s var(--ease-out);
 }
 
-.tile.on img {
+.m-tile.on img {
   opacity: 1;
-  transform: scale(1);
+  transform: none;
 }
 
-.tile.hot img {
-  filter: grayscale(0) contrast(1.05) brightness(1);
-}
-
-.tile.glitch img {
-  animation: glitch 0.26s steps(2, jump-none) both;
-}
-
-@keyframes glitch {
-  0% {
-    clip-path: inset(10% 0 55% 0);
-    transform: translateX(-6%);
-    filter: grayscale(1) drop-shadow(4px 0 0 rgba(255, 0, 60, 0.8)) drop-shadow(-4px 0 0 rgba(0, 230, 255, 0.8));
-  }
-  33% {
-    clip-path: inset(60% 0 8% 0);
-    transform: translateX(5%);
-  }
-  66% {
-    clip-path: inset(30% 0 35% 0);
-    transform: translateX(-3%) scale(1.05);
-  }
-  100% {
-    clip-path: inset(0);
-    transform: none;
-  }
-}
-
-/* Hairline grid that draws itself in. */
-.lines span {
+.entry-load {
   position: absolute;
-  background: rgba(255, 255, 255, 0.22);
-  transition: transform 1s var(--ease) calc(var(--i) * 60ms), opacity 0.4s;
+  left: 50%;
+  width: min(280px, 70vw);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: opacity 0.5s ease;
 }
 
-.vline {
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  transform: scaleY(0);
-  transform-origin: top;
-  animation: draw-y 1s var(--ease) calc(var(--i) * 60ms) forwards;
-}
-
-.hline {
-  left: 0;
-  right: 0;
+.entry-line {
+  position: relative;
+  flex: 1;
   height: 1px;
-  transform: scaleX(0);
-  transform-origin: left;
-  animation: draw-x 1s var(--ease) calc(var(--i) * 60ms + 150ms) forwards;
+  background: #e6e6e6;
+  overflow: hidden;
 }
 
-@keyframes draw-y {
-  to {
-    transform: scaleY(1);
-  }
-}
-
-@keyframes draw-x {
-  to {
-    transform: scaleX(1);
-  }
-}
-
-/* Crosshairs following the cursor. */
-.cross {
+.entry-line span {
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.4s;
-  z-index: 3;
-}
-
-.cross.live {
-  opacity: 1;
-}
-
-.cx,
-.cy {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.55);
-}
-
-.cx {
-  left: 0;
-  right: 0;
-  height: 1px;
-  transform: translateY(var(--y));
-}
-
-.cy {
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  transform: translateX(var(--x));
-}
-
-.cpos {
-  position: absolute;
-  transform: translate(calc(var(--x) + 14px), calc(var(--y) + 12px));
-  white-space: pre;
-  font-variant-numeric: tabular-nums;
-}
-
-/* The name, huge, inverting over the photos. */
-.entry-name {
-  position: absolute;
-  left: var(--pad);
-  right: var(--pad);
-  bottom: 9vh;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  font-size: clamp(54px, 12.5vw, 220px);
-  line-height: 0.84;
-  letter-spacing: -0.05em;
-  font-weight: 500;
-  text-transform: uppercase;
-  color: #fff;
-  mix-blend-mode: difference;
-  pointer-events: none;
-}
-
-.entry-name span:last-child {
-  align-self: flex-end;
-}
-
-.glitching .entry-name {
-  animation: name-glitch 0.18s steps(2, jump-none);
-}
-
-@keyframes name-glitch {
-  50% {
-    transform: translateX(6px) skewX(-6deg);
-    text-shadow: -3px 0 rgba(255, 0, 60, 0.8), 3px 0 rgba(0, 230, 255, 0.8);
-  }
-}
-
-.entry-top,
-.entry-bottom {
-  position: absolute;
-  left: var(--pad);
-  right: var(--pad);
-  z-index: 2;
-  display: flex;
-  justify-content: space-between;
-  gap: 24px;
-  mix-blend-mode: difference;
-}
-
-.entry-top {
-  top: 12px;
-}
-
-.entry-bottom {
-  bottom: 14px;
-}
-
-.e-pct {
-  font-variant-numeric: tabular-nums;
-}
-
-.entry-bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  z-index: 2;
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.entry-bar span {
-  position: absolute;
-  inset: 0;
-  background: #fff;
+  background: #000;
   transform: scaleX(0);
   transform-origin: left;
 }
 
-/* Exit: a diagonal wave turns every cell white. */
-.entry.out .tile {
-  background: #fff;
+.entry-pct {
+  min-width: 2.2em;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
-.entry.out .tile img {
-  opacity: 0;
-  transition: opacity 0.35s ease calc(var(--w) * 45ms);
-}
-
-.entry.out .lines span,
-.entry.out .cross,
-.entry.out .entry-bar {
+.entry.leaving .entry-load {
   opacity: 0;
 }
 

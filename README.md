@@ -5,8 +5,8 @@ A portfolio for photography, videography and digital / branding work, written in
 ## Pages
 
 ```
-index.html          Intro (~5 s; on first visit and on every refresh): black mosaic of photos on a hairline grid, glitches,
-                    the name decoding, cursor crosshairs → white wave into "Projects" (endless column + index)
+index.html          Intro (~5 s; first visit and every refresh): white mosaic of small portraits fading in waves,
+                    pushed aside by the cursor, with an "Entering" bar → "Projects": endless column + index
 project.html        Every project: project.html?p=<slug>, rendered with one of three layouts
 experimental.html   The experimental zone (TouchDesigner / creative coding)
 about.html          Home with the About panel open (About is also a button on every page)
