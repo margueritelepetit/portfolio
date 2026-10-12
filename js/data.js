@@ -1151,8 +1151,8 @@ const INTRO = [
   },
   {
     "src": "assets/intro/22.jpg",
-    "w": 700,
-    "h": 700
+    "w": 680,
+    "h": 680
   },
   {
     "src": "assets/intro/24.jpg",
