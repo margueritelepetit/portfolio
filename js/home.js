@@ -203,7 +203,7 @@ function initGallery() {
   const FRAMES = { P: [16, 24], L: [24.25, 13.9] };
   function sizeFor(shape) {
     const [w, h] = FRAMES[shape];
-    const unit = (innerWidth / 100) * (isMobile() ? 3.1 : 1); // larger on phones
+    const unit = (innerWidth / 100) * (isMobile() ? 3.1 : 1.25); // larger on phones
     return [w * unit, h * unit];
   }
 
