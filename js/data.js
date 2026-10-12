@@ -550,10 +550,10 @@ const PROJECTS = [
     },
     "thumb": {
       "src": "assets/oxy/thumb.jpg",
-      "w": 960,
-      "h": 1200,
+      "w": 1125,
+      "h": 1397,
       "shape": "L",
-      "focus": "50% 50%",
+      "focus": "45% 33%",
       "inIntro": false
     },
     "subtitle": "The breath of the earth",
