@@ -4,12 +4,14 @@
 const thumbOf = (p) => p.thumb || p.cover;
 
 /* ── Intro ──────────────────────────────────────────────── */
-// On first visit and on refresh (~5 s, a click skips ahead):
-// a white page with a mosaic of small portrait images. Waves and random
-// flickers fade them to white and back; the cursor pushes them aside and
-// they spring back into place. A thin bar fills while the site "enters".
+// On first visit and on refresh (~7 s, a click skips ahead):
+// a white page with a mosaic of small black-and-white portraits. Every so
+// often a single image slowly fades to white and comes back; the cursor
+// pushes images aside and they spring back into place. A thin bar fills
+// while the site "enters".
 
-const INTRO_MS = 5000;
+const INTRO_MS = 7000;
+const FADE_EVERY = 900; // ms between one image fading out and the next
 
 function runEntry() {
   const el = $("#entry");
@@ -82,7 +84,7 @@ function runEntry() {
   return new Promise((resolve) => {
     const start = performance.now();
     let exitAt = reducedMotion ? 600 : INTRO_MS;
-    let leaving = 0, done = false, shown = 0;
+    let leaving = 0, done = false, shown = 0, nextFade = 0;
     el.addEventListener("click", () => (exitAt = Math.min(exitAt, performance.now() - start)));
 
     const finish = () => {
@@ -103,7 +105,14 @@ function runEntry() {
       if (!leaving && t >= exitAt && allLoaded) {
         leaving = t;
         el.classList.add("leaving");
-        setTimeout(finish, reducedMotion ? 0 : 1100);
+        setTimeout(finish, reducedMotion ? 0 : 1600);
+      }
+
+      // Every FADE_EVERY ms, one random image fades out, rests, comes back.
+      if (!leaving && t > 2600 && t >= nextFade) {
+        const it = tiles[(Math.random() * tiles.length) | 0];
+        it.offUntil = t + 2000; // ~1.8 s fade out, then fades back in
+        nextFade = t + FADE_EVERY + Math.random() * 500;
       }
 
       for (const it of tiles) {
@@ -111,16 +120,11 @@ function runEntry() {
         let on;
         if (leaving) {
           // Exit: fade out from the centre outwards.
-          on = t - leaving < d * 1.6;
-        } else if (t < 1200) {
-          // Entrance: appear from the centre outwards.
-          on = t > d * 1.8 + it.seed * 250;
+          on = t - leaving < d * 1.4;
         } else {
-          // Two slow waves crossing the grid, plus random flickers.
-          const wave = Math.sin(t * 0.0018 - (it.x * 0.9 + it.y * 0.5) * 0.012 + it.seed * 1.2)
-                     + Math.sin(t * 0.0011 + d * 0.01) * 0.6;
-          on = wave > -0.55 && t > it.offUntil;
-          if (on && Math.random() < 0.004) it.offUntil = t + 350 + Math.random() * 700;
+          // Entrance from the centre outwards, then: shown unless it's this
+          // tile's turn to rest on white for a moment.
+          on = t > d * 2.2 + it.seed * 300 && t > it.offUntil;
         }
         if (on !== it.on) {
           it.on = on;

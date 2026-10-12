@@ -5,7 +5,7 @@ A portfolio for photography, videography and digital / branding work, written in
 ## Pages
 
 ```
-index.html          Intro (~5 s; first visit and every refresh): white mosaic of small portraits fading in waves,
+index.html          Intro (~7 s; first visit and every refresh): white mosaic of small B&W portraits, one fading at a time,
                     pushed aside by the cursor, with an "Entering" bar → "Projects": endless column + index
 project.html        Every project: project.html?p=<slug>, rendered with one of three layouts
 experimental.html   The experimental zone (TouchDesigner / creative coding)
