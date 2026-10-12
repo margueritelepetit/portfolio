@@ -4,12 +4,33 @@
 const thumbOf = (p) => p.thumb || { ...p.cover, frame: [20, p.cover.w / p.cover.h] };
 
 /* ── Intro ──────────────────────────────────────────────── */
-// A white, self-running intro (~4.5 s, once per visit): images appear one
-// by one around the centre while a loading line fills, then they gather
-// into a single stack and the page fades into the projects.
-// Clicking anywhere skips ahead.
+// Once per visit, ~5 s, runs by itself (a click skips ahead):
+//   black screen → hairline grid draws in → photos flicker in and out of
+//   the cells, with the odd glitch → the name decodes in huge type →
+//   the cells turn white in a diagonal wave, straight into the projects.
+// Moving the mouse draws crosshairs with coordinates and lights up the
+// cell underneath.
 
-const INTRO_MS = 4600;
+const INTRO_MS = 5000;
+const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#/_—";
+
+// Decode text from random glyphs, left to right.
+function scramble(el, text, duration = 900) {
+  if (reducedMotion) {
+    el.textContent = text;
+    return;
+  }
+  const start = performance.now();
+  const step = () => {
+    const p = Math.min(1, (performance.now() - start) / duration);
+    const fixed = Math.floor(p * text.length);
+    el.textContent = [...text]
+      .map((ch, i) => (i < fixed || ch === " " ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0]))
+      .join("");
+    if (p < 1) setTimeout(step, 40);
+  };
+  step();
+}
 
 function runEntry() {
   const el = $("#entry");
@@ -20,100 +41,151 @@ function runEntry() {
   }
   session.set("entered", "1");
   document.documentElement.classList.add("entry-active");
-  el.innerHTML = `
-    <div class="entry-top ui"><span>${esc(SITE.name)}</span><span class="muted">Portfolio ${new Date().getFullYear()}</span></div>
-    <div class="entry-cloud" aria-hidden="true"></div>
-    <div class="entry-load ui" aria-hidden="true"><span class="entry-line"><span></span></span><span class="entry-pct">00</span></div>
-    <div class="entry-bottom ui"><span class="muted">${SITE.disciplines.map(esc).join(" — ")}</span><span class="muted">${esc(SITE.location)}</span></div>`;
 
-  // Preload the intro images and every cover so the projects open instantly.
-  const urls = [...new Set([...INTRO.map((i) => i.src), ...PROJECTS.map((p) => thumbOf(p).src)])];
+  const cols = isMobile() ? 4 : 8;
+  const cw = innerWidth / cols;
+  const rows = Math.max(3, Math.round(innerHeight / (cw * 0.78)));
+  const ch = innerHeight / rows;
+  const pool = [...new Set([...INTRO.map((i) => i.src), ...PROJECTS.map((p) => thumbOf(p).src)])];
+  const [first, ...rest] = SITE.name.split(" ");
+
+  el.innerHTML = `
+    <div class="mosaic" style="grid-template-columns:repeat(${cols},1fr);grid-template-rows:repeat(${rows},1fr)">
+      ${Array.from({ length: cols * rows }, (_, i) => `<div class="tile" style="--w:${(i % cols) + Math.floor(i / cols)}"><img alt=""></div>`).join("")}
+    </div>
+    <div class="lines" aria-hidden="true">
+      ${Array.from({ length: cols - 1 }, (_, i) => `<span class="vline" style="left:${((i + 1) * 100) / cols}%;--i:${i}"></span>`).join("")}
+      ${Array.from({ length: rows - 1 }, (_, i) => `<span class="hline" style="top:${((i + 1) * 100) / rows}%;--i:${i}"></span>`).join("")}
+    </div>
+    <div class="cross" aria-hidden="true"><span class="cx"></span><span class="cy"></span><span class="cpos ui"></span></div>
+    <h1 class="entry-name"><span></span><span></span></h1>
+    <div class="entry-top ui"><span class="e-a"></span><span class="e-pct">000%</span></div>
+    <div class="entry-bottom ui"><span class="e-b"></span><span class="e-c"></span></div>
+    <div class="entry-bar" aria-hidden="true"><span></span></div>`;
+
+  const tiles = $$(".tile", el).map((node) => ({ node, img: $("img", node), on: false }));
+  const nameParts = $$(".entry-name span", el);
+  const bar = $(".entry-bar span", el);
+  const pctEl = $(".e-pct", el);
+
+  // Preload the intro images and every preview so the projects open instantly.
   let loaded = 0;
-  urls.forEach((src) => {
+  pool.forEach((src) => {
     const img = new Image();
     img.onload = img.onerror = () => loaded++;
     img.src = src;
   });
 
-  const cloud = $(".entry-cloud", el);
-  const line = $(".entry-line span", el);
-  const pct = $(".entry-pct", el);
-  const n = INTRO.length;
-  const items = INTRO.map((img, i) => {
-    // Golden-angle spiral: an organic but even spread around the centre.
-    const rand = Math.abs((Math.sin(i * 12.9898) * 43758.5453) % 1);
-    const depth = 0.4 + rand * 0.8;
-    const node = document.createElement("div");
-    node.className = "cloud-item";
-    node.style.zIndex = Math.round(depth * 100);
-    const w = 64 + depth * 78;
-    node.innerHTML = `<img src="${esc(img.src)}" alt="" style="width:${w}px;height:${(w * img.h) / img.w}px">`;
-    cloud.appendChild(node);
-    return { node, depth, r: Math.sqrt((i + 0.5) / n), a: i * 2.39996, phase: i * 1.7, x: 0, y: 0, at: 250 + (i * 2700) / n };
-  });
+  const timers = [];
+  const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+  const randomTile = () => tiles[(Math.random() * tiles.length) | 0];
+  const show = (t, glitch) => {
+    t.img.src = pool[(Math.random() * pool.length) | 0];
+    t.node.classList.add("on");
+    t.on = true;
+    if (glitch) {
+      t.node.classList.add("glitch");
+      setTimeout(() => t.node.classList.remove("glitch"), 260);
+    }
+  };
+  const hide = (t) => {
+    t.node.classList.remove("on");
+    t.on = false;
+  };
 
-  let mx = 0, my = 0;
+  // Text: decode in sequence once the grid lines are drawn.
+  later(() => scramble($(".e-a", el), `Portfolio ${new Date().getFullYear()}`, 700), 300);
+  later(() => scramble(nameParts[0], first, 1100), 700);
+  later(() => scramble(nameParts[1], rest.join(" "), 1100), 950);
+  later(() => scramble($(".e-b", el), SITE.disciplines.join(" — "), 1300), 1100);
+  later(() => scramble($(".e-c", el), SITE.location, 600), 1300);
+
+  // Cursor: crosshairs + coordinates, and the cell under it lights up.
+  const cross = $(".cross", el);
+  let lastCell = -1;
   const onMove = (e) => {
-    mx = (e.clientX / innerWidth) * 2 - 1;
-    my = (e.clientY / innerHeight) * 2 - 1;
+    cross.classList.add("live");
+    cross.style.setProperty("--x", `${e.clientX}px`);
+    cross.style.setProperty("--y", `${e.clientY}px`);
+    $(".cpos", el).textContent = `X ${String(Math.round(e.clientX)).padStart(4, "0")}  Y ${String(Math.round(e.clientY)).padStart(4, "0")}`;
+    const cell = Math.floor(e.clientY / ch) * cols + Math.floor(e.clientX / cw);
+    if (cell !== lastCell && tiles[cell] && !el.classList.contains("out")) {
+      tiles[lastCell]?.node.classList.remove("hot");
+      lastCell = cell;
+      show(tiles[cell], true);
+      tiles[cell].node.classList.add("hot");
+    }
   };
   addEventListener("pointermove", onMove, { passive: true });
 
   return new Promise((resolve) => {
     const start = performance.now();
-    let gatherAt = reducedMotion ? 0 : 3500; // images start gathering
-    let shown = 0, finished = false;
+    let exitAt = reducedMotion ? 400 : INTRO_MS;
+    let exiting = false;
 
-    const finish = () => {
-      if (finished) return;
-      finished = true;
-      el.classList.add("done");
-      document.documentElement.classList.remove("entry-active");
-      resolve();
-      setTimeout(() => {
-        removeEventListener("pointermove", onMove);
-        el.remove();
-      }, 1000);
-    };
-    // Click to skip straight to the gathering.
-    el.addEventListener("click", () => {
-      gatherAt = Math.min(gatherAt, performance.now() - start);
-    });
-
-    const loop = (now) => {
-      if (finished) return;
-      const t = now - start;
-      const allLoaded = loaded >= urls.length || t > 9000;
-      const gathering = t >= gatherAt && allLoaded;
-      if (gathering && !el.classList.contains("gather")) {
-        el.classList.add("gather");
-        gatherAt = t;
-        setTimeout(finish, reducedMotion ? 0 : 1000);
+    // Flicker: photos fade in and out of random cells; density builds up.
+    const flicker = setInterval(() => {
+      const t = performance.now() - start;
+      if (t < 700 || exiting) return;
+      const density = Math.min(0.55, (t - 700) / 5000);
+      const onCount = tiles.filter((x) => x.on).length;
+      const target = randomTile();
+      if (onCount / tiles.length < density || !target.on) show(target, Math.random() < 0.18);
+      else hide(target);
+      if (Math.random() < 0.35) {
+        const off = tiles.filter((x) => x.on && !x.node.classList.contains("hot"));
+        if (off.length > tiles.length * 0.2) hide(off[(Math.random() * off.length) | 0]);
       }
+    }, reducedMotion ? 1000 : 75);
 
-      // The line moves on its own, but never finishes before the images are in.
-      const timeP = Math.min(1, t / INTRO_MS);
-      const goal = allLoaded ? timeP : Math.min(timeP, 0.9);
-      shown += ((gathering ? 1 : goal) - shown) * 0.1;
-      line.style.transform = `scaleX(${shown})`;
-      pct.textContent = pad(Math.min(100, Math.round(shown * 100)));
-
-      const R = Math.min(innerWidth, innerHeight) * (isMobile() ? 0.36 : 0.32);
-      for (const it of items) {
-        if (!it.in && t >= it.at) {
-          it.in = true;
-          it.node.classList.add("in");
+    // Occasional bigger glitch across a few cells and the name.
+    const glitches = setInterval(() => {
+      if (exiting || reducedMotion) return;
+      el.classList.add("glitching");
+      for (let i = 0; i < 3; i++) {
+        const t = randomTile();
+        if (t.on) {
+          t.node.classList.add("glitch");
+          setTimeout(() => t.node.classList.remove("glitch"), 260);
         }
-        let tx = Math.cos(it.a) * it.r * R * 1.3 + Math.sin(now * 0.0005 + it.phase) * 8 - mx * it.depth * 24;
-        let ty = Math.sin(it.a) * it.r * R + Math.cos(now * 0.0004 + it.phase) * 8 - my * it.depth * 18;
-        if (gathering) tx = ty = 0;
-        it.x += (tx - it.x) * (gathering ? 0.09 : 0.06);
-        it.y += (ty - it.y) * (gathering ? 0.09 : 0.06);
-        it.node.style.transform = `translate3d(${it.x}px, ${it.y}px, 0)`;
       }
-      requestAnimationFrame(loop);
+      setTimeout(() => el.classList.remove("glitching"), 180);
+    }, 1100);
+
+    const exit = () => {
+      if (exiting) return;
+      exiting = true;
+      clearInterval(flicker);
+      clearInterval(glitches);
+      // Cells turn white in a diagonal wave, revealing the white projects page.
+      el.classList.add("out");
+      const wave = (cols + rows) * 45 + 500;
+      setTimeout(() => {
+        el.classList.add("done");
+        document.documentElement.classList.remove("entry-active");
+        resolve();
+        setTimeout(() => {
+          removeEventListener("pointermove", onMove);
+          timers.forEach(clearTimeout);
+          el.remove();
+        }, 700);
+      }, reducedMotion ? 0 : wave);
     };
-    requestAnimationFrame(loop);
+    el.addEventListener("click", () => (exitAt = Math.min(exitAt, performance.now() - start + 200)));
+
+    let shown = 0;
+    const loop = () => {
+      if (exiting) return;
+      const t = performance.now() - start;
+      const allLoaded = loaded >= pool.length || t > 10000;
+      const goal = allLoaded ? Math.min(1, t / exitAt) : Math.min(t / exitAt, 0.9);
+      shown += (goal - shown) * 0.12;
+      bar.style.transform = `scaleX(${shown})`;
+      pctEl.textContent = `${String(Math.round(shown * 100)).padStart(3, "0")}%`;
+      if (t >= exitAt && allLoaded) exit();
+      else setTimeout(loop, 30);
+    };
+    loop();
   });
 }
 

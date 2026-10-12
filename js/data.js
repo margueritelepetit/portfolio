@@ -76,7 +76,16 @@ const PROJECTS = [
       "w": 800,
       "h": 1201
     },
-    "thumb": {"src": "assets/rooting-mother/thumb.jpg", "w": 799, "h": 1200, "frame": [22, 0.8], "focus": "50% 30%"},
+    "thumb": {
+      "src": "assets/rooting-mother/thumb.jpg",
+      "w": 799,
+      "h": 1200,
+      "frame": [
+        22,
+        0.8
+      ],
+      "focus": "50% 30%"
+    },
     "subtitle": "Mother's roots",
     "meta": [
       [
@@ -141,7 +150,16 @@ const PROJECTS = [
       "w": 609,
       "h": 914
     },
-    "thumb": {"src": "assets/beau/thumb.jpg", "w": 800, "h": 1200, "frame": [27, 1], "focus": "50% 18%"},
+    "thumb": {
+      "src": "assets/beau/thumb.jpg",
+      "w": 800,
+      "h": 1200,
+      "frame": [
+        27,
+        1
+      ],
+      "focus": "50% 18%"
+    },
     "subtitle": "A study of form",
     "meta": [
       [
@@ -194,7 +212,16 @@ const PROJECTS = [
       "w": 800,
       "h": 1200
     },
-    "thumb": {"src": "assets/tech-archives/thumb.jpg", "w": 1200, "h": 800, "frame": [36, 1.5], "focus": "50% 50%"},
+    "thumb": {
+      "src": "assets/tech-archives/thumb.jpg",
+      "w": 1200,
+      "h": 800,
+      "frame": [
+        36,
+        1.5
+      ],
+      "focus": "50% 50%"
+    },
     "subtitle": "A documentation of sound through sight",
     "meta": [
       [
@@ -298,7 +325,16 @@ const PROJECTS = [
       "w": 800,
       "h": 1200
     },
-    "thumb": {"src": "assets/ghorba-club/thumb.jpg", "w": 800, "h": 1200, "frame": [17, 0.6667], "focus": "50% 50%"},
+    "thumb": {
+      "src": "assets/ghorba-club/thumb.jpg",
+      "w": 800,
+      "h": 1200,
+      "frame": [
+        17,
+        0.6667
+      ],
+      "focus": "50% 50%"
+    },
     "subtitle": "Against boxes",
     "meta": [
       [
@@ -391,7 +427,16 @@ const PROJECTS = [
       "w": 1100,
       "h": 718
     },
-    "thumb": {"src": "assets/nothing-changed/thumb.jpg", "w": 1200, "h": 783, "frame": [40, 1.7778], "focus": "50% 45%"},
+    "thumb": {
+      "src": "assets/nothing-changed/thumb.jpg",
+      "w": 1200,
+      "h": 783,
+      "frame": [
+        40,
+        1.7778
+      ],
+      "focus": "50% 45%"
+    },
     "video": {
       "src": "https://freight.cargo.site/m/O2841332771117651242101057786029/NOTHING-CHANGED-web-.mp4",
       "poster": "assets/nothing-changed/cover.jpg"
@@ -517,7 +562,16 @@ const PROJECTS = [
       "w": 1100,
       "h": 619
     },
-    "thumb": {"src": "assets/2-much/thumb.jpg", "w": 798, "h": 1200, "frame": [20, 0.75], "focus": "50% 35%"},
+    "thumb": {
+      "src": "assets/2-much/thumb.jpg",
+      "w": 798,
+      "h": 1200,
+      "frame": [
+        20,
+        0.75
+      ],
+      "focus": "50% 35%"
+    },
     "video": {
       "src": "https://freight.cargo.site/m/V2841251704613423060336496873645/2MUCH_WEB.mp4",
       "poster": "assets/2-much/cover.jpg"
@@ -633,7 +687,16 @@ const PROJECTS = [
       "w": 800,
       "h": 1199
     },
-    "thumb": {"src": "assets/oxy/thumb.jpg", "w": 800, "h": 1200, "frame": [26, 1], "focus": "50% 50%"},
+    "thumb": {
+      "src": "assets/oxy/thumb.jpg",
+      "w": 800,
+      "h": 1200,
+      "frame": [
+        26,
+        1
+      ],
+      "focus": "50% 50%"
+    },
     "subtitle": "The breath of the earth",
     "meta": [
       [
@@ -724,7 +787,16 @@ const PROJECTS = [
       "w": 800,
       "h": 1200
     },
-    "thumb": {"src": "assets/pop-beauty/thumb.jpg", "w": 1200, "h": 768, "frame": [34, 1.5], "focus": "50% 50%"},
+    "thumb": {
+      "src": "assets/pop-beauty/thumb.jpg",
+      "w": 800,
+      "h": 1200,
+      "frame": [
+        18,
+        0.6667
+      ],
+      "focus": "50% 40%"
+    },
     "subtitle": "Skincare you can chew",
     "meta": [
       [
@@ -861,7 +933,16 @@ const PROJECTS = [
       "w": 800,
       "h": 1200
     },
-    "thumb": {"src": "assets/lululemon-edge/thumb.jpg", "w": 800, "h": 1200, "frame": [18, 0.6667], "focus": "50% 40%"},
+    "thumb": {
+      "src": "assets/lululemon-edge/thumb.jpg",
+      "w": 1200,
+      "h": 623,
+      "frame": [
+        36,
+        1.6
+      ],
+      "focus": "50% 50%"
+    },
     "subtitle": "Campaign strategy",
     "meta": [
       [
@@ -989,374 +1070,6 @@ const PROJECTS = [
           }
         ],
         "title": "Mobile"
-      }
-    ]
-  },
-  {
-    "slug": "dripped",
-    "title": "Dripped",
-    "category": "digital",
-    "template": "case",
-    "cover": {
-      "src": "assets/dripped/cover.jpg",
-      "w": 800,
-      "h": 1200
-    },
-    "thumb": {"src": "assets/dripped/thumb.jpg", "w": 1200, "h": 747, "frame": [35, 1.6], "focus": "50% 50%"},
-    "subtitle": "A smart digital wardrobe & AI stylist",
-    "meta": [
-      [
-        "Category",
-        "Digital / Branding"
-      ],
-      [
-        "Type",
-        "Mobile app concept"
-      ],
-      [
-        "Scope",
-        "UI/UX design"
-      ]
-    ],
-    "text": [
-      "Dripped is a mobile app that bridges the gap between a physical wardrobe and digital self-expression. Acting as a personal style assistant, it removes choice paralysis by organising the user's wardrobe and offering daily, AI-driven outfit ideas.",
-      "The goal: make getting dressed efficient, sustainable and genuinely fun."
-    ],
-    "hero": {
-      "src": "assets/dripped/hero.jpg",
-      "w": 1584,
-      "h": 986
-    },
-    "sections": [
-      {
-        "layout": "grid-2",
-        "media": [
-          {
-            "src": "assets/dripped/01.jpg",
-            "w": 586,
-            "h": 1290
-          },
-          {
-            "src": "assets/dripped/02.jpg",
-            "w": 988,
-            "h": 1186
-          }
-        ],
-        "title": "Design system & UX",
-        "items": [
-          [
-            "Visual identity",
-            "A high-contrast dark mode lets the clothing photography stand out, with fluorescent green as the primary action colour to guide the eye to key buttons and states."
-          ],
-          [
-            "Simple yet fun",
-            "Clean lines and generous negative space make the app feel premium, while a sketchy avatar adds an indie personality that keeps the brand approachable."
-          ],
-          [
-            "User flow",
-            "Built for speed: from the home screen the user is one tap away from their Dressing or a New Look — matching the pace of a morning routine."
-          ]
-        ]
-      },
-      {
-        "layout": "grid-2",
-        "media": [
-          {
-            "src": "assets/dripped/03.jpg",
-            "w": 1088,
-            "h": 1114
-          },
-          {
-            "src": "assets/dripped/04.jpg",
-            "w": 1850,
-            "h": 1398
-          }
-        ],
-        "title": "Key features",
-        "items": [
-          [
-            "Today's look",
-            "An outfit of the day generated by AI from the user's existing wardrobe."
-          ],
-          [
-            "The dressing",
-            "A digital inventory where pieces are uploaded and sorted — tops, jackets, bottoms — for a bird's-eye view of everything owned."
-          ],
-          [
-            "Avatar builder",
-            "A hand-drawn workspace where items are dragged onto an avatar to try proportions and styles without changing clothes."
-          ],
-          [
-            "Lookbook",
-            "Favourite combinations are saved to My Looks, sorted (Chill Guy, Office…) and shared with the community."
-          ],
-          [
-            "Under the hood",
-            "Item IDs and brand tags (Uniqlo, Dr. Martens…) keep the wardrobe searchable; profile settings come with a cheeky “Anna Wintour” placeholder."
-          ]
-        ]
-      }
-    ]
-  },
-  {
-    "slug": "grdf",
-    "title": "GRDF",
-    "category": "digital",
-    "template": "case",
-    "cover": {
-      "src": "assets/grdf/cover.jpg",
-      "w": 800,
-      "h": 1203
-    },
-    "thumb": {"src": "assets/grdf/thumb.jpg", "w": 798, "h": 1200, "frame": [31, 1.5], "focus": "50% 45%"},
-    "subtitle": "Internship — communication & UI/UX",
-    "meta": [
-      [
-        "Category",
-        "Digital / Branding"
-      ],
-      [
-        "Type",
-        "Internship"
-      ],
-      [
-        "Scope",
-        "Internal communication, UI/UX"
-      ],
-      [
-        "Award",
-        "1st prize — Hackathon"
-      ]
-    ],
-    "text": [
-      "A selection of the work I produced during my internship at GRDF, combining internal communication with UI/UX design for tools and apps used by employees."
-    ],
-    "hero": {
-      "src": "assets/grdf/hero.jpg",
-      "w": 1400,
-      "h": 2100
-    },
-    "sections": [
-      {
-        "layout": "grid-2",
-        "media": [
-          {
-            "src": "assets/grdf/01.jpg",
-            "w": 1920,
-            "h": 1080
-          },
-          {
-            "src": "assets/grdf/02.jpg",
-            "w": 1920,
-            "h": 1080
-          },
-          {
-            "src": "assets/grdf/03.jpg",
-            "w": 1920,
-            "h": 1080
-          },
-          {
-            "src": "assets/grdf/04.jpg",
-            "w": 1920,
-            "h": 1080
-          },
-          {
-            "src": "assets/grdf/05.jpg",
-            "w": 1920,
-            "h": 1080
-          },
-          {
-            "src": "assets/grdf/06.jpg",
-            "w": 1920,
-            "h": 1080
-          }
-        ],
-        "title": "Pimp My App",
-        "text": [
-          "Flyers and screen displays announcing upcoming innovation events."
-        ]
-      },
-      {
-        "layout": "grid-4",
-        "media": [
-          {
-            "src": "assets/grdf/07.jpg",
-            "w": 595,
-            "h": 842
-          },
-          {
-            "src": "assets/grdf/08.jpg",
-            "w": 595,
-            "h": 842
-          },
-          {
-            "src": "assets/grdf/09.jpg",
-            "w": 595,
-            "h": 842
-          },
-          {
-            "src": "assets/grdf/10.jpg",
-            "w": 595,
-            "h": 842
-          }
-        ]
-      },
-      {
-        "layout": "grid-5",
-        "media": [
-          {
-            "src": "assets/grdf/11.jpg",
-            "w": 734,
-            "h": 1080
-          },
-          {
-            "src": "assets/grdf/12.jpg",
-            "w": 734,
-            "h": 1080
-          },
-          {
-            "src": "assets/grdf/13.jpg",
-            "w": 595,
-            "h": 842
-          },
-          {
-            "src": "assets/grdf/14.jpg",
-            "w": 595,
-            "h": 842
-          },
-          {
-            "src": "assets/grdf/15.jpg",
-            "w": 595,
-            "h": 842
-          }
-        ],
-        "title": "Hackathon",
-        "text": [
-          "Internal communication for the hackathon — a competition in which employees teamed up to find a tech solution to a given brief: running order, posters, schedule and on-the-day slides."
-        ]
-      },
-      {
-        "layout": "grid-2",
-        "media": [
-          {
-            "src": "assets/grdf/16.jpg",
-            "w": 1920,
-            "h": 1080
-          },
-          {
-            "src": "assets/grdf/17.jpg",
-            "w": 1926,
-            "h": 1086
-          },
-          {
-            "src": "assets/grdf/18.jpg",
-            "w": 1926,
-            "h": 1086
-          },
-          {
-            "src": "assets/grdf/19.jpg",
-            "w": 1926,
-            "h": 1086
-          },
-          {
-            "src": "assets/grdf/20.jpg",
-            "w": 1926,
-            "h": 1086
-          },
-          {
-            "src": "assets/grdf/21.jpg",
-            "w": 1926,
-            "h": 1086
-          }
-        ]
-      },
-      {
-        "layout": "grid-2",
-        "media": [
-          {
-            "src": "assets/grdf/22.jpg",
-            "w": 1920,
-            "h": 1080
-          },
-          {
-            "src": "assets/grdf/23.jpg",
-            "w": 1920,
-            "h": 1080
-          },
-          {
-            "src": "assets/grdf/24.jpg",
-            "w": 1920,
-            "h": 1080
-          },
-          {
-            "src": "assets/grdf/25.jpg",
-            "w": 1920,
-            "h": 1080
-          }
-        ],
-        "title": "Presentation",
-        "text": [
-          "A short presentation of GRDF designed to be shown at universities and recruitment fairs."
-        ]
-      },
-      {
-        "layout": "grid-2",
-        "media": [
-          {
-            "src": "assets/grdf/26.jpg",
-            "w": 1920,
-            "h": 1080
-          },
-          {
-            "src": "assets/grdf/27.jpg",
-            "w": 1970,
-            "h": 1130
-          },
-          {
-            "src": "assets/grdf/28.jpg",
-            "w": 1970,
-            "h": 1130
-          },
-          {
-            "src": "assets/grdf/29.jpg",
-            "w": 1970,
-            "h": 1130
-          },
-          {
-            "src": "assets/grdf/30.jpg",
-            "w": 1808,
-            "h": 1544
-          }
-        ],
-        "title": "Green Score",
-        "text": [
-          "Full design and interface, built in Figma. Winner of the 1st prize at the hackathon.",
-          "In an era of digital overload, understanding our environmental impact matters more than ever. My Green Score Dashboard tracks, analyses and helps reduce the digital carbon footprint of corporate users — visualising data consumption and emissions in real time so people can make more responsible choices.",
-          "Developed in three days under competition conditions, the project won first prize: the jury praised its intuitive user journey, refined dark-mode design and potential to change behaviour at work."
-        ],
-        "items": [
-          [
-            "Personal analytics",
-            "A modular My Space where users choose which apps to monitor — Teams, Outlook, OneDrive…"
-          ],
-          [
-            "Data visualisation",
-            "Progress charts and gauges for storage (GB), emissions (gCO₂) and data exchanged (MB)."
-          ],
-          [
-            "OS integration",
-            "A native-feeling Green Score widget, reachable straight from the taskbar."
-          ],
-          [
-            "Gamification",
-            "Usage curves compared against system baselines to encourage better habits."
-          ]
-        ],
-        "video": {
-          "src": "https://freight.cargo.site/m/N2858516458102238138664097419437/grdf-demoo.mov",
-          "w": 1576,
-          "h": 882
-        }
       }
     ]
   }

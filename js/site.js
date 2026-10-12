@@ -259,30 +259,52 @@ function initLightbox(root = document) {
   });
 }
 
-/* ── "Keep scrolling" to the next project ───────────────── */
-// At the bottom of a page, extra scrolling fills a bar; when it's full
-// we go to the next project (clicking works too).
+/* ── Scroll on to the next project ──────────────────────── */
+// A slim indicator at the end of each project. Scrolling past the end
+// fills the line; when it's full a panel wipes across the screen and the
+// next project opens behind it (clicking the indicator works too).
+
+const WIPE_MS = 650;
+
+function wipeTo(href) {
+  const panel = document.createElement("div");
+  panel.className = "wipe";
+  document.body.appendChild(panel);
+  session.set("wipe", "1");
+  requestAnimationFrame(() => panel.classList.add("cover"));
+  setTimeout(() => (location.href = href), reducedMotion ? 0 : WIPE_MS);
+}
+
+// On arrival after a wipe, the panel is already covering: lift it away.
+function wipeIn() {
+  if (session.get("wipe") !== "1") return;
+  session.set("wipe", "");
+  const panel = document.createElement("div");
+  panel.className = "wipe cover";
+  document.body.appendChild(panel);
+  setTimeout(() => panel.classList.add("lift"), 120);
+  setTimeout(() => panel.remove(), 120 + WIPE_MS + 100);
+}
 
 function initNextPull(section) {
   if (!section) return;
   const link = $(".next-link", section);
   const bar = $(".next-bar span", section);
   const pct = $(".next-pct", section);
-  const thumb = $("img", link);
   let progress = 0, target = 0, idle, done = false;
 
   const atBottom = () => innerHeight + scrollY >= document.documentElement.scrollHeight - 4;
   const go = () => {
     if (done) return;
     done = true;
-    markHero(thumb);
-    navigate(link.href);
+    target = 1;
+    wipeTo(link.href);
   };
   const push = (delta) => {
     if (done || !atBottom() || delta <= 0) return;
-    target = clamp(target + delta / 900, 0, 1);
+    target = clamp(target + delta / 800, 0, 1);
     clearTimeout(idle);
-    idle = setTimeout(() => (target = 0), 900); // let go → bar drains
+    idle = setTimeout(() => !done && (target = 0), 900); // let go → line drains
     if (target >= 1) go();
   };
 
@@ -300,27 +322,26 @@ function initNextPull(section) {
     go();
   });
 
-  (function loop() {
+  const tick = () => {
     progress += (target - progress) * 0.15;
     bar.style.transform = `scaleX(${progress})`;
-    pct.textContent = `${pad(Math.round(progress * 100))}%`;
-    requestAnimationFrame(loop);
-  })();
+    pct.textContent = `${String(Math.round(progress * 100)).padStart(3, "0")}%`;
+    section.classList.toggle("pulling", progress > 0.02);
+    setTimeout(tick, 16);
+  };
+  tick();
 }
 
 function nextHtml(p) {
   return `
     <section class="next" id="next">
-      <p class="ui muted">Next project — ${projectNumber(p)}</p>
-      <a class="next-link" href="${projectUrl(p)}" data-cursor="Next">
-        <img src="${esc(p.cover.src)}" alt="">
-        <span class="next-title">${esc(p.title)}</span>
-      </a>
-      <div class="next-foot ui">
-        <span>Keep scrolling</span>
+      <a class="next-link ui" href="${projectUrl(p)}" data-cursor="Next">
+        <span class="muted">Next project</span>
+        <span class="next-name">${projectNumber(p)}/ ${esc(p.title)}</span>
         <span class="next-bar"><span></span></span>
-        <span class="next-pct">00%</span>
-      </div>
+        <span class="next-pct">000%</span>
+      </a>
+      <p class="next-hint ui muted">Keep scrolling <span class="next-arrow">↓</span></p>
     </section>`;
 }
 
@@ -331,4 +352,5 @@ function bootSite() {
   renderAbout();
   initCursor();
   initPageTransitions();
+  wipeIn();
 }

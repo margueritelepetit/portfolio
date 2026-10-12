@@ -5,7 +5,8 @@ A portfolio for photography, videography and digital / branding work, written in
 ## Pages
 
 ```
-index.html          Automatic white intro (~4.5 s, once per visit) → "Projects": endless column + two-column index
+index.html          Intro (~5 s, once per visit): black mosaic of photos on a hairline grid, glitches,
+                    the name decoding, cursor crosshairs → white wave into "Projects" (endless column + index)
 project.html        Every project: project.html?p=<slug>, rendered with one of three layouts
 experimental.html   The experimental zone (TouchDesigner / creative coding)
 about.html          Home with the About panel open (About is also a button on every page)
@@ -25,7 +26,7 @@ All pages share the elements below. The home page and font size follow cathydoll
 - a minimal header: name and Projects on the left, Experimental zone and About on the right
 - the square cursor, which turns into a diamond on links and a frame with a label over images
 - the image lightbox
-- "keep scrolling" to the next project (Rue Saint Abel)
+- a slim "next project" line at the end of each project: keep scrolling to fill it, then a wipe opens the next one
 - page transitions: in Chrome, Edge and Safari 18+, the clicked image glides into the next page; other browsers fade
 
 ## Editing content
@@ -33,7 +34,7 @@ All pages share the elements below. The home page and font size follow cathydoll
 Everything is in **`js/data.js`**:
 - `SITE`: name, statement, education, contact
 - `PROJECTS`: in display order. Numbers (ID 01, 02…) come from this order.
-- `INTRO`: the images in the opening animation
+- `INTRO`: extra images for the opening mosaic (project previews are used too)
 - each project's `thumb` is its preview in the projects column: `frame` is [width in % of the screen, width/height ratio] and `focus` is the crop point. The frames alternate tall / square / wide on purpose, and any image from the project can be used
 - `EXPERIMENTAL`: the experimental zone pieces
 
