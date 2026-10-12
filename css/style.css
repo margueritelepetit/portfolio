@@ -227,16 +227,8 @@ h2.ui {
   left: var(--pad);
 }
 
-.clock {
+.projects-link {
   left: 17%;
-  font-variant-numeric: tabular-nums;
-  color: var(--muted);
-}
-
-.cats {
-  left: 62%;
-  display: flex;
-  gap: 14px;
 }
 
 .right {
@@ -245,14 +237,14 @@ h2.ui {
   gap: 24px;
 }
 
-.cats a,
+.projects-link,
 .right a {
   color: var(--muted);
   transition: color 0.25s;
 }
 
-.cats a:hover,
-.cats a[aria-current],
+.projects-link:hover,
+.projects-link[aria-current],
 .right a:hover,
 .right a[aria-current] {
   color: var(--fg);
@@ -266,11 +258,6 @@ h2.ui {
 .t-film-page #site-header {
   color: #fff;
   mix-blend-mode: difference;
-}
-
-.t-film-page #site-header .cats a:not([aria-current]),
-.t-film-page #site-header .clock {
-  color: rgba(255, 255, 255, 0.55);
 }
 
 /* On scrolling pages, a solid strip keeps the header legible. */
@@ -299,28 +286,18 @@ h2.ui {
   display: none;
 }
 
-@media (max-width: 1200px) {
-  .cats .long,
+@media (max-width: 760px) {
+  #site-header {
+    background: var(--bg);
+  }
+  .projects-link {
+    left: 45%;
+  }
   .right .long {
     display: none;
   }
-  .cats .short,
   .right .short {
     display: inline;
-  }
-}
-
-@media (max-width: 760px) {
-  #site-header {
-    height: 54px;
-    background: var(--bg);
-  }
-  .clock {
-    display: none;
-  }
-  .cats {
-    left: var(--pad);
-    top: 32px !important;
   }
   .right {
     gap: 16px;
@@ -500,16 +477,6 @@ body.gallery {
   inset: 0;
   overflow: hidden;
   touch-action: none;
-}
-
-#stage,
-#index {
-  transition: opacity 0.38s ease;
-}
-
-.switching #stage,
-.switching #index {
-  opacity: 0;
 }
 
 .item {

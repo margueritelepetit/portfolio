@@ -61,7 +61,7 @@ function seriesHtml(p, num) {
         ${metaHtml(p)}
         <div class="text">${textHtml(p.text)}</div>
         ${p.quote ? `<blockquote>“${esc(p.quote)}”</blockquote>` : ""}
-        <a class="ui back" href="index.html#${p.category}">← Back to projects</a>
+        <a class="ui back" href="index.html">← Back to projects</a>
       </aside>
       <div class="series-media">${rows}</div>
     </div>`;
@@ -89,7 +89,7 @@ function filmHtml(p, num) {
       <div data-reveal>
         <p class="ui muted">ID ${num}</p>
         <h2 class="ui">${esc(p.title)}</h2>
-        <a class="ui back" href="index.html#${p.category}">← Back to projects</a>
+        <a class="ui back" href="index.html">← Back to projects</a>
       </div>
       <div class="text" data-reveal>${textHtml(p.text)}</div>
       <div data-reveal>${metaHtml(p)}</div>
@@ -192,7 +192,7 @@ function caseHtml(p, num) {
     </header>
     <figure class="case-hero" data-reveal>${imgHtml(p.hero, p.title, { hero: true })}</figure>
     ${sections}
-    <p class="case-back"><a class="ui back" href="index.html#${p.category}">← Back to projects</a></p>`;
+    <p class="case-back"><a class="ui back" href="index.html">← Back to projects</a></p>`;
 }
 
 // Inline videos only play while on screen (they stream from Cargo).
@@ -214,7 +214,7 @@ function initInlineVideos(root) {
   const index = PROJECTS.findIndex((p) => p.slug === slug);
 
   if (index === -1) {
-    bootSite(null);
+    bootSite();
     root.innerHTML = `<div class="not-found ui">Project not found — <a href="index.html">Back to index</a></div>`;
     return;
   }
@@ -228,7 +228,7 @@ function initInlineVideos(root) {
   }
   document.title = `${p.title} — ${SITE.name}`;
   session.set("last", p.slug);
-  bootSite(p.category);
+  bootSite();
 
   const render = { series: seriesHtml, film: filmHtml, case: caseHtml }[p.template];
   root.className = `project t-${p.template}`;

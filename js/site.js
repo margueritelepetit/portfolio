@@ -1,4 +1,4 @@
-// Shared by every page: helpers, header + clock, about overlay, cursor,
+// Shared by every page: helpers, header, about overlay, cursor,
 // page transitions, lightbox, scroll reveals and the "next project" pull.
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -31,26 +31,16 @@ const session = {
 
 /* ── Header ─────────────────────────────────────────────── */
 
-function renderHeader(activeCategory) {
-  const cats = [["all", "All", "All"], ...Object.entries(CATEGORIES).map(([k, v]) => [k, v, v.split(" ")[0].replace("graphy", "")])];
+function renderHeader() {
+  const onProjects = PAGE === "home" || PAGE === "project";
   $("#site-header").innerHTML = `
     <a class="name" href="index.html">${esc(SITE.name)}</a>
-    <span class="clock" aria-label="Time in Paris"></span>
-    <nav class="cats" aria-label="Categories">
-      ${cats
-        .map(([key, label, short]) => {
-          const href = key === "all" ? "index.html" : `index.html#${key}`;
-          return `<a href="${href}" data-cat="${key}"${key === activeCategory ? ' aria-current="page"' : ""}>
-            <span class="long">${esc(label)}</span><span class="short">${esc(short)}</span></a>`;
-        })
-        .join("")}
-    </nav>
+    <a class="projects-link" href="index.html"${onProjects ? ' aria-current="page"' : ""}>Projects</a>
     <div class="right">
       <a href="experimental.html"${PAGE === "experimental" ? ' aria-current="page"' : ""}>
         <span class="long">Experimental zone</span><span class="short">Lab</span></a>
       <button class="about-toggle" aria-expanded="false" aria-controls="about">About</button>
     </div>`;
-  startClock($(".clock"));
 }
 
 function startClock(el) {
@@ -346,8 +336,8 @@ function nextHtml(p) {
 
 /* ── Boot shared parts ──────────────────────────────────── */
 
-function bootSite(activeCategory) {
-  renderHeader(activeCategory);
+function bootSite() {
+  renderHeader();
   renderAbout();
   initCursor();
   initPageTransitions();

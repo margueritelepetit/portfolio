@@ -36,7 +36,7 @@ function dotField(canvas) {
 }
 
 (function initExperimental() {
-  bootSite(null);
+  bootSite();
   const root = $("#lab");
   root.innerHTML = `
     <canvas class="lab-field" aria-hidden="true"></canvas>

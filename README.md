@@ -5,8 +5,7 @@ A portfolio for photography, videography and digital / branding work, written in
 ## Pages
 
 ```
-index.html          Entry screen (once per visit) → endless project column + two-column index
-                    Category filter (All / Photography / Videography / Digital) works in place: index.html#photography
+index.html          Entry screen (once per visit) → "Projects": endless column + two-column index
 project.html        Every project: project.html?p=<slug>, rendered with one of three layouts
 experimental.html   The experimental zone (TouchDesigner / creative coding)
 about.html          Home with the About panel open (About is also a button on every page)
@@ -23,7 +22,7 @@ Each project in `js/data.js` has a `template`:
 | `case` | digital / branding | Ard, KLSR, Yard — three-column header, then sections with sticky labels and figure grids |
 
 All pages share the elements below. The home page and font size follow cathydolle.com:
-- the header with a live Paris clock
+- a minimal header: name and Projects on the left, Experimental zone and About on the right
 - the square cursor, which turns into a diamond on links and a frame with a label over images
 - the image lightbox
 - "keep scrolling" to the next project (Rue Saint Abel)

@@ -1,6 +1,5 @@
 // Home: the entry screen (once per visit) and the endless project column.
 
-const CAT_KEYS = Object.keys(CATEGORIES);
 const ratioOf = (p) => p.cover.w / p.cover.h;
 
 /* ── Entry screen ───────────────────────────────────────── */
@@ -147,8 +146,7 @@ function showCloud(el, resolve) {
 function initGallery() {
   const stage = $("#stage");
   const index = $("#index");
-  let cat = CAT_KEYS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "all";
-  let list = [];
+  const list = PROJECTS;
   let els = [];
   let total = 0, current = 0, target = 0, active = -1;
   let indexButtons = [];
@@ -247,28 +245,8 @@ function initGallery() {
     if (once !== true) requestAnimationFrame(render);
   }
 
-  function setCategory(next, animate) {
-    cat = next;
-    list = cat === "all" ? PROJECTS : PROJECTS.filter((p) => p.category === cat);
-    $$(".cats a").forEach((a) => a.toggleAttribute("aria-current", a.dataset.cat === cat));
-    $$(".cats a[aria-current]").forEach((a) => a.setAttribute("aria-current", "page"));
-    document.title = cat === "all" ? `${SITE.name} — Portfolio` : `${CATEGORIES[cat]} — ${SITE.name}`;
-    if (!animate) {
-      renderIndex();
-      return;
-    }
-    document.body.classList.add("switching");
-    setTimeout(() => {
-      renderIndex();
-      document.body.classList.remove("ready");
-      build(0);
-      document.body.classList.remove("switching");
-      setTimeout(() => document.body.classList.add("ready"), 40);
-    }, reducedMotion ? 0 : 380);
-  }
-
   // First build: centre the project we came back from, if any.
-  setCategory(cat, false);
+  renderIndex();
   const last = session.get("last");
   const lastIndex = list.findIndex((p) => p.slug === last);
   build(Math.max(lastIndex, 0));
@@ -334,18 +312,10 @@ function initGallery() {
     else target = centerOf(i);
   });
 
-  // Category links filter in place instead of reloading the page.
-  $(".cats").addEventListener("click", (e) => {
-    const a = e.target.closest("a[data-cat]");
-    if (!a) return;
+  // Already on the projects: the header link just closes the About panel.
+  $(".projects-link").addEventListener("click", (e) => {
     e.preventDefault();
-    const next = a.dataset.cat;
-    history.replaceState(null, "", next === "all" ? location.pathname : `#${next}`);
-    if (next !== cat) setCategory(next, true);
-  });
-  addEventListener("hashchange", () => {
-    const next = CAT_KEYS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "all";
-    if (next !== cat) setCategory(next, true);
+    if (document.body.classList.contains("about-open")) $(".about-toggle").click();
   });
 
   let resizeTimer;
@@ -357,7 +327,7 @@ function initGallery() {
 
 /* ── Boot ───────────────────────────────────────────────── */
 
-bootSite(CAT_KEYS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "all");
+bootSite();
 initGallery();
 runEntry().then(() => {
   // Timer, not rAF: rAF doesn't fire in background tabs, which would leave images hidden.
