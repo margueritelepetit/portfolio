@@ -543,16 +543,17 @@ body.gallery {
   mix-blend-mode: difference;
 }
 
-/* A small solid circle. White + "difference" blending makes it black on
-   white pages and white over dark images. */
+/* A small outline circle; over pictures it fills in, inverting the image
+   beneath it ("difference" blending) and showing a label. */
 .cursor-box {
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
+  border: 1px solid #fff;
   border-radius: 50%;
-  background: #fff;
+  background: transparent;
   transform: translate(-50%, -50%);
-  transition: width 0.4s var(--ease), height 0.4s var(--ease);
+  transition: width 0.4s var(--ease), height 0.4s var(--ease), background-color 0.3s;
 }
 
 .cursor.is-link .cursor-box {
@@ -563,11 +564,12 @@ body.gallery {
 .cursor.is-label .cursor-box {
   width: 22px;
   height: 22px;
+  background: #fff;
 }
 
 .cursor.is-down .cursor-box {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
 }
 
 .cursor-label {

@@ -284,7 +284,8 @@ const PROJECTS = [
       "w": 800,
       "h": 1200,
       "shape": "P",
-      "focus": "50% 30%"
+      "focus": "50% 30%",
+      "inIntro": false
     },
     "subtitle": "A study of form",
     "meta": [
@@ -1136,11 +1137,6 @@ const INTRO = [
     "h": 566
   },
   {
-    "src": "assets/intro/18.jpg",
-    "w": 700,
-    "h": 1050
-  },
-  {
     "src": "assets/intro/19.jpg",
     "w": 700,
     "h": 702
@@ -1151,19 +1147,9 @@ const INTRO = [
     "h": 527
   },
   {
-    "src": "assets/intro/21.jpg",
-    "w": 700,
-    "h": 467
-  },
-  {
     "src": "assets/intro/22.jpg",
     "w": 700,
     "h": 700
-  },
-  {
-    "src": "assets/intro/23.jpg",
-    "w": 630,
-    "h": 945
   },
   {
     "src": "assets/intro/24.jpg",

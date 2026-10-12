@@ -24,19 +24,32 @@ function runEntry() {
   session.set("entered", "1");
   document.documentElement.classList.add("entry-active");
 
-  // Grid of small 2:3 tiles, centred, filling most of the screen.
-  const tw = clamp(innerWidth * 0.036, 30, 58);
+  // Every image appears exactly once. Previews whose photo is already in
+  // INTRO can set thumb.inIntro = false to avoid showing it twice.
+  const pool = [...new Set([
+    ...INTRO.map((i) => i.src),
+    ...PROJECTS.filter((p) => thumbOf(p).inIntro !== false).map((p) => thumbOf(p).src),
+  ])];
+
+  // Grid of 2:3 tiles sized so all images fit: try every column count and
+  // keep the one giving the biggest tiles within the available area.
+  const n = pool.length;
+  const availW = innerWidth * 0.86, availH = innerHeight * 0.66;
+  let best = { tw: 0, cols: 1, rows: n };
+  for (let c = 1; c <= n; c++) {
+    const r = Math.ceil(n / c);
+    const w = Math.min(availW / (c + (c - 1) * 0.4), availH / (r * 1.5 + (r - 1) * 0.4));
+    if (w > best.tw) best = { tw: w, cols: c, rows: r };
+  }
+  const { cols, rows } = best;
+  const tw = Math.floor(best.tw);
   const th = tw * 1.5;
   const gap = Math.round(tw * 0.4);
-  const cols = Math.max(4, Math.floor((innerWidth * 0.86 + gap) / (tw + gap)));
-  const rows = Math.max(3, Math.floor((innerHeight * 0.66 + gap) / (th + gap)));
   const gridW = cols * tw + (cols - 1) * gap;
   const gridH = rows * th + (rows - 1) * gap;
   const ox = (innerWidth - gridW) / 2;
-  const oy = (innerHeight - gridH) / 2 - th * 0.4;
+  const oy = (innerHeight - gridH) / 2 - th * 0.3;
   const cx = innerWidth / 2, cy = oy + gridH / 2;
-
-  const pool = [...new Set([...INTRO.map((i) => i.src), ...PROJECTS.map((p) => thumbOf(p).src)])];
   el.innerHTML = `
     <div class="mosaic" aria-hidden="true"></div>
     <div class="entry-load ui" aria-hidden="true" style="top:${oy + gridH + th * 0.9}px">
@@ -46,19 +59,21 @@ function runEntry() {
   const mosaic = $(".mosaic", el);
   const tiles = [];
   for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
+    // A shorter last row is centred.
+    const inRow = Math.min(cols, n - r * cols);
+    const rowX = ox + ((cols - inRow) * (tw + gap)) / 2;
+    for (let c = 0; c < inRow; c++) {
       const i = r * cols + c;
-      const x = ox + c * (tw + gap), y = oy + r * (th + gap);
+      const x = rowX + c * (tw + gap), y = oy + r * (th + gap);
       const node = document.createElement("div");
-      node.className = "m-tile";
+      node.className = "m-tile on"; // already visible: no entrance animation
       node.style.cssText = `left:${x}px;top:${y}px;width:${tw}px;height:${th}px`;
-      node.innerHTML = `<img src="${esc(pool[(i * 7) % pool.length])}" alt="">`;
+      node.innerHTML = `<img src="${esc(pool[i])}" alt="">`;
       mosaic.appendChild(node);
       tiles.push({
         node, x: x + tw / 2, y: y + th / 2,
         dx: 0, dy: 0, vx: 0, vy: 0,
-        seed: Math.abs(Math.sin(i * 12.9898) * 43758.5453) % 1,
-        on: false, offUntil: 0,
+        on: true, offUntil: 0,
       });
     }
   }
@@ -109,7 +124,7 @@ function runEntry() {
       }
 
       // Every FADE_EVERY ms, one random image fades out, rests, comes back.
-      if (!leaving && t > 2600 && t >= nextFade) {
+      if (!leaving && t > 900 && t >= nextFade) {
         const it = tiles[(Math.random() * tiles.length) | 0];
         it.offUntil = t + 2000; // ~1.8 s fade out, then fades back in
         nextFade = t + FADE_EVERY + Math.random() * 500;
@@ -122,9 +137,8 @@ function runEntry() {
           // Exit: fade out from the centre outwards.
           on = t - leaving < d * 1.4;
         } else {
-          // Entrance from the centre outwards, then: shown unless it's this
-          // tile's turn to rest on white for a moment.
-          on = t > d * 2.2 + it.seed * 300 && t > it.offUntil;
+          // Shown, unless it's this tile's turn to rest on white for a moment.
+          on = t > it.offUntil;
         }
         if (on !== it.on) {
           it.on = on;
