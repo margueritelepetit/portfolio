@@ -1075,7 +1075,7 @@ const PROJECTS = [
   }
 ];
 
-// Images floating on the entry screen.
+// Images for the intro mosaic (project previews are added automatically).
 const INTRO = [
   {
     "src": "assets/intro/01.jpg",
@@ -1156,6 +1156,66 @@ const INTRO = [
     "src": "assets/intro/16.jpg",
     "w": 500,
     "h": 750
+  },
+  {
+    "src": "assets/intro/17.jpg",
+    "w": 452,
+    "h": 566
+  },
+  {
+    "src": "assets/intro/18.jpg",
+    "w": 700,
+    "h": 1050
+  },
+  {
+    "src": "assets/intro/19.jpg",
+    "w": 700,
+    "h": 702
+  },
+  {
+    "src": "assets/intro/20.jpg",
+    "w": 700,
+    "h": 527
+  },
+  {
+    "src": "assets/intro/21.jpg",
+    "w": 700,
+    "h": 467
+  },
+  {
+    "src": "assets/intro/22.jpg",
+    "w": 700,
+    "h": 700
+  },
+  {
+    "src": "assets/intro/23.jpg",
+    "w": 630,
+    "h": 945
+  },
+  {
+    "src": "assets/intro/24.jpg",
+    "w": 700,
+    "h": 875
+  },
+  {
+    "src": "assets/intro/25.jpg",
+    "w": 499,
+    "h": 700
+  },
+  {
+    "src": "assets/intro/26.jpg",
+    "w": 500,
+    "h": 700
+  },
+  {
+    "src": "assets/intro/27.jpg",
+    "w": 700,
+    "h": 466
+  },
+  {
+    "src": "assets/intro/28.jpg",
+    "w": 700,
+    "h": 466
   }
 ];
 
