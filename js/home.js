@@ -208,9 +208,10 @@ function initGallery() {
 
   // Each project has its own frame (width in vw, ratio) so the column
   // alternates tall, square and wide previews; images are cropped to fit.
-  // Same two frames as cathydolle.com, alternating down the column:
-  // portrait 16vw × 24vw (2:3) and landscape 24.25vw × 13.9vw (≈ 7:4).
-  // Images are cropped to fit; each project can set a crop point per shape.
+  // Same two frames as cathydolle.com: portrait 16vw × 24vw (2:3) and
+  // landscape 24.25vw × 13.9vw (≈ 7:4). Each project keeps one shape
+  // (thumb.shape), chosen so the column alternates; images are cropped
+  // to fit around thumb.focus.
   const FRAMES = { P: [16, 24], L: [24.25, 13.9] };
   function sizeFor(shape) {
     const [w, h] = FRAMES[shape];
@@ -236,12 +237,10 @@ function initGallery() {
     const sizes = { P: sizeFor("P"), L: sizeFor("L") };
     const maxH = sizes.P[1];
 
-    // Repeat the set until it's long enough to loop seamlessly. The shape
-    // alternates by position, so the item count must be even for the
-    // alternation to carry on across the loop's seam.
-    for (let rep = 0; rep === 0 || ((total < innerHeight + maxH * 2 || els.length % 2) && rep < 30); rep++) {
+    // Repeat the set until it's long enough to loop seamlessly.
+    for (let rep = 0; rep === 0 || (total < innerHeight + maxH * 2 && rep < 30); rep++) {
       list.forEach((p, pi) => {
-        const shape = els.length % 2 ? "L" : "P";
+        const shape = thumbOf(p).shape || "P";
         const [w, h] = sizes[shape];
         const a = document.createElement("a");
         a.className = "item";
@@ -255,7 +254,7 @@ function initGallery() {
           a.setAttribute("aria-hidden", "true");
         }
         const t = thumbOf(p);
-        const focus = (shape === "P" ? t.focusP : t.focusL) || t.focus || "50% 50%";
+        const focus = t.focus || "50% 50%";
         a.innerHTML = `<img src="${esc(t.src)}" alt="${esc(p.title)}" draggable="false" style="object-position:${focus}">${
           p.template === "film" ? '<span class="badge ui">Film</span>' : ""
         }`;

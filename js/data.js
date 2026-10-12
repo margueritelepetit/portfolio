@@ -80,8 +80,8 @@ const PROJECTS = [
       "src": "assets/rooting-mother/thumb.jpg",
       "w": 799,
       "h": 1200,
-      "focusP": "50% 30%",
-      "focusL": "50% 28%"
+      "shape": "L",
+      "focus": "50% 28%"
     },
     "subtitle": "Mother's roots",
     "meta": [
@@ -151,8 +151,8 @@ const PROJECTS = [
       "src": "assets/beau/thumb.jpg",
       "w": 800,
       "h": 1200,
-      "focusP": "50% 30%",
-      "focusL": "50% 18%"
+      "shape": "P",
+      "focus": "50% 30%"
     },
     "subtitle": "A study of form",
     "meta": [
@@ -210,8 +210,8 @@ const PROJECTS = [
       "src": "assets/tech-archives/thumb.jpg",
       "w": 1200,
       "h": 800,
-      "focusP": "55% 50%",
-      "focusL": "50% 45%"
+      "shape": "L",
+      "focus": "50% 45%"
     },
     "subtitle": "A documentation of sound through sight",
     "meta": [
@@ -320,8 +320,8 @@ const PROJECTS = [
       "src": "assets/ghorba-club/thumb.jpg",
       "w": 800,
       "h": 1200,
-      "focusP": "50% 45%",
-      "focusL": "50% 35%"
+      "shape": "P",
+      "focus": "50% 45%"
     },
     "subtitle": "Against boxes",
     "meta": [
@@ -419,8 +419,8 @@ const PROJECTS = [
       "src": "assets/nothing-changed/thumb.jpg",
       "w": 1200,
       "h": 783,
-      "focusP": "45% 50%",
-      "focusL": "50% 45%"
+      "shape": "L",
+      "focus": "50% 45%"
     },
     "video": {
       "src": "https://freight.cargo.site/m/O2841332771117651242101057786029/NOTHING-CHANGED-web-.mp4",
@@ -551,8 +551,8 @@ const PROJECTS = [
       "src": "assets/2-much/thumb.jpg",
       "w": 798,
       "h": 1200,
-      "focusP": "50% 35%",
-      "focusL": "50% 30%"
+      "shape": "P",
+      "focus": "50% 35%"
     },
     "video": {
       "src": "https://freight.cargo.site/m/V2841251704613423060336496873645/2MUCH_WEB.mp4",
@@ -673,8 +673,8 @@ const PROJECTS = [
       "src": "assets/oxy/thumb.jpg",
       "w": 960,
       "h": 1200,
-      "focusP": "50% 50%",
-      "focusL": "50% 50%"
+      "shape": "L",
+      "focus": "50% 50%"
     },
     "subtitle": "The breath of the earth",
     "meta": [
@@ -770,8 +770,8 @@ const PROJECTS = [
       "src": "assets/pop-beauty/thumb.jpg",
       "w": 735,
       "h": 918,
-      "focusP": "50% 50%",
-      "focusL": "50% 58%"
+      "shape": "P",
+      "focus": "50% 50%"
     },
     "subtitle": "Skincare you can chew",
     "meta": [
@@ -913,8 +913,8 @@ const PROJECTS = [
       "src": "assets/lululemon-edge/thumb.jpg",
       "w": 1134,
       "h": 628,
-      "focusP": "42% 50%",
-      "focusL": "50% 50%"
+      "shape": "L",
+      "focus": "50% 50%"
     },
     "subtitle": "Campaign strategy",
     "meta": [

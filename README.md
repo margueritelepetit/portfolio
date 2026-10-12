@@ -35,7 +35,7 @@ Everything is in **`js/data.js`**:
 - `SITE`: name, statement, education, contact
 - `PROJECTS`: in display order. Numbers (ID 01, 02…) come from this order.
 - `INTRO`: extra images for the opening mosaic (project previews are used too)
-- each project's `thumb` is its preview in the projects column. Like cathydolle.com, the column alternates two frames (portrait 16×24vw, landscape 24.25×13.9vw), so every preview appears in both shapes; `focusP` / `focusL` set the crop point for each
+- each project's `thumb` is its preview in the projects column: `shape` is "P" (portrait 16×24vw) or "L" (landscape 24.25×13.9vw), the two frames of cathydolle.com, and `focus` is the crop point. Shapes are chosen to alternate down the column
 - `EXPERIMENTAL`: the experimental zone pieces
 
 Images are in `assets/<slug>/`, and `w`/`h` must match each image's pixel size. Export JPGs at about 2000px on the long edge, quality around 80.
