@@ -76,6 +76,7 @@ const PROJECTS = [
       "w": 800,
       "h": 1201
     },
+    "thumb": {"src": "assets/rooting-mother/thumb.jpg", "w": 799, "h": 1200, "frame": [22, 0.8], "focus": "50% 30%"},
     "subtitle": "Mother's roots",
     "meta": [
       [
@@ -140,6 +141,7 @@ const PROJECTS = [
       "w": 609,
       "h": 914
     },
+    "thumb": {"src": "assets/beau/thumb.jpg", "w": 800, "h": 1200, "frame": [27, 1], "focus": "50% 18%"},
     "subtitle": "A study of form",
     "meta": [
       [
@@ -192,6 +194,7 @@ const PROJECTS = [
       "w": 800,
       "h": 1200
     },
+    "thumb": {"src": "assets/tech-archives/thumb.jpg", "w": 1200, "h": 800, "frame": [36, 1.5], "focus": "50% 50%"},
     "subtitle": "A documentation of sound through sight",
     "meta": [
       [
@@ -295,6 +298,7 @@ const PROJECTS = [
       "w": 800,
       "h": 1200
     },
+    "thumb": {"src": "assets/ghorba-club/thumb.jpg", "w": 800, "h": 1200, "frame": [17, 0.6667], "focus": "50% 50%"},
     "subtitle": "Against boxes",
     "meta": [
       [
@@ -387,6 +391,7 @@ const PROJECTS = [
       "w": 1100,
       "h": 718
     },
+    "thumb": {"src": "assets/nothing-changed/thumb.jpg", "w": 1200, "h": 783, "frame": [40, 1.7778], "focus": "50% 45%"},
     "video": {
       "src": "https://freight.cargo.site/m/O2841332771117651242101057786029/NOTHING-CHANGED-web-.mp4",
       "poster": "assets/nothing-changed/cover.jpg"
@@ -512,6 +517,7 @@ const PROJECTS = [
       "w": 1100,
       "h": 619
     },
+    "thumb": {"src": "assets/2-much/thumb.jpg", "w": 798, "h": 1200, "frame": [20, 0.75], "focus": "50% 35%"},
     "video": {
       "src": "https://freight.cargo.site/m/V2841251704613423060336496873645/2MUCH_WEB.mp4",
       "poster": "assets/2-much/cover.jpg"
@@ -627,6 +633,7 @@ const PROJECTS = [
       "w": 800,
       "h": 1199
     },
+    "thumb": {"src": "assets/oxy/thumb.jpg", "w": 800, "h": 1200, "frame": [26, 1], "focus": "50% 50%"},
     "subtitle": "The breath of the earth",
     "meta": [
       [
@@ -717,6 +724,7 @@ const PROJECTS = [
       "w": 800,
       "h": 1200
     },
+    "thumb": {"src": "assets/pop-beauty/thumb.jpg", "w": 1200, "h": 768, "frame": [34, 1.5], "focus": "50% 50%"},
     "subtitle": "Skincare you can chew",
     "meta": [
       [
@@ -853,6 +861,7 @@ const PROJECTS = [
       "w": 800,
       "h": 1200
     },
+    "thumb": {"src": "assets/lululemon-edge/thumb.jpg", "w": 800, "h": 1200, "frame": [18, 0.6667], "focus": "50% 40%"},
     "subtitle": "Campaign strategy",
     "meta": [
       [
@@ -993,6 +1002,7 @@ const PROJECTS = [
       "w": 800,
       "h": 1200
     },
+    "thumb": {"src": "assets/dripped/thumb.jpg", "w": 1200, "h": 747, "frame": [35, 1.6], "focus": "50% 50%"},
     "subtitle": "A smart digital wardrobe & AI stylist",
     "meta": [
       [
@@ -1098,6 +1108,7 @@ const PROJECTS = [
       "w": 800,
       "h": 1203
     },
+    "thumb": {"src": "assets/grdf/thumb.jpg", "w": 798, "h": 1200, "frame": [31, 1.5], "focus": "50% 45%"},
     "subtitle": "Internship — communication & UI/UX",
     "meta": [
       [

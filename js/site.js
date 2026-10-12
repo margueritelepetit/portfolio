@@ -43,16 +43,6 @@ function renderHeader() {
     </div>`;
 }
 
-function startClock(el) {
-  if (!el) return;
-  const fmt = new Intl.DateTimeFormat("en-GB", {
-    timeZone: "Europe/Paris", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false,
-  });
-  const tick = () => (el.textContent = `Paris ${fmt.format(new Date())}`);
-  tick();
-  setInterval(tick, 1000);
-}
-
 /* ── About overlay ──────────────────────────────────────── */
 
 function renderAbout() {
