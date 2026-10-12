@@ -225,16 +225,6 @@ h2.ui {
 
 .name {
   left: var(--pad);
-  top: 8px !important;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-
-.logo {
-  display: block;
-  width: auto;
-  height: 17px;
 }
 
 .projects-link {
@@ -566,33 +556,62 @@ body.gallery {
   mix-blend-mode: difference;
 }
 
-/* A small outline circle; over pictures it fills in, inverting the image
-   beneath it ("difference" blending) and showing a label. */
+/* A thin plus sign. It turns into an × on links; over pictures it becomes
+   a filled circle that inverts the image beneath ("difference" blending)
+   and shows a label. */
 .cursor-box {
   position: absolute;
-  width: 11px;
-  height: 11px;
-  border: 1px solid #fff;
-  border-radius: 50%;
-  background: transparent;
+  width: 13px;
+  height: 13px;
+  border-radius: 0;
   transform: translate(-50%, -50%);
-  transition: width 0.4s var(--ease), height 0.4s var(--ease), background-color 0.3s;
+  transition: width 0.4s var(--ease), height 0.4s var(--ease), transform 0.45s var(--ease),
+    border-radius 0.4s var(--ease), background-color 0.3s;
+}
+
+.cursor-box::before,
+.cursor-box::after {
+  content: "";
+  position: absolute;
+  background: #fff;
+  transition: opacity 0.25s;
+}
+
+.cursor-box::before {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  transform: translateX(-50%);
+}
+
+.cursor-box::after {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  transform: translateY(-50%);
 }
 
 .cursor.is-link .cursor-box {
-  width: 16px;
-  height: 16px;
+  transform: translate(-50%, -50%) rotate(45deg);
 }
 
 .cursor.is-label .cursor-box {
   width: 22px;
   height: 22px;
+  border-radius: 50%;
   background: #fff;
 }
 
+.cursor.is-label .cursor-box::before,
+.cursor.is-label .cursor-box::after {
+  opacity: 0;
+}
+
 .cursor.is-down .cursor-box {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
 }
 
 .cursor-label {

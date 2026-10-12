@@ -31,17 +31,19 @@ function runEntry() {
     ...PROJECTS.filter((p) => thumbOf(p).inIntro !== false).map((p) => thumbOf(p).src),
   ])];
 
-  // Grid of 2:3 tiles sized so all images fit: try every column count and
-  // keep the one giving the biggest tiles within the available area.
-  const n = pool.length;
+  // Grid of 2:3 tiles with every row complete: try each column count,
+  // use as many images as fill whole rows (dropping at most a few from the
+  // end of the pool), and keep the layout with the biggest tiles.
   const availW = innerWidth * 0.86, availH = innerHeight * 0.66;
-  let best = { tw: 0, cols: 1, rows: n };
-  for (let c = 1; c <= n; c++) {
-    const r = Math.ceil(n / c);
+  let best = { tw: 0, cols: 1, rows: 1 };
+  for (let c = 2; c <= pool.length; c++) {
+    const r = Math.floor(pool.length / c);
+    if (!r || c * r < pool.length * 0.85) continue;
     const w = Math.min(availW / (c + (c - 1) * 0.4), availH / (r * 1.5 + (r - 1) * 0.4));
     if (w > best.tw) best = { tw: w, cols: c, rows: r };
   }
   const { cols, rows } = best;
+  const n = cols * rows;
   const tw = Math.floor(best.tw);
   const th = tw * 1.5;
   const gap = Math.round(tw * 0.4);

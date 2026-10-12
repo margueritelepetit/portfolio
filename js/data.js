@@ -53,8 +53,8 @@ const SITE = {
   "socials": [
     {
       "label": "Instagram",
-      "handle": "@margueritelfabre",
-      "url": "https://www.instagram.com/margueritelfabre/"
+      "handle": "@margueritelp",
+      "url": "https://www.instagram.com/margueritelp/"
     }
   ]
 };
