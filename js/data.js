@@ -553,7 +553,8 @@ const PROJECTS = [
       "w": 960,
       "h": 1200,
       "shape": "L",
-      "focus": "50% 50%"
+      "focus": "50% 50%",
+      "inIntro": false
     },
     "subtitle": "The breath of the earth",
     "meta": [
@@ -919,7 +920,8 @@ const PROJECTS = [
       "w": 735,
       "h": 918,
       "shape": "P",
-      "focus": "50% 50%"
+      "focus": "50% 50%",
+      "inIntro": false
     },
     "subtitle": "Skincare you can chew",
     "meta": [
