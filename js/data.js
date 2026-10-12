@@ -773,7 +773,8 @@ const PROJECTS = [
       "w": 1134,
       "h": 628,
       "shape": "L",
-      "focus": "50% 50%"
+      "focus": "50% 50%",
+      "inIntro": false
     },
     "subtitle": "Campaign strategy",
     "meta": [
@@ -1177,6 +1178,11 @@ const INTRO = [
     "src": "assets/intro/28.jpg",
     "w": 700,
     "h": 466
+  },
+  {
+    "src": "assets/intro/29.png",
+    "w": 467,
+    "h": 700
   }
 ];
 

@@ -180,7 +180,7 @@ function initGallery() {
   const index = $("#index");
   const list = PROJECTS;
   let els = [];
-  let total = 0, current = 0, target = 0, active = -1;
+  let total = 0, current = 0, target = 0, active = -1, gap = 0;
   let indexButtons = [];
 
   $("#site-footer").innerHTML = `
@@ -188,6 +188,11 @@ function initGallery() {
       <span class="active-label" id="active-label"></span></span>
     <a class="ui" href="mailto:${esc(SITE.email)}">Contact</a>`;
   const label = $("#active-label");
+  // Small caption under the preview in focus.
+  const caption = document.createElement("p");
+  caption.className = "focus-caption ui";
+  caption.setAttribute("aria-hidden", "true");
+  stage.after(caption);
 
   // Each project has its own frame (width in vw, ratio) so the column
   // alternates tall, square and wide previews; images are cropped to fit.
@@ -218,6 +223,7 @@ function initGallery() {
     els = [];
     total = 0;
     const sizes = { P: sizeFor("P"), L: sizeFor("L") };
+    gap = innerHeight * 0.05; // breathing room between previews
     const maxH = sizes.P[1];
 
     // Repeat the set until it's long enough to loop seamlessly.
@@ -247,7 +253,7 @@ function initGallery() {
         });
         stage.appendChild(a);
         els.push({ el: a, pi, size: h, offset: total });
-        total += h;
+        total += h + gap;
       });
     }
     current = target = centerOf(focus);
@@ -268,22 +274,44 @@ function initGallery() {
     active = pi;
     indexButtons.forEach((b, i) => b.classList.toggle("is-active", i === pi));
     label.textContent = pi >= 0 ? `${projectNumber(list[pi])}/ ${list[pi].title}` : "";
+    if (caption && pi >= 0) {
+      const p = list[pi];
+      const type = (p.meta.find(([k]) => k === "Type") || [])[1];
+      caption.textContent = [CATEGORIES[p.category], type].filter(Boolean).join(" — ");
+    }
   }
 
+  // Focus reel: the preview nearest the centre is full size, sharp and in
+  // colour; the further one is from the centre, the smaller, paler and
+  // more black-and-white it becomes. Everything follows the scroll.
   function render(once) {
     current += (target - current) * (reducedMotion ? 1 : 0.085);
     if (Math.abs(target - current) < 0.05) current = target;
     const center = innerHeight / 2;
     const margin = (total - innerHeight) / 2;
-    let found = -1;
+    let found = -1, best = Infinity, focusEl = null;
     for (const it of els) {
       const pos = mod(it.offset - current + margin, total) - margin;
-      it.el.style.transform = `translate3d(-50%, ${pos}px, 0)`;
+      const mid = pos + it.size / 2;
+      const dist = Math.abs(mid - center) / innerHeight;
+      const k = 1 - clamp(dist * 1.9, 0, 1);
+      const e = k * k * (3 - 2 * k); // smoothstep
+      it.el.style.transform = `translate3d(-50%, ${pos}px, 0) scale(${(0.58 + 0.42 * e).toFixed(4)})`;
+      it.el.style.opacity = (0.28 + 0.72 * e).toFixed(3);
+      it.el.style.setProperty("--g", (1 - e).toFixed(3));
       // The picture drifts inside its frame as it travels up the screen.
-      it.el.style.setProperty("--py", clamp((pos + it.size / 2 - center) / (center + it.size / 2), -1, 1).toFixed(3));
-      if (pos <= center && pos + it.size > center) found = it.pi;
+      it.el.style.setProperty("--py", clamp((mid - center) / (center + it.size / 2), -1, 1).toFixed(3));
+      if (Math.abs(mid - center) < best) {
+        best = Math.abs(mid - center);
+        found = it.pi;
+        focusEl = { pos, size: it.size };
+      }
     }
     setActive(found);
+    if (focusEl && caption) {
+      caption.style.transform = `translate3d(-50%, ${focusEl.pos + focusEl.size + 12}px, 0)`;
+      caption.style.opacity = clamp(1 - best / (focusEl.size * 0.35), 0, 1).toFixed(3);
+    }
     if (once !== true) requestAnimationFrame(render);
   }
 
