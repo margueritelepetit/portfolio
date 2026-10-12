@@ -935,11 +935,11 @@ const PROJECTS = [
     },
     "thumb": {
       "src": "assets/lululemon-edge/thumb.jpg",
-      "w": 1200,
-      "h": 623,
+      "w": 1134,
+      "h": 628,
       "frame": [
         36,
-        1.6
+        1.806
       ],
       "focus": "50% 50%"
     },
