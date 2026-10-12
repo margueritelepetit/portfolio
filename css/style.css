@@ -556,9 +556,9 @@ body.gallery {
   mix-blend-mode: difference;
 }
 
-/* A thin plus sign. It turns into an × on links; over pictures it becomes
-   a filled circle that inverts the image beneath ("difference" blending)
-   and shows a label. */
+/* A thin plus sign. It turns into an × on links; over pictures and project
+   titles it becomes a filled square that inverts what's beneath
+   ("difference" blending), with a label over pictures. */
 .cursor-box {
   position: absolute;
   width: 13px;
@@ -597,15 +597,25 @@ body.gallery {
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
-.cursor.is-label .cursor-box {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
+/* Over pictures and project titles: a filled square that inverts what's
+   beneath it. */
+.cursor.is-label .cursor-box,
+.cursor.is-title .cursor-box {
+  width: 20px;
+  height: 20px;
   background: #fff;
+  transform: translate(-50%, -50%);
+}
+
+.cursor.is-title .cursor-box {
+  width: 12px;
+  height: 12px;
 }
 
 .cursor.is-label .cursor-box::before,
-.cursor.is-label .cursor-box::after {
+.cursor.is-label .cursor-box::after,
+.cursor.is-title .cursor-box::before,
+.cursor.is-title .cursor-box::after {
   opacity: 0;
 }
 

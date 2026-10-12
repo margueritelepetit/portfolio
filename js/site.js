@@ -106,8 +106,10 @@ function initCursor() {
     y = e.clientY;
     const target = e.target.closest?.("[data-cursor]");
     const link = e.target.closest?.("a, button, [role=button]");
-    c.classList.toggle("is-label", !!target);
-    c.classList.toggle("is-link", !target && !!link);
+    const title = e.target.closest?.(".index-col button, .next-link");
+    c.classList.toggle("is-label", !!target && !title);
+    c.classList.toggle("is-title", !!title);
+    c.classList.toggle("is-link", !target && !title && !!link);
     if (target && label.textContent !== target.dataset.cursor) label.textContent = target.dataset.cursor;
   }, { passive: true });
   document.addEventListener("pointerleave", () => { x = y = -100; });
