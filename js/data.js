@@ -846,11 +846,11 @@ const PROJECTS = [
       "h": 1200
     },
     "thumb": {
-      "src": "assets/pop-beauty/thumb.jpg",
-      "w": 735,
-      "h": 918,
+      "src": "assets/pop-beauty/preview-gum.jpg",
+      "w": 1080,
+      "h": 1349,
       "shape": "P",
-      "focus": "50% 50%",
+      "focus": "50% 55%",
       "inIntro": false
     },
     "subtitle": "Skincare you can chew",
