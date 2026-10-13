@@ -76,6 +76,7 @@ function renderAbout() {
         <p class="ui disciplines">${SITE.disciplines.map(esc).join("<br>")}</p>
       </div>
       <div class="about-col">
+        <img class="about-portrait" src="assets/about/portrait.jpg" alt="${esc(SITE.name)} with a camera" width="780" height="740" loading="lazy">
         <p class="ui muted">Education</p>
         <ul class="rows">${rows(SITE.education)}</ul>
         <p class="ui muted">Occupation</p>

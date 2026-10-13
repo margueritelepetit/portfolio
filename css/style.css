@@ -743,6 +743,18 @@ body.gallery {
   }
 }
 
+.about-portrait {
+  width: min(100%, 300px);
+  height: auto;
+  margin-bottom: 18px;
+  opacity: 0;
+  transition: opacity 1.2s ease 0.3s;
+}
+
+.about-open .about-portrait {
+  opacity: 1;
+}
+
 .about-col .disciplines {
   margin-top: 10px;
   line-height: 1.6;
