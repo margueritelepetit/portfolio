@@ -54,7 +54,7 @@ The videos currently stream from Cargo (`freight.cargo.site`) because the files 
 python3 -m http.server 8080
 ```
 
-Then open http://localhost:8080. To see the entry screen again, open a new private window, or clear the site's session storage.
+Then open http://localhost:8080. (`python3 .claude/serve.py` does the same but stops the browser keeping old copies.) After changing CSS or JS, bump the `?v=` number on the `<link>` and `<script>` tags in the four HTML files so visitors' browsers fetch the new files. To see the entry screen again, open a new private window, or clear the site's session storage.
 
 ## Font
 
