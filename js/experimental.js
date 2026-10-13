@@ -41,7 +41,7 @@ const SLOTS_MOBILE = [
 // A hairline sweeps down the white page and uncovers a precise grid of
 // black and white project pictures, with small plus marks at the grid
 // corners. The pictures then quietly swap places, as if an archive were
-// being indexed, while a counter runs; it ends on one bright flash.
+// being indexed, while a counter runs; it ends on two flashes and a fade.
 
 function runIndex(stage) {
   const pics = SPHERE;
@@ -111,7 +111,7 @@ function runIndex(stage) {
   later(() => (swapper = setInterval(swap, 120)), SWEEP);
 
   return {
-    // 3. A single bright flash over everything, then the page.
+    // 3. Two bright flashes over everything, then a fade into the page.
     leave() {
       clearInterval(swapper);
       clearInterval(counter);
@@ -274,15 +274,16 @@ function openPiece(piece) {
     done = true;
     index.leave();
     hum.stop(1.8);
+    // After the second flash, the white fades away into the page.
     setTimeout(() => {
       document.documentElement.classList.remove("ix-active");
       stage.classList.add("gone");
       showCollage();
-    }, 380);
+    }, 900);
     setTimeout(() => {
       index.stop();
       stage.remove();
-    }, 2000);
+    }, 2500);
   };
   setTimeout(finish, INDEX_MS);
   // A click skips ahead, except the one that turns the sound on.
