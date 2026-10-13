@@ -459,11 +459,6 @@ const PROJECTS = [
         "src": "assets/ghorba-club/10.jpg",
         "w": 1080,
         "h": 1440
-      },
-      {
-        "src": "assets/ghorba-club/11.jpg",
-        "w": 2000,
-        "h": 1066
       }
     ]
   },
@@ -1290,7 +1285,6 @@ const SPHERE = [
   { src: "assets/sphere/055.jpg", w: 288, h: 360 },
   { src: "assets/sphere/056.jpg", w: 253, h: 360 },
   { src: "assets/sphere/057.jpg", w: 239, h: 360 },
-  { src: "assets/sphere/058.jpg", w: 360, h: 192 },
   { src: "assets/sphere/059.jpg", w: 239, h: 360 },
   { src: "assets/sphere/060.jpg", w: 288, h: 360 },
   { src: "assets/sphere/061.jpg", w: 293, h: 360 },
