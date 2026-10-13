@@ -41,7 +41,7 @@ const SLOTS_MOBILE = [
 // A hairline sweeps down the white page and uncovers a precise grid of
 // black and white project pictures, with small plus marks at the grid
 // corners. The pictures then quietly swap places, as if an archive were
-// being indexed, while a counter runs; it ends on two flashes and a fade.
+// being indexed, while a counter runs; then it slowly fades into the page.
 
 function runIndex(stage) {
   const pics = SPHERE;
@@ -77,7 +77,7 @@ function runIndex(stage) {
       html += `<span class="ix-mark" style="left:${x}px;top:${y}px"></span>`;
     }
   }
-  stage.innerHTML = `<div class="ix-grid">${html}</div><span class="ix-scan"></span><span class="ix-flash"></span>
+  stage.innerHTML = `<div class="ix-grid">${html}</div><span class="ix-scan"></span>
     <p class="ix-read ui"><span>Indexing</span><span class="ix-count">000 / ${String(rows * cols).padStart(3, "0")}</span><span class="ix-sound muted">Click for sound</span></p>`;
   cells.push(...$$(".ix-cell", stage));
   const scan = $(".ix-scan", stage), count = $(".ix-count", stage);
@@ -111,7 +111,7 @@ function runIndex(stage) {
   later(() => (swapper = setInterval(swap, 120)), SWEEP);
 
   return {
-    // 3. Two bright flashes over everything, then a fade into the page.
+    // 3. Everything settles, every picture in place, for the fade.
     leave() {
       clearInterval(swapper);
       clearInterval(counter);
@@ -273,17 +273,17 @@ function openPiece(piece) {
     if (done) return;
     done = true;
     index.leave();
-    hum.stop(1.8);
-    // After the second flash, the white fades away into the page.
+    hum.stop(2.2);
+    // A slow crossfade: the grid fades out as the page fades in.
     setTimeout(() => {
       document.documentElement.classList.remove("ix-active");
       stage.classList.add("gone");
       showCollage();
-    }, 900);
+    }, 150);
     setTimeout(() => {
       index.stop();
       stage.remove();
-    }, 2500);
+    }, 2400);
   };
   setTimeout(finish, INDEX_MS);
   // A click skips ahead, except the one that turns the sound on.

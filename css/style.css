@@ -1354,7 +1354,7 @@ img[data-lightbox],
 .ix-stage.gone {
   opacity: 0;
   pointer-events: none;
-  transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 2s cubic-bezier(0.45, 0, 0.25, 1);
 }
 
 .ix-grid {
@@ -1451,62 +1451,6 @@ img[data-lightbox],
     opacity: 0;
   }
 }
-
-/* The ending: everything flares to white at once, then the page. */
-.ix-flash {
-  position: absolute;
-  inset: 0;
-  background: #fff;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.leaving .ix-flash {
-  animation: ix-flash 0.95s ease-in-out forwards;
-}
-
-/* The pictures flare with each flash. */
-.leaving .ix-grid {
-  animation: ix-flare 0.95s ease-in-out forwards;
-}
-
-/* Two flashes, the second one staying white for the fade into the page. */
-@keyframes ix-flash {
-  0% {
-    opacity: 0;
-  }
-  14% {
-    opacity: 0.85;
-  }
-  38% {
-    opacity: 0.08;
-  }
-  62% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes ix-flare {
-  0% {
-    filter: none;
-  }
-  14% {
-    filter: brightness(1.9) contrast(0.8);
-  }
-  38% {
-    filter: none;
-  }
-  62% {
-    filter: brightness(2) contrast(0.8);
-  }
-  100% {
-    filter: brightness(2) contrast(0.8);
-  }
-}
-
 
 .ix-read {
   position: absolute;
