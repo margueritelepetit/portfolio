@@ -1,5 +1,5 @@
 // The experimental zone. The text stays at the top. It opens on an index
-// scan of black and white project pictures; after about five seconds (or a
+// of black and white project pictures; after about five seconds (or a
 // click) they give way to the experimental pieces, laid out with lots of
 // air like a magazine spread.
 
@@ -37,9 +37,8 @@ const SLOTS_MOBILE = [
   { x: 36, y: 350, w: 60, cap: "below" },
 ];
 
-/* ── Opening: index scan ────────────────────────────────── */
-// A hairline sweeps down the white page and uncovers a precise grid of
-// black and white project pictures, with small plus marks at the grid
+/* ── Opening: index ─────────────────────────────────────── */
+// A precise grid of black and white project pictures fades in, with small plus marks at the grid
 // corners. The pictures then quietly swap places, as if an archive were
 // being indexed, while a counter runs; then it slowly fades into the page.
 
@@ -77,18 +76,17 @@ function runIndex(stage) {
       html += `<span class="ix-mark" style="left:${x}px;top:${y}px"></span>`;
     }
   }
-  stage.innerHTML = `<div class="ix-grid">${html}</div><span class="ix-scan"></span>
+  stage.innerHTML = `<div class="ix-grid">${html}</div>
     <p class="ix-read ui"><span>Indexing</span><span class="ix-count">000 / ${String(rows * cols).padStart(3, "0")}</span><span class="ix-sound muted">Click for sound</span></p>`;
   cells.push(...$$(".ix-cell", stage));
-  const scan = $(".ix-scan", stage), count = $(".ix-count", stage);
+  const count = $(".ix-count", stage);
   const total = String(cells.length).padStart(3, "0");
   const timers = [];
   const later = (fn, ms) => timers.push(setTimeout(fn, ms));
 
-  // 1. Sweep: the grid is uncovered continuously, in step with the line
-  // (both run on the same CSS timing).
-  const SWEEP = 1700;
-  later(() => stage.classList.add("scanning"), 30);
+  // 1. The grid fades in.
+  const SWEEP = 1100;
+  later(() => stage.classList.add("showing"), 30);
 
   // 2. Indexing: pictures swap places, the counter runs.
   let n = 0;
