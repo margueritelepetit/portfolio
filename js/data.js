@@ -21,8 +21,8 @@ const SITE = {
     "Digital project management"
   ],
   "statement": [
-    "What began as childhood curiosity has grown into a practice centred on editorial, fashion and artistic storytelling. Today I bridge my background in photography with my training as a digital project manager. To me, a photograph is more than a composition — it is a vessel for feeling and meaning.",
-    "Bringing visual craft and digital strategy together lets me approach every project with a dual perspective: the sensitivity of an artist and the structure of a project lead. Whether it is a high-fashion editorial or a brand campaign, my intention stays the same — to work with deep human consideration."
+    "What began as childhood curiosity has grown into a practice centred on editorial, fashion and artistic storytelling. Today I bridge my background in photography with my training as a digital project manager. To me, a photograph is more than a composition: it is a vessel for feeling and meaning.",
+    "Bringing visual craft and digital strategy together lets me approach every project with a dual perspective: the sensitivity of an artist and the structure of a project lead. Whether it is a high-fashion editorial or a brand campaign, my intention stays the same: to work with deep human consideration."
   ],
   "education": [
     [
@@ -35,7 +35,7 @@ const SITE = {
     ],
     [
       "ESD",
-      "Third year, in progress — digital project management"
+      "Third year in progress, digital project management"
     ]
   ],
   "occupation": [
@@ -45,7 +45,7 @@ const SITE = {
     ],
     [
       "Freelance",
-      "Photography — videography"
+      "Photography and videography"
     ]
   ],
   "email": "margueritelepetit1@gmail.com",
@@ -62,7 +62,7 @@ const SITE = {
 const CATEGORIES = {
   "photography": "Photography",
   "videography": "Videography",
-  "digital": "Digital / Branding"
+  "digital": "Digital & Branding"
 };
 
 const PROJECTS = [
@@ -101,7 +101,7 @@ const PROJECTS = [
     "text": [
       "There is a specific kind of grief in watching someone who cannot get better.",
       "In a studio turned parlour, I set aside the mother I had hoped for and turned to the woman who is actually there. These photographs depict a harsh reality: a bond built on trust and vulnerability, yet shadowed by the lasting scars of addiction, grief and time.",
-      "The camera opened a rare, silent space. It let me reach her in a way that bypassed her usual instability, offering a stillness our shared history has never had. She never posed and I never directed — the lens simply followed a woman unfolding, in all her complexity, through an honest conversation.",
+      "The camera opened a rare, silent space. It let me reach her in a way that bypassed her usual instability, offering a stillness our shared history has never had. She never posed and I never directed; the lens simply followed a woman unfolding, in all her complexity, through an honest conversation.",
       "I am documenting the woman who brought me into this world, and acknowledging both the beauty and the tragedy of her many faces."
     ],
     "media": [
@@ -170,7 +170,7 @@ const PROJECTS = [
       ],
       [
         "Roles",
-        "Videographer / Editor, Music composer"
+        "Videographer, Editor, Music composer"
       ],
       [
         "Press",
@@ -295,7 +295,7 @@ const PROJECTS = [
       ],
       [
         "Type",
-        "Fashion / fine art"
+        "Fashion and fine art"
       ],
       [
         "Role",
@@ -303,7 +303,7 @@ const PROJECTS = [
       ]
     ],
     "text": [
-      "Beau explores the complete erasure of the individual in favour of form. Merged with an oversized, hand-sculpted bow — crafted from repurposed curtains — the body stops being a person and becomes a foundation for the garment.",
+      "Beau explores the complete erasure of the individual in favour of form. Merged with an oversized, hand-sculpted bow, crafted from repurposed curtains, the body stops being a person and becomes a foundation for the garment.",
       "The elusive quality of the series comes from the play of light and shadow: the subject does not simply wear the piece but melts into its graphic structure. It is a study of enforced anonymity, where identity is given up to achieve a single, monolithic silhouette."
     ],
     "media": [
@@ -367,10 +367,10 @@ const PROJECTS = [
     ],
     "text": [
       "For several months I immersed myself in a DJ collective, with complete artistic freedom to document the pulse of their movement. Tech Archives is the result: a raw, unfiltered look at what happens when the music takes over.",
-      "Beyond the decks and the speakers, the series looks at the human experience of nightlife — at liberation and the search for a safe space. In the darkness of the club boundaries dissolve, and people lose themselves only to find themselves again.",
+      "Beyond the decks and the speakers, the series looks at the human experience of nightlife: at liberation and the search for a safe space. In the darkness of the club boundaries dissolve, and people lose themselves only to find themselves again.",
       "Shot entirely in black and white, it strips away neon and strobe to focus on what matters: sweat, tension, collective euphoria and fleeting moments of pure presence."
     ],
-    "quote": "A documentation of sound through sight — capturing the soul of the rave.",
+    "quote": "A documentation of sound through sight, capturing the soul of the rave.",
     "media": [
       {
         "src": "assets/tech-archives/01.jpg",
@@ -476,8 +476,8 @@ const PROJECTS = [
       ]
     ],
     "text": [
-      "Ghorba takes its name from a word that resists translation. In Arabic it evokes exile — an exile that brings people closer rather than pulling them apart; a tension between what is left behind and what is being built. Perhaps the most beautiful starting point a house could have.",
-      "Since 2023 the brand has been doing what no one else was: dressing the diaspora with the same exacting standards they apply to their own lives. No folklore, no clichés — Ghorba speaks to those who never had to choose between here and there.",
+      "Ghorba takes its name from a word that resists translation. In Arabic it evokes exile, an exile that brings people closer rather than pulling them apart; a tension between what is left behind and what is being built. Perhaps the most beautiful starting point a house could have.",
+      "Since 2023 the brand has been doing what no one else was: dressing the diaspora with the same exacting standards they apply to their own lives. No folklore, no clichés. Ghorba speaks to those who never had to choose between here and there.",
       "Against boxes. For the freedom to be everything we are, all at once."
     ],
     "media": [
@@ -560,7 +560,7 @@ const PROJECTS = [
     "meta": [
       [
         "Category",
-        "Digital / Branding"
+        "Digital & Branding"
       ],
       [
         "Type",
@@ -572,7 +572,7 @@ const PROJECTS = [
       ]
     ],
     "text": [
-      "OXY is a fragrance born from a need for clarity. In a world of digital noise and synthetic artifice, it stands for a sensory return to the essential — a reconnection with the self through the most vital human act: breathing.",
+      "OXY is a fragrance born from a need for clarity. In a world of digital noise and synthetic artifice, it stands for a sensory return to the essential, a reconnection with the self through the most vital human act: breathing.",
       "More than a scent, it is an atmospheric reset."
     ],
     "hero": {
@@ -606,7 +606,7 @@ const PROJECTS = [
         ]
       },
       {
-        "quote": "OXY doesn't just rest on your skin; it breathes into you. It is the scent of a woman who knows the truest path is the one you forge yourself — deeply, authentically alive."
+        "quote": "OXY doesn't just rest on your skin; it breathes into you. It is the scent of a woman who knows the truest path is the one you forge yourself: deeply, authentically alive."
       },
       {
         "layout": "grid-4",
@@ -669,7 +669,7 @@ const PROJECTS = [
       ],
       [
         "Roles",
-        "Videographer / Editor, Technician"
+        "Videographer, Editor, Technician"
       ],
       [
         "Press",
@@ -677,8 +677,8 @@ const PROJECTS = [
       ]
     ],
     "text": [
-      "2 Much tells the story of a generation unafraid to express itself — too free to be contained, too expressive to be silenced, too multifaceted to be locked away.",
-      "Its silhouettes move between bruised romanticism, punk energy and utilitarian details that anchor the chaos in reality. Together they map a territory where identities overlap, collide and embrace — without asking for forgiveness."
+      "2 Much tells the story of a generation unafraid to express itself: too free to be contained, too expressive to be silenced, too multifaceted to be locked away.",
+      "Its silhouettes move between bruised romanticism, punk energy and utilitarian details that anchor the chaos in reality. Together they map a territory where identities overlap, collide and embrace, without asking for forgiveness."
     ],
     "media": [
       {
@@ -780,7 +780,7 @@ const PROJECTS = [
     "meta": [
       [
         "Category",
-        "Digital / Branding"
+        "Digital & Branding"
       ],
       [
         "Type",
@@ -890,7 +890,7 @@ const PROJECTS = [
         ],
         "title": "Activation",
         "text": [
-          "Calendar, social media, influence and paid media — and how performance is tracked."
+          "Calendar, social media, influence and paid media, and how performance is tracked."
         ]
       },
       {
@@ -928,7 +928,7 @@ const PROJECTS = [
     "meta": [
       [
         "Category",
-        "Digital / Branding"
+        "Digital & Branding"
       ],
       [
         "Type",
@@ -1006,7 +1006,7 @@ const PROJECTS = [
         ]
       },
       {
-        "quote": "Pop Beauty is more than gum — it's a supplement you actually want to carry."
+        "quote": "Pop Beauty is more than gum; it's a supplement you actually want to carry."
       },
       {
         "layout": "grid-3",
@@ -1029,7 +1029,7 @@ const PROJECTS = [
         ],
         "title": "Packaging",
         "text": [
-          "The packaging follows a clinical hierarchy — medical blister packs and slide-drawer boxes evoke lab-grade efficacy. That surgical minimalism is disrupted by industrial textures such as silver bubble mailers, grounding the brand in a raw, editorial aesthetic and turning a daily object into a functional, high-end accessory."
+          "The packaging follows a clinical hierarchy: medical blister packs and slide-drawer boxes evoke lab-grade efficacy. That surgical minimalism is disrupted by industrial textures such as silver bubble mailers, grounding the brand in a raw, editorial aesthetic and turning a daily object into a functional, high-end accessory."
         ]
       },
       {
@@ -1188,8 +1188,7 @@ const INTRO = [
 
 const EXPERIMENTAL = {
   "text": [
-    "Welcome to the experimental zone.",
-    "Here I explore art through technology — across mediums and creative coding — building shapes and interactive pieces with TouchDesigner, code and graphic software."
+    "Welcome to the experimental zone. Here I explore art through technology with a range of mediums and creative coding, creating shapes and interactive pieces with TouchDesigner, code and graphic softwares."
   ],
   "pieces": [
     {

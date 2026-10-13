@@ -44,8 +44,8 @@ function seriesHtml(p, num) {
           .map(
             (m, k) => `
           <figure data-reveal style="--r:${(m.w / m.h).toFixed(4)}">
-            ${imgHtml(m, `${p.title} — image ${r.start + k + 1}`, { hero: r.start + k === 0 })}
-            <figcaption class="ui muted">${pad(r.start + k + 1)} / ${pad(total)}</figcaption>
+            ${imgHtml(m, `${p.title}, image ${r.start + k + 1}`, { hero: r.start + k === 0 })}
+            <figcaption class="ui muted">${pad(r.start + k + 1)} of ${pad(total)}</figcaption>
           </figure>`
           )
           .join("")}
@@ -55,7 +55,7 @@ function seriesHtml(p, num) {
   return `
     <div class="series">
       <aside class="series-info">
-        <p class="ui muted">ID ${num} — ${esc(CATEGORIES[p.category])}</p>
+        <p class="ui muted">ID ${num}&emsp;${esc(CATEGORIES[p.category])}</p>
         <h1 class="ui">${esc(p.title)}</h1>
         <p class="ui muted">${esc(p.subtitle || "")}</p>
         ${metaHtml(p)}
@@ -75,7 +75,7 @@ function filmHtml(p, num) {
       <video class="film-video" data-hero src="${esc(p.video.src)}" poster="${esc(p.video.poster)}"
         muted autoplay loop playsinline preload="auto" data-cursor="Sound on"></video>
       <div class="film-overlay">
-        <p class="ui">ID ${num} — ${esc(p.subtitle || CATEGORIES[p.category])}</p>
+        <p class="ui">ID ${num}&emsp;${esc(p.subtitle || CATEGORIES[p.category])}</p>
         <h1 class="display">${esc(p.title)}</h1>
       </div>
       <div class="film-controls ui">
@@ -95,14 +95,14 @@ function filmHtml(p, num) {
       <div data-reveal>${metaHtml(p)}</div>
     </section>
     <section class="film-grid">
-      <p class="ui muted section-label">Editorial — ${pad(p.media.length)} images</p>
+      <p class="ui muted section-label">${pad(p.media.length)} editorial images</p>
       <div class="tiles">
         ${p.media
           .map(
             (m, i) => `
           <figure class="tile" data-reveal>
             <span class="ui tile-num">${pad(i + 1)}</span>
-            ${imgHtml(m, `${p.title} — editorial image ${i + 1}`)}
+            ${imgHtml(m, `${p.title}, editorial image ${i + 1}`)}
           </figure>`
           )
           .join("")}
@@ -200,7 +200,7 @@ function caseHtml(p, num) {
               .map(
                 (m) => `
               <figure data-reveal>
-                ${imgHtml(m, `${p.title}${s.title ? ` — ${s.title}` : ""}`)}
+                ${imgHtml(m, `${p.title}${s.title ? `, ${s.title}` : ""}`)}
                 <figcaption class="ui muted">Fig. ${pad(++fig)}</figcaption>
               </figure>`
               )
@@ -212,13 +212,13 @@ function caseHtml(p, num) {
 
   return `
     <header class="case-head">
-      <div data-reveal>
-        <p class="ui muted">ID ${num} — ${esc(CATEGORIES[p.category])}</p>
+      <div>
+        <p class="ui muted">ID ${num}&emsp;${esc(CATEGORIES[p.category])}</p>
         <h1 class="ui">${esc(p.title)}</h1>
         <p class="ui muted">${esc(p.subtitle || "")}</p>
       </div>
-      <div class="text" data-reveal>${textHtml(p.text)}</div>
-      <div data-reveal>${metaHtml(p)}</div>
+      <div class="text">${textHtml(p.text)}</div>
+      <div>${metaHtml(p)}</div>
     </header>
     <figure class="case-hero" data-reveal>${imgHtml(p.hero, p.title, { hero: true })}</figure>
     ${sections}
@@ -236,6 +236,27 @@ function initInlineVideos(root) {
   vids.forEach((v) => io.observe(v));
 }
 
+/* ── Text cascade on arrival ────────────────────────────── */
+// The opening text drifts in line by line, fading up from a soft blur.
+// Blocks (meta lists, paragraphs) are split so each line has its own step.
+
+function cascadeText(root) {
+  const blocks = $$(".series-info > *, .film-overlay > *, .film-controls, .case-head > div", root);
+  const lines = blocks.flatMap((el) =>
+    el.matches(".meta, .text") || el.matches(".case-head > div")
+      ? [...el.children].flatMap((c) => (c.matches(".meta, .text") ? [...c.children] : [c]))
+      : [el]
+  );
+  if (!lines.length || reducedMotion) return;
+  // After a wipe, wait for the panel to lift before starting.
+  const base = $(".wipe.cover") ? 650 : 120;
+  lines.forEach((el, i) => {
+    el.classList.add("cascade");
+    el.style.setProperty("--d", `${base + i * 75}ms`);
+  });
+  setTimeout(() => root.classList.add("cascade-in"), 40);
+}
+
 /* ── Boot ───────────────────────────────────────────────── */
 
 (function initProject() {
@@ -245,7 +266,7 @@ function initInlineVideos(root) {
 
   if (index === -1) {
     bootSite();
-    root.innerHTML = `<div class="not-found ui">Project not found — <a href="index.html">Back to index</a></div>`;
+    root.innerHTML = `<div class="not-found ui">Project not found. <a href="index.html">Back to index</a></div>`;
     return;
   }
 
@@ -256,7 +277,7 @@ function initInlineVideos(root) {
     document.documentElement.classList.add("theme-dark");
     document.body.classList.add("t-film-page");
   }
-  document.title = `${p.title} — ${SITE.name}`;
+  document.title = `${p.title}, ${SITE.name}`;
   session.set("last", p.slug);
   bootSite();
 
@@ -265,6 +286,7 @@ function initInlineVideos(root) {
   root.innerHTML = render(p, num) + nextHtml(next);
 
   markHero($("[data-hero]", root));
+  cascadeText(root);
   initLightbox(root);
   initReveal(root);
   initInlineVideos(root);

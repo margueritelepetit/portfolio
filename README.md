@@ -8,7 +8,7 @@ A portfolio for photography, videography and digital / branding work, written in
 index.html          Intro (~7 s; first visit and every refresh): white mosaic of small B&W portraits, one fading at a time,
                     pushed aside by the cursor, with an "Entering" bar → "Projects": endless column + index
 project.html        Every project: project.html?p=<slug>, rendered with one of three layouts
-experimental.html   The experimental zone (TouchDesigner / creative coding)
+experimental.html   The experimental zone: white page, every piece on a 3D sphere (drag to turn, scroll to zoom, click to open)
 about.html          Home with the About panel open (About is also a button on every page)
 ```
 
@@ -25,7 +25,7 @@ Each project in `js/data.js` has a `template`:
 All pages share the elements below. The home page and font size follow cathydolle.com:
 - a minimal header: name and Projects on the left, Experimental zone and About on the right
 - the cursor: a thin plus sign; over pictures and any clickable text it becomes a filled square that inverts what is beneath (with a label over pictures)
-- the logo: the browser-tab icon (`assets/favicon.svg`) and, in the About panel, drawn line by line each time it opens (`assets/logo.svg` is the full-size file)
+- the logo: the browser-tab icon (`assets/icon.svg`, `favicon.ico`) and, in the About panel, drawn line by line each time it opens (outline only; `assets/logo.svg` is the full-size file)
 - the image lightbox
 - a slim "next project" line at the end of each project: keep scrolling to fill it, then a wipe opens the next one
 - page transitions: in Chrome, Edge and Safari 18+, the clicked image glides into the next page; other browsers fade

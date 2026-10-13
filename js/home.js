@@ -13,6 +13,37 @@ const thumbOf = (p) => p.thumb || p.cover;
 const INTRO_MS = 7000;
 const FADE_EVERY = 900; // ms between one image fading out and the next
 
+// Tracing paper: a few large milky clouds (the uneven translucency of the
+// sheet) and many faint short fibres, drawn once; CSS blurs and drifts it.
+function paperTexture(canvas) {
+  const w = (canvas.width = Math.round(innerWidth * 0.56));
+  const h = (canvas.height = Math.round(innerHeight * 0.56));
+  const ctx = canvas.getContext("2d");
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, w, h);
+  for (let i = 0; i < 26; i++) {
+    const x = rnd(0, w), y = rnd(0, h), r = rnd(0.12, 0.38) * Math.max(w, h);
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    const a = rnd(0.025, 0.06);
+    g.addColorStop(0, `rgba(150,156,162,${a})`);
+    g.addColorStop(1, "rgba(150,156,162,0)");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, w, h);
+  }
+  ctx.lineCap = "round";
+  for (let i = 0; i < (w * h) / 260; i++) {
+    const x = rnd(0, w), y = rnd(0, h), len = rnd(4, 26), ang = rnd(0, Math.PI);
+    const dx = Math.cos(ang) * len, dy = Math.sin(ang) * len;
+    ctx.strokeStyle = Math.random() < 0.7 ? `rgba(120,126,132,${rnd(0.02, 0.06)})` : `rgba(255,255,255,${rnd(0.3, 0.6)})`;
+    ctx.lineWidth = rnd(0.3, 0.9);
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.quadraticCurveTo(x + dx / 2 + rnd(-4, 4), y + dy / 2 + rnd(-4, 4), x + dx, y + dy);
+    ctx.stroke();
+  }
+}
+
 function runEntry() {
   const el = $("#entry");
   const reloaded = performance.getEntriesByType("navigation")[0]?.type === "reload";
@@ -53,12 +84,14 @@ function runEntry() {
   const oy = (innerHeight - gridH) / 2 - th * 0.3;
   const cx = innerWidth / 2, cy = oy + gridH / 2;
   el.innerHTML = `
+    <canvas class="paper" aria-hidden="true"></canvas>
     <div class="mosaic" aria-hidden="true"></div>
     <div class="entry-load ui" aria-hidden="true" style="top:${oy + gridH + th * 0.9}px">
       <span>Entering</span><span class="entry-line"><span></span></span><span class="entry-pct">000</span>
     </div>`;
 
   const mosaic = $(".mosaic", el);
+  paperTexture($(".paper", el));
   const tiles = [];
   for (let r = 0; r < rows; r++) {
     // A shorter last row is centred.
@@ -186,7 +219,7 @@ function initGallery() {
   let indexButtons = [];
 
   $("#site-footer").innerHTML = `
-    <span class="ui footer-left"><span class="disciplines">${SITE.disciplines.map(esc).join(" — ")}</span>
+    <span class="ui footer-left"><span class="disciplines">${SITE.disciplines.map(esc).join(", ")}</span>
       <span class="active-label" id="active-label"></span></span>
     <a class="ui" href="mailto:${esc(SITE.email)}">Contact</a>`;
   const label = $("#active-label");
@@ -212,7 +245,7 @@ function initGallery() {
   function renderIndex() {
     const half = Math.ceil(list.length / 2);
     const row = (p, i) =>
-      `<li><button data-i="${i}"><span class="num">${projectNumber(p)}/</span><span class="title">${esc(p.title)}</span></button></li>`;
+      `<li><button data-i="${i}"><span class="num">${projectNumber(p)}</span><span class="title">${esc(p.title)}</span></button></li>`;
     index.innerHTML = `
       <ol class="index-col left">${list.slice(0, half).map((p, i) => row(p, i)).join("")}</ol>
       <ol class="index-col right">${list.slice(half).map((p, i) => row(p, i + half)).join("")}</ol>`;
@@ -275,11 +308,11 @@ function initGallery() {
     if (pi === active) return;
     active = pi;
     indexButtons.forEach((b, i) => b.classList.toggle("is-active", i === pi));
-    label.textContent = pi >= 0 ? `${projectNumber(list[pi])}/ ${list[pi].title}` : "";
+    label.textContent = pi >= 0 ? `${projectNumber(list[pi])}\u2003${list[pi].title}` : "";
     if (caption && pi >= 0) {
       const p = list[pi];
       const type = (p.meta.find(([k]) => k === "Type") || [])[1];
-      caption.textContent = [CATEGORIES[p.category], type].filter(Boolean).join(" — ");
+      caption.textContent = [CATEGORIES[p.category], type].filter(Boolean).join("\u2003");
     }
   }
 

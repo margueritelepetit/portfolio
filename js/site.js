@@ -52,8 +52,8 @@ const LOGO_PATHS = [
   "M273.5 222.0C279.0 221.2 281.7 221.5 286.0 222.1C290.3 222.6 296.0 224.3 299.0 225.3C302.0 226.2 303.5 226.7 303.7 228.0C304.0 229.3 304.6 228.8 300.8 233.0C297.0 237.2 286.0 248.4 281.0 253.0C276.0 257.6 276.7 257.3 271.0 260.6C265.3 263.8 254.3 269.8 247.0 272.5C239.7 275.3 232.7 276.3 226.9 277.0C221.1 277.7 216.2 277.5 212.0 277.0C207.8 276.6 204.5 275.4 202.0 274.4C199.5 273.4 197.1 272.4 196.8 271.0C196.4 269.6 196.1 270.0 199.7 266.0C203.2 262.0 212.3 252.2 218.0 247.2C223.7 242.2 228.3 239.6 234.0 236.2C239.7 232.9 245.9 229.4 252.5 227.0C259.1 224.6 267.9 222.8 273.5 222.0Z",
 ];
 
-// Each contour is stroked on (pathLength 1 makes the dash maths trivial),
-// then the shape fills in. Replays every time About opens.
+// Each contour is stroked on as a thin outline (pathLength 1 makes the
+// dash maths trivial). Replays every time About opens.
 const logoSvg = () =>
   `<svg class="about-logo" viewBox="58 86 384 328" aria-label="${esc(SITE.name)} logo" role="img">${LOGO_PATHS.map(
     (d) => `<path d="${d}" pathLength="1"/>`
@@ -121,7 +121,7 @@ function initCursor() {
     y = e.clientY;
     // Pictures and video (project previews, images, films) get the label;
     // any clickable text gets the small inverting square.
-    const media = e.target.closest?.(".item, img[data-cursor], video[data-cursor]");
+    const media = e.target.closest?.(".item, .s-tile, img[data-cursor], video[data-cursor]");
     const target = media && media.dataset.cursor ? media : null;
     const link = !target && e.target.closest?.("a, button, [role=button]");
     c.classList.toggle("is-label", !!target);
@@ -242,7 +242,7 @@ function initLightbox(root = document) {
     current = mod(i, imgs.length);
     big.src = imgs[current].dataset.full || imgs[current].src;
     big.alt = imgs[current].alt;
-    count.textContent = `${pad(current + 1)} / ${pad(imgs.length)}`;
+    count.textContent = `${pad(current + 1)} of ${pad(imgs.length)}`;
   };
   const open = (i) => {
     lastFocus = document.activeElement;
@@ -321,7 +321,7 @@ function initNextPull(section) {
   };
   const push = (delta) => {
     if (done || !atBottom() || delta <= 0) return;
-    target = clamp(target + delta / 800, 0, 1);
+    target = clamp(target + delta / 280, 0, 1);
     clearTimeout(idle);
     idle = setTimeout(() => !done && (target = 0), 900); // let go → line drains
     if (target >= 1) go();
@@ -356,7 +356,7 @@ function nextHtml(p) {
     <section class="next" id="next">
       <a class="next-link ui" href="${projectUrl(p)}" data-cursor="Next">
         <span class="muted">Next project</span>
-        <span class="next-name">${projectNumber(p)}/ ${esc(p.title)}</span>
+        <span class="next-name">${projectNumber(p)}&emsp;${esc(p.title)}</span>
         <span class="next-bar"><span></span></span>
         <span class="next-pct">000%</span>
       </a>
