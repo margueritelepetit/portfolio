@@ -698,11 +698,11 @@ const PROJECTS = [
       "h": 1200
     },
     "thumb": {
-      "src": "assets/lululemon-edge/thumb.jpg",
-      "w": 1134,
-      "h": 628,
+      "src": "assets/lululemon-edge/preview-climb.jpg",
+      "w": 1440,
+      "h": 1030,
       "shape": "L",
-      "focus": "50% 50%",
+      "focus": "50% 40%",
       "inIntro": false
     },
     "subtitle": "Campaign strategy",
