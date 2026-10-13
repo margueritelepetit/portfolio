@@ -732,7 +732,7 @@ body.gallery {
 
 .about-open .about-logo path {
   stroke-dashoffset: 0;
-  transition: stroke-dashoffset 10s cubic-bezier(0.33, 0, 0.35, 1) 0.4s;
+  transition: stroke-dashoffset var(--dur, 10s) linear 0.4s;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1354,17 +1354,29 @@ img[data-lightbox],
 .ix-stage.gone {
   opacity: 0;
   pointer-events: none;
+  transition-duration: 0.8s;
+}
+
+.ix-grid {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 0 100% 0);
+}
+
+/* The line and the uncovering share one timing, so they move as one. */
+.scanning .ix-grid {
+  animation: ix-reveal 1.7s cubic-bezier(0.4, 0, 0.25, 1) forwards;
+}
+
+@keyframes ix-reveal {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
 }
 
 .ix-cell {
   position: absolute;
   overflow: hidden;
-  opacity: 0;
-  transition: opacity 0.7s ease;
-}
-
-.ix-cell.on {
-  opacity: 1;
 }
 
 .ix-cell img {
@@ -1386,8 +1398,7 @@ img[data-lightbox],
   width: 7px;
   height: 7px;
   margin: -3px 0 0 -3px;
-  opacity: 0;
-  transition: opacity 0.5s ease;
+  opacity: 0.55;
 }
 
 .ix-mark::before,
@@ -1411,14 +1422,6 @@ img[data-lightbox],
   height: 1px;
 }
 
-.ix-mark.on {
-  opacity: 0.55;
-}
-
-.leaving .ix-mark {
-  opacity: 0;
-  transition-duration: 0.9s;
-}
 
 .ix-scan {
   position: absolute;
@@ -1428,10 +1431,11 @@ img[data-lightbox],
   height: 1px;
   background: var(--fg);
   opacity: 0;
+  will-change: transform;
 }
 
 .scanning .ix-scan {
-  animation: ix-scan 1.6s cubic-bezier(0.45, 0, 0.3, 1) forwards;
+  animation: ix-scan 1.7s cubic-bezier(0.4, 0, 0.25, 1) forwards;
 }
 
 @keyframes ix-scan {
@@ -1439,12 +1443,42 @@ img[data-lightbox],
     transform: translateY(0);
     opacity: 1;
   }
-  90% {
+  92% {
     opacity: 1;
   }
   100% {
     transform: translateY(100vh);
     opacity: 0;
+  }
+}
+
+/* The ending: everything flares to white at once, then the page. */
+.ix-flash {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.leaving .ix-flash {
+  animation: ix-flash 0.5s ease-out forwards;
+}
+
+.leaving .ix-grid {
+  filter: brightness(1.8) contrast(0.8);
+  transition: filter 0.15s ease-out;
+}
+
+@keyframes ix-flash {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
   }
 }
 
@@ -1457,6 +1491,14 @@ img[data-lightbox],
   font-size: 10px;
   transform: translateX(-50%);
   font-variant-numeric: tabular-nums;
+}
+
+.ix-sound {
+  transition: opacity 0.6s ease;
+}
+
+.sound-on .ix-sound {
+  opacity: 0;
 }
 
 .leaving .ix-read {

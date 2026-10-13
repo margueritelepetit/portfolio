@@ -38,10 +38,10 @@ const SLOTS_MOBILE = [
 ];
 
 /* ── Opening: index scan ────────────────────────────────── */
-// A hairline sweeps down the white page and reveals a precise grid of
+// A hairline sweeps down the white page and uncovers a precise grid of
 // black and white project pictures, with small plus marks at the grid
 // corners. The pictures then quietly swap places, as if an archive were
-// being indexed, while a counter runs; finally they dissolve one by one.
+// being indexed, while a counter runs; it ends on one bright flash.
 
 function runIndex(stage) {
   const pics = SPHERE;
@@ -64,7 +64,7 @@ function runIndex(stage) {
   const gridW = cols * cw + (cols - 1) * gx, gridH = rows * ch + (rows - 1) * gx;
   const ox = (innerWidth - gridW) / 2, oy = top + (areaH - gridH) / 2;
 
-  const cells = [], marks = [];
+  const cells = [];
   let html = "";
   for (let i = 0; i < rows * cols; i++) {
     const r = Math.floor(i / cols), c = i % cols;
@@ -77,23 +77,18 @@ function runIndex(stage) {
       html += `<span class="ix-mark" style="left:${x}px;top:${y}px"></span>`;
     }
   }
-  stage.innerHTML = `${html}<span class="ix-scan"></span>
-    <p class="ix-read ui"><span>Indexing</span><span class="ix-count">000 / ${String(rows * cols).padStart(3, "0")}</span></p>`;
+  stage.innerHTML = `<div class="ix-grid">${html}</div><span class="ix-scan"></span><span class="ix-flash"></span>
+    <p class="ix-read ui"><span>Indexing</span><span class="ix-count">000 / ${String(rows * cols).padStart(3, "0")}</span><span class="ix-sound muted">Click for sound</span></p>`;
   cells.push(...$$(".ix-cell", stage));
-  marks.push(...$$(".ix-mark", stage));
   const scan = $(".ix-scan", stage), count = $(".ix-count", stage);
   const total = String(cells.length).padStart(3, "0");
   const timers = [];
   const later = (fn, ms) => timers.push(setTimeout(fn, ms));
 
-  // 1. Sweep: each row appears as the line passes it.
-  const SWEEP = 1500;
+  // 1. Sweep: the grid is uncovered continuously, in step with the line
+  // (both run on the same CSS timing).
+  const SWEEP = 1700;
   later(() => stage.classList.add("scanning"), 30);
-  cells.forEach((cell, i) => {
-    const r = Math.floor(i / cols);
-    later(() => cell.classList.add("on"), 120 + ((oy + r * (ch + gx)) / innerHeight) * SWEEP);
-  });
-  marks.forEach((m, i) => later(() => m.classList.add("on"), 60 + (i / marks.length) * SWEEP));
 
   // 2. Indexing: pictures swap places, the counter runs.
   let n = 0;
@@ -116,14 +111,12 @@ function runIndex(stage) {
   later(() => (swapper = setInterval(swap, 120)), SWEEP);
 
   return {
-    // 3. Dissolve, one picture at a time in random order.
-    leave(ms) {
+    // 3. A single bright flash over everything, then the page.
+    leave() {
       clearInterval(swapper);
       clearInterval(counter);
       count.textContent = `${total} / ${total}`;
       stage.classList.add("leaving");
-      [...cells].sort(() => Math.random() - 0.5).forEach((cell, i) =>
-        setTimeout(() => cell.classList.remove("on"), (i / cells.length) * ms * 0.8));
     },
     stop() {
       timers.forEach(clearTimeout);
@@ -274,21 +267,30 @@ function openPiece(piece) {
   }
   document.documentElement.classList.add("ix-active");
   const index = runIndex(stage);
+  const hum = ambientHum(() => stage.classList.add("sound-on"));
   let done = false;
   const finish = () => {
     if (done) return;
     done = true;
-    index.leave(1100);
+    index.leave();
+    hum.stop(1.8);
     setTimeout(() => {
       document.documentElement.classList.remove("ix-active");
       stage.classList.add("gone");
       showCollage();
-    }, 1000);
+    }, 380);
     setTimeout(() => {
       index.stop();
       stage.remove();
     }, 2000);
   };
   setTimeout(finish, INDEX_MS);
-  stage.addEventListener("click", finish);
+  // A click skips ahead, except the one that turns the sound on.
+  stage.addEventListener("click", () => stage.classList.contains("sound-on") && !stage.dataset.justOn && finish());
+  stage.addEventListener("pointerdown", () => {
+    if (!stage.classList.contains("sound-on")) {
+      stage.dataset.justOn = "1";
+      setTimeout(() => delete stage.dataset.justOn, 400);
+    }
+  });
 })();

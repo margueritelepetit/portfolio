@@ -5,7 +5,7 @@ A portfolio for photography, videography and digital / branding work, written in
 ## Pages
 
 ```
-index.html          Intro (~7 s; first visit and every refresh), with a calm generated hum and a whoosh and raindrop on entering (Web Audio): white mosaic of small B&W portraits, one fading at a time,
+index.html          Intro (~7 s; first visit and every refresh), with a calm generated hum (Web Audio, also used in the experimental opening): white mosaic of small B&W portraits, one fading at a time,
                     pushed aside by the cursor, with an "Entering" bar → "Projects": endless column + index
 project.html        Every project: project.html?p=<slug>, rendered with one of three layouts
 experimental.html   The experimental zone: ~5 s index scan of B&W project pictures (assets/sphere), then the

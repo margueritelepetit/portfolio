@@ -44,128 +44,6 @@ function paperTexture(canvas) {
   }
 }
 
-// Intro sound: a calm, futuristic hum built live with Web Audio. Two low
-// tones a hair apart beat slowly against each other (the vibration), a
-// soft fifth and a faint shimmering overtone sit on top, with a breath of
-// filtered air. Browsers only allow sound after a click or key press on
-// the site, so it starts then if it can't start straight away.
-function introSound(onPlaying = () => {}) {
-  const AC = window.AudioContext || window.webkitAudioContext;
-  if (!AC || reducedMotion) return { stop() {} };
-  const ctx = new AC();
-  const master = ctx.createGain();
-  master.gain.value = 0;
-  const lowpass = ctx.createBiquadFilter();
-  lowpass.type = "lowpass";
-  lowpass.frequency.value = 900;
-  lowpass.connect(master).connect(ctx.destination);
-
-  const lfo = (freq, depth, param) => {
-    const o = ctx.createOscillator(), g = ctx.createGain();
-    o.frequency.value = freq;
-    g.gain.value = depth;
-    o.connect(g).connect(param);
-    o.start();
-  };
-  lfo(0.06, 320, lowpass.frequency); // the tone slowly opens and closes
-
-  const tone = (freq, type, level, tremolo) => {
-    const o = ctx.createOscillator(), g = ctx.createGain();
-    o.type = type;
-    o.frequency.value = freq;
-    g.gain.value = level;
-    if (tremolo) lfo(tremolo, level * 0.6, g.gain);
-    o.connect(g).connect(lowpass);
-    o.start();
-  };
-  tone(55, "sine", 0.5);
-  tone(55.4, "sine", 0.5); // beats against 55 Hz: a slow pulse
-  tone(82.4, "triangle", 0.09);
-  tone(110.3, "sine", 0.16);
-  tone(329.6, "sine", 0.025, 4.2); // faint shimmer
-
-  // Air: soft noise through a narrow band.
-  const noise = ctx.createBufferSource();
-  const buf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
-  const data = buf.getChannelData(0);
-  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-  noise.buffer = buf;
-  noise.loop = true;
-  const band = ctx.createBiquadFilter();
-  band.type = "bandpass";
-  band.frequency.value = 1400;
-  band.Q.value = 1.4;
-  const air = ctx.createGain();
-  air.gain.value = 0.012;
-  noise.connect(band).connect(air).connect(master);
-  noise.start();
-
-  let stopped = false;
-  const fadeIn = () => {
-    if (stopped || ctx.state !== "running") return;
-    const now = ctx.currentTime;
-    master.gain.cancelScheduledValues(now);
-    master.gain.setValueAtTime(master.gain.value, now);
-    master.gain.linearRampToValueAtTime(0.22, now + 1.8);
-    onPlaying();
-  };
-  const unlock = () => ctx.resume().then(fadeIn).catch(() => {});
-  const events = ["pointerdown", "pointerup", "keydown", "touchend"];
-  events.forEach((ev) => addEventListener(ev, unlock, { passive: true }));
-  unlock();
-
-  // Entering: a soft airy whoosh that ends on a tiny raindrop. It plays
-  // outside the hum's fade so it stays clear while the hum dies away.
-  const enter = () => {
-    if (ctx.state !== "running") return;
-    const now = ctx.currentTime;
-    const whoosh = ctx.createBufferSource();
-    whoosh.buffer = buf;
-    const sweep = ctx.createBiquadFilter();
-    sweep.type = "bandpass";
-    sweep.Q.value = 2.2;
-    sweep.frequency.setValueAtTime(380, now);
-    sweep.frequency.exponentialRampToValueAtTime(2600, now + 0.75);
-    const wg = ctx.createGain();
-    wg.gain.setValueAtTime(0, now);
-    wg.gain.linearRampToValueAtTime(0.09, now + 0.45);
-    wg.gain.exponentialRampToValueAtTime(0.0001, now + 1.1);
-    whoosh.connect(sweep).connect(wg).connect(ctx.destination);
-    whoosh.start(now);
-    whoosh.stop(now + 1.2);
-
-    // The drop: a high tone that falls fast and fades, with a faint echo.
-    const drop = (t, level) => {
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = "sine";
-      o.frequency.setValueAtTime(1500, t);
-      o.frequency.exponentialRampToValueAtTime(620, t + 0.09);
-      g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(level, t + 0.006);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.32);
-      o.connect(g).connect(ctx.destination);
-      o.start(t);
-      o.stop(t + 0.35);
-    };
-    drop(now + 0.78, 0.09);
-    drop(now + 1.02, 0.025);
-  };
-
-  return {
-    enter,
-    stop(seconds = 1.5) {
-      if (stopped) return;
-      stopped = true;
-      events.forEach((ev) => removeEventListener(ev, unlock));
-      const now = ctx.currentTime;
-      master.gain.cancelScheduledValues(now);
-      master.gain.setValueAtTime(master.gain.value, now);
-      master.gain.linearRampToValueAtTime(0, now + seconds);
-      setTimeout(() => ctx.close().catch(() => {}), Math.max(seconds, 1.4) * 1000 + 200);
-    },
-  };
-}
-
 function runEntry() {
   const el = $("#entry");
   const reloaded = performance.getEntriesByType("navigation")[0]?.type === "reload";
@@ -255,7 +133,7 @@ function runEntry() {
   const pct = $(".entry-pct", el);
 
   return new Promise((resolve) => {
-    const sound = introSound(() => el.classList.add("sound-on"));
+    const sound = ambientHum(() => el.classList.add("sound-on"));
     const start = performance.now();
     const exitAt = reducedMotion ? 600 : INTRO_MS;
     let leaving = 0, done = false, shown = 0, nextFade = 0;
@@ -279,7 +157,6 @@ function runEntry() {
       if (!leaving && t >= exitAt && allLoaded) {
         leaving = t;
         el.classList.add("leaving");
-        sound.enter();
         sound.stop(1.6); // gone by the time the projects appear
         setTimeout(finish, reducedMotion ? 0 : 1600);
       }

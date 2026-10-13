@@ -54,8 +54,8 @@ const LOGO_PATHS = [
   "M318.0 243.9C318.1 245.3 320.2 249.0 320.6 252.0C321.1 255.0 321.4 258.2 320.9 262.0C320.4 265.8 319.7 270.2 317.6 275.0C315.6 279.8 311.9 286.8 308.6 291.0C305.3 295.2 302.6 297.4 298.0 300.3C293.4 303.2 286.7 306.3 281.0 308.4C275.3 310.4 269.7 312.0 264.0 312.7C258.3 313.5 254.5 314.0 247.0 312.9C239.5 311.9 224.8 307.5 219.0 306.3C213.2 305.2 213.9 305.8 212.0 306.3C210.1 306.7 208.6 308.0 207.8 309.0C207.1 310.0 207.3 311.1 207.5 312.0C207.7 312.9 207.9 313.7 209.0 314.5C210.1 315.3 210.0 315.9 214.0 316.7C218.0 317.4 225.7 318.9 233.0 319.1C240.3 319.4 250.8 319.0 258.0 318.2C265.2 317.4 269.3 316.9 276.0 314.4C282.7 311.8 293.0 306.1 298.2 303.0C303.5 299.9 304.0 300.2 307.4 296.0C310.9 291.8 316.3 284.5 319.0 278.0C321.7 271.5 323.2 262.3 323.5 257.0C323.8 251.7 321.6 248.2 321.0 246.0C320.4 243.8 320.5 244.3 320.0 243.9C319.5 243.6 317.9 242.6 318.0 243.9Z",
 ];
 
-// Each contour is stroked on as a thin outline (pathLength 1 makes the
-// dash maths trivial). Replays every time About opens.
+// Each contour is stroked on as a thin outline at one steady pace
+// (pathLength 1 makes the dash maths trivial). Replays every time About opens.
 const logoSvg = () =>
   `<svg class="about-logo" viewBox="58 86 384 328" aria-label="${esc(SITE.name)} logo" role="img">${LOGO_PATHS.map(
     (d) => `<path d="${d}" pathLength="1"/>`
@@ -89,6 +89,12 @@ function renderAbout() {
       </div>
     </div>`;
   document.body.appendChild(el);
+
+  // Same drawing speed for every line: each one's duration follows its length.
+  const paths = $$(".about-logo path", el);
+  const lengths = paths.map((p) => p.getTotalLength?.() || 1);
+  const longest = Math.max(...lengths);
+  paths.forEach((p, i) => p.style.setProperty("--dur", `${(10 * lengths[i]) / longest}s`));
 
   const toggle = $(".about-toggle");
   const setOpen = (open) => {
@@ -364,6 +370,93 @@ function nextHtml(p) {
       </a>
       <p class="next-hint ui muted">Keep scrolling <span class="next-arrow">↓</span></p>
     </section>`;
+}
+
+/* ── Ambient hum ────────────────────────────────────────── */
+// A calm, futuristic hum built live with Web Audio, used during the intro
+// and the experimental zone's opening. Two low tones a hair apart beat
+// slowly against each other (the vibration), a soft fifth and a faint
+// shimmering overtone sit on top, with a breath of filtered air.
+// It starts at once wherever the browser allows sound (in Chrome, once the
+// visitor has clicked anywhere on the site); otherwise on the first click
+// or key press. onPlaying runs when it is actually audible.
+function ambientHum(onPlaying = () => {}) {
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC || reducedMotion) return { stop() {} };
+  const ctx = new AC();
+  const master = ctx.createGain();
+  master.gain.value = 0;
+  const lowpass = ctx.createBiquadFilter();
+  lowpass.type = "lowpass";
+  lowpass.frequency.value = 900;
+  lowpass.connect(master).connect(ctx.destination);
+
+  const lfo = (freq, depth, param) => {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.value = freq;
+    g.gain.value = depth;
+    o.connect(g).connect(param);
+    o.start();
+  };
+  lfo(0.06, 320, lowpass.frequency); // the tone slowly opens and closes
+
+  const tone = (freq, type, level, tremolo) => {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type;
+    o.frequency.value = freq;
+    g.gain.value = level;
+    if (tremolo) lfo(tremolo, level * 0.6, g.gain);
+    o.connect(g).connect(lowpass);
+    o.start();
+  };
+  tone(55, "sine", 0.5);
+  tone(55.4, "sine", 0.5); // beats against 55 Hz: a slow pulse
+  tone(82.4, "triangle", 0.09);
+  tone(110.3, "sine", 0.16);
+  tone(329.6, "sine", 0.025, 4.2); // faint shimmer
+
+  // Air: soft noise through a narrow band.
+  const noise = ctx.createBufferSource();
+  const buf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+  noise.buffer = buf;
+  noise.loop = true;
+  const band = ctx.createBiquadFilter();
+  band.type = "bandpass";
+  band.frequency.value = 1400;
+  band.Q.value = 1.4;
+  const air = ctx.createGain();
+  air.gain.value = 0.012;
+  noise.connect(band).connect(air).connect(master);
+  noise.start();
+
+  let stopped = false;
+  const fadeIn = () => {
+    if (stopped || ctx.state !== "running") return;
+    const now = ctx.currentTime;
+    master.gain.cancelScheduledValues(now);
+    master.gain.setValueAtTime(master.gain.value, now);
+    master.gain.linearRampToValueAtTime(0.22, now + 1.8);
+    onPlaying();
+  };
+  const unlock = () => ctx.resume().then(fadeIn).catch(() => {});
+  const events = ["pointerdown", "pointerup", "keydown", "touchend"];
+  events.forEach((ev) => addEventListener(ev, unlock, { passive: true }));
+  unlock();
+
+  return {
+    stop(seconds = 1.5) {
+      if (stopped) return;
+      stopped = true;
+      events.forEach((ev) => removeEventListener(ev, unlock));
+      const now = ctx.currentTime;
+      master.gain.cancelScheduledValues(now);
+      master.gain.setValueAtTime(master.gain.value, now);
+      master.gain.linearRampToValueAtTime(0, now + seconds);
+      setTimeout(() => ctx.close().catch(() => {}), seconds * 1000 + 200);
+    },
+  };
 }
 
 /* ── Boot shared parts ──────────────────────────────────── */

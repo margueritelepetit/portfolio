@@ -73,13 +73,13 @@ function filmHtml(p, num) {
   return `
     <section class="film-hero">
       <video class="film-video" data-hero src="${esc(p.video.src)}" poster="${esc(p.video.poster)}"
-        muted autoplay loop playsinline preload="auto" data-cursor="Sound on"></video>
+        autoplay loop playsinline preload="auto" data-cursor="Sound off"></video>
       <div class="film-overlay">
         <p class="ui">ID ${num}&emsp;${esc(p.subtitle || CATEGORIES[p.category])}</p>
         <h1 class="display">${esc(p.title)}</h1>
       </div>
       <div class="film-controls ui">
-        <button class="film-sound" aria-pressed="false">Sound off</button>
+        <button class="film-sound" aria-pressed="true">Sound on</button>
         <span class="film-progress" aria-hidden="true"><span></span></span>
         <span class="film-time">Loading</span>
         <button class="film-full">Full screen</button>
@@ -141,25 +141,46 @@ function initFilm(root) {
     time.textContent = fmt(video.currentTime);
   });
 
-  // Autoplay, always muted (the only kind browsers allow); sound is the
-  // visitor's choice. Retry as soon as there is data, and — if a browser
-  // still refuses (e.g. iOS Low Power Mode) — on the first interaction.
+  // Autoplay with sound. Browsers allow it when the visitor has already
+  // clicked on the site (e.g. on the preview that led here, in Chrome);
+  // otherwise the film starts muted and the sound comes on with the first
+  // click or key press. Choosing "Sound off" is always respected.
   let onScreen = true;
+  const reflect = () => {
+    sound.textContent = video.muted ? "Sound off" : "Sound on";
+    sound.setAttribute("aria-pressed", !video.muted);
+    video.dataset.cursor = video.muted ? "Sound on" : "Sound off";
+  };
   const tryPlay = () => {
     if (!onScreen || !video.paused) return;
-    if (!video.dataset.soundChosen) video.muted = true;
-    video.play().catch(() => {});
+    video.play().catch(() => {
+      // Not allowed with sound: play muted for now.
+      if (!video.muted) {
+        video.muted = true;
+        reflect();
+        video.play().catch(() => {});
+      }
+    });
   };
-  video.muted = true;
-  video.defaultMuted = true;
   video.playsInline = true;
+  video.volume = 0.6;
+  video.muted = false;
+  video.defaultMuted = false;
+  reflect();
   tryPlay();
   ["loadedmetadata", "canplay"].forEach((ev) => video.addEventListener(ev, tryPlay));
-  const unlock = () => {
+  const gestures = ["pointerdown", "keydown", "touchend"];
+  const unlock = (e) => {
+    gestures.forEach((ev) => removeEventListener(ev, unlock, true));
+    // The sound button and the film handle their own clicks.
+    if (e.target.closest?.(".film-sound, .film-video")) return;
+    if (!video.dataset.soundChosen && video.muted) {
+      video.muted = false;
+      reflect();
+    }
     tryPlay();
-    ["pointerdown", "keydown", "wheel", "touchstart"].forEach((ev) => removeEventListener(ev, unlock));
   };
-  ["pointerdown", "keydown", "wheel", "touchstart"].forEach((ev) => addEventListener(ev, unlock, { passive: true }));
+  gestures.forEach((ev) => addEventListener(ev, unlock, { capture: true, passive: true }));
   // Browsers pause muted video in hidden tabs; pick up again on return.
   document.addEventListener("visibilitychange", () => document.visibilityState === "visible" && tryPlay());
   // Show that the film is buffering rather than frozen.
