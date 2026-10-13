@@ -1599,10 +1599,10 @@ img[data-lightbox],
   opacity: 1;
 }
 
-/* While the pictures pass behind it, the text sits on white. */
-.ix-active .lab-text {
-  background: var(--bg);
-  padding: 8px 14px;
+/* Keep the scrollbar's space while the opening hides it, so the text
+   doesn't shift when the page appears. */
+html:has(body[data-page="experimental"]) {
+  scrollbar-gutter: stable;
 }
 
 /* A piece seen large */
