@@ -67,77 +67,6 @@ const CATEGORIES = {
 
 const PROJECTS = [
   {
-    "slug": "rooting-mother",
-    "title": "Rooting Mother",
-    "category": "photography",
-    "template": "series",
-    "cover": {
-      "src": "assets/rooting-mother/cover.jpg",
-      "w": 800,
-      "h": 1201
-    },
-    "thumb": {
-      "src": "assets/rooting-mother/thumb.jpg",
-      "w": 799,
-      "h": 1200,
-      "shape": "P",
-      "focus": "50% 30%"
-    },
-    "subtitle": "Mother's roots",
-    "meta": [
-      [
-        "Category",
-        "Photography"
-      ],
-      [
-        "Type",
-        "Personal series"
-      ],
-      [
-        "Role",
-        "Photography"
-      ]
-    ],
-    "text": [
-      "There is a specific kind of grief in watching someone who cannot get better.",
-      "In a studio turned parlour, I set aside the mother I had hoped for and turned to the woman who is actually there. These photographs depict a harsh reality: a bond built on trust and vulnerability, yet shadowed by the lasting scars of addiction, grief and time.",
-      "The camera opened a rare, silent space. It let me reach her in a way that bypassed her usual instability, offering a stillness our shared history has never had. She never posed and I never directed; the lens simply followed a woman unfolding, in all her complexity, through an honest conversation.",
-      "I am documenting the woman who brought me into this world, and acknowledging both the beauty and the tragedy of her many faces."
-    ],
-    "media": [
-      {
-        "src": "assets/rooting-mother/01.jpg",
-        "w": 1181,
-        "h": 1773
-      },
-      {
-        "src": "assets/rooting-mother/02.jpg",
-        "w": 1400,
-        "h": 2100
-      },
-      {
-        "src": "assets/rooting-mother/03.jpg",
-        "w": 1185,
-        "h": 1659
-      },
-      {
-        "src": "assets/rooting-mother/04.jpg",
-        "w": 1400,
-        "h": 2100
-      },
-      {
-        "src": "assets/rooting-mother/05.jpg",
-        "w": 2000,
-        "h": 1333
-      },
-      {
-        "src": "assets/rooting-mother/06.jpg",
-        "w": 1400,
-        "h": 2101
-      }
-    ]
-  },
-  {
     "slug": "nothing-changed",
     "title": "Nothing Changed",
     "category": "videography",
@@ -1049,6 +978,77 @@ const PROJECTS = [
         "title": "Posters & ads"
       }
     ]
+  },
+  {
+    "slug": "rooting-mother",
+    "title": "Rooting Mother",
+    "category": "photography",
+    "template": "series",
+    "cover": {
+      "src": "assets/rooting-mother/cover.jpg",
+      "w": 800,
+      "h": 1201
+    },
+    "thumb": {
+      "src": "assets/rooting-mother/thumb.jpg",
+      "w": 799,
+      "h": 1200,
+      "shape": "P",
+      "focus": "50% 30%"
+    },
+    "subtitle": "Mother's roots",
+    "meta": [
+      [
+        "Category",
+        "Photography"
+      ],
+      [
+        "Type",
+        "Personal series"
+      ],
+      [
+        "Role",
+        "Photography"
+      ]
+    ],
+    "text": [
+      "There is a specific kind of grief in watching someone who cannot get better.",
+      "In a studio turned parlour, I set aside the mother I had hoped for and turned to the woman who is actually there. These photographs depict a harsh reality: a bond built on trust and vulnerability, yet shadowed by the lasting scars of addiction, grief and time.",
+      "The camera opened a rare, silent space. It let me reach her in a way that bypassed her usual instability, offering a stillness our shared history has never had. She never posed and I never directed; the lens simply followed a woman unfolding, in all her complexity, through an honest conversation.",
+      "I am documenting the woman who brought me into this world, and acknowledging both the beauty and the tragedy of her many faces."
+    ],
+    "media": [
+      {
+        "src": "assets/rooting-mother/01.jpg",
+        "w": 1181,
+        "h": 1773
+      },
+      {
+        "src": "assets/rooting-mother/02.jpg",
+        "w": 1400,
+        "h": 2100
+      },
+      {
+        "src": "assets/rooting-mother/03.jpg",
+        "w": 1185,
+        "h": 1659
+      },
+      {
+        "src": "assets/rooting-mother/04.jpg",
+        "w": 1400,
+        "h": 2100
+      },
+      {
+        "src": "assets/rooting-mother/05.jpg",
+        "w": 2000,
+        "h": 1333
+      },
+      {
+        "src": "assets/rooting-mother/06.jpg",
+        "w": 1400,
+        "h": 2101
+      }
+    ]
   }
 ];
 
@@ -1225,3 +1225,71 @@ const EXPERIMENTAL = {
     }
   ]
 };
+
+// Small copies of project pictures for the experimental zone's opening sphere.
+const SPHERE = [
+  { src: "assets/sphere/01.jpg", w: 279, h: 420 },
+  { src: "assets/sphere/02.jpg", w: 420, h: 274 },
+  { src: "assets/sphere/03.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/04.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/05.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/06.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/07.jpg", w: 420, h: 236 },
+  { src: "assets/sphere/08.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/09.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/10.jpg", w: 279, h: 420 },
+  { src: "assets/sphere/11.jpg", w: 420, h: 274 },
+  { src: "assets/sphere/12.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/13.jpg", w: 420, h: 280 },
+  { src: "assets/sphere/14.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/15.jpg", w: 338, h: 420 },
+  { src: "assets/sphere/16.jpg", w: 279, h: 420 },
+  { src: "assets/sphere/17.jpg", w: 420, h: 232 },
+  { src: "assets/sphere/18.jpg", w: 336, h: 420 },
+  { src: "assets/sphere/19.jpg", w: 279, h: 420 },
+  { src: "assets/sphere/20.jpg", w: 300, h: 420 },
+  { src: "assets/sphere/21.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/22.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/23.jpg", w: 315, h: 420 },
+  { src: "assets/sphere/24.jpg", w: 336, h: 420 },
+  { src: "assets/sphere/25.jpg", w: 420, h: 279 },
+  { src: "assets/sphere/26.jpg", w: 420, h: 218 },
+  { src: "assets/sphere/27.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/28.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/29.jpg", w: 300, h: 420 },
+  { src: "assets/sphere/30.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/31.jpg", w: 420, h: 236 },
+  { src: "assets/sphere/32.jpg", w: 315, h: 420 },
+  { src: "assets/sphere/33.jpg", w: 334, h: 420 },
+  { src: "assets/sphere/34.jpg", w: 420, h: 279 },
+  { src: "assets/sphere/35.jpg", w: 420, h: 236 },
+  { src: "assets/sphere/36.jpg", w: 420, h: 297 },
+  { src: "assets/sphere/37.jpg", w: 300, h: 420 },
+  { src: "assets/sphere/38.jpg", w: 300, h: 420 },
+  { src: "assets/sphere/39.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/40.jpg", w: 420, h: 280 },
+  { src: "assets/sphere/41.jpg", w: 315, h: 420 },
+  { src: "assets/sphere/42.jpg", w: 336, h: 420 },
+  { src: "assets/sphere/43.jpg", w: 420, h: 279 },
+  { src: "assets/sphere/44.jpg", w: 420, h: 235 },
+  { src: "assets/sphere/45.jpg", w: 420, h: 297 },
+  { src: "assets/sphere/46.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/47.jpg", w: 300, h: 420 },
+  { src: "assets/sphere/48.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/49.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/50.jpg", w: 315, h: 420 },
+  { src: "assets/sphere/51.jpg", w: 336, h: 420 },
+  { src: "assets/sphere/52.jpg", w: 420, h: 279 },
+  { src: "assets/sphere/53.jpg", w: 420, h: 234 },
+  { src: "assets/sphere/54.jpg", w: 420, h: 297 },
+  { src: "assets/sphere/55.jpg", w: 420, h: 280 },
+  { src: "assets/sphere/56.jpg", w: 300, h: 420 },
+  { src: "assets/sphere/57.jpg", w: 420, h: 280 },
+  { src: "assets/sphere/58.jpg", w: 315, h: 420 },
+  { src: "assets/sphere/59.jpg", w: 336, h: 420 },
+  { src: "assets/sphere/60.jpg", w: 420, h: 279 },
+  { src: "assets/sphere/61.jpg", w: 420, h: 236 },
+  { src: "assets/sphere/62.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/63.jpg", w: 280, h: 420 },
+  { src: "assets/sphere/64.jpg", w: 300, h: 420 },
+];

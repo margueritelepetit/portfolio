@@ -1,168 +1,166 @@
-// The experimental zone: a white page with a short line of text and every
-// piece (images and videos) laid out on a 3D sphere. Drag to turn it,
-// scroll or pinch to zoom, click a piece to see it large. While there are
-// only a few pieces, they repeat to cover the sphere.
+// The experimental zone. The text stays at the top. It opens on a slowly
+// turning sphere of black and white project pictures; after about five
+// seconds (or a click) the sphere gives way to a loose collage of the
+// experimental pieces, scattered and overlapping. While there are only a
+// few pieces, they repeat so the collage feels full.
 
-const TILE_COUNT = 56;
+const SPHERE_MS = 5200;
+const MIN_PIECES = 9;
+const rand = (a, b) => a + Math.random() * (b - a);
 
-// Each unique video plays once, hidden; the tiles paint its frames onto
-// their own canvas, so repeats cost almost nothing.
-function videoSource(src) {
-  const v = document.createElement("video");
-  Object.assign(v, { src, muted: true, loop: true, playsInline: true, autoplay: true, preload: "auto" });
-  v.defaultMuted = true;
-  v.className = "s-source";
-  document.body.appendChild(v);
-  v.play().catch(() => {});
-  return v;
-}
+/* ── Opening sphere ─────────────────────────────────────── */
 
-function initSphere(stage, pieces) {
+function runSphere(stage) {
   const sphere = $(".sphere", stage);
-  const sources = new Map();
-  pieces.filter((p) => p.video).forEach((p) => sources.set(p.video, videoSource(p.video)));
+  const R = Math.min(innerWidth * (isMobile() ? 0.4 : 0.28), innerHeight * 0.34);
+  const pics = [...SPHERE].sort(() => Math.random() - 0.5);
+  const n = pics.length;
+  const golden = Math.PI * (3 - Math.sqrt(5));
+  const tiles = pics.map((m, i) => {
+    const h = R * 0.27, w = Math.min(h * (m.w / m.h), R * 0.4);
+    // Fibonacci points: an even spread over the sphere.
+    const y = 1 - (2 * (i + 0.5)) / n;
+    const r = Math.sqrt(1 - y * y);
+    const x = Math.cos(i * golden) * r, z = Math.sin(i * golden) * r;
+    const el = document.createElement("div");
+    el.className = "s-tile";
+    el.style.cssText = `width:${w}px;height:${h}px;margin:${-h / 2}px 0 0 ${-w / 2}px;transform:rotateY(${Math.atan2(x, z)}rad) rotateX(${-Math.asin(y)}rad) translateZ(${R}px)`;
+    el.innerHTML = `<img src="${esc(m.src)}" alt="" draggable="false">`;
+    sphere.appendChild(el);
+    return { el, n: [x, -y, z] };
+  });
 
-  let R, tiles = [];
-  const build = () => {
-    R = Math.min(innerWidth * (isMobile() ? 0.4 : 0.3), innerHeight * 0.36);
-    sphere.innerHTML = "";
-    tiles = [];
-    const golden = Math.PI * (3 - Math.sqrt(5));
-    for (let i = 0; i < TILE_COUNT; i++) {
-      const piece = pieces[i % pieces.length];
-      const ratio = piece.video ? piece.w / piece.h : piece.image.w / piece.image.h;
-      const h = R * 0.3, w = Math.min(h * ratio, R * 0.44);
-      // Fibonacci points: an even spread over the sphere.
-      const y = 1 - (2 * (i + 0.5)) / TILE_COUNT;
-      const r = Math.sqrt(1 - y * y);
-      const x = Math.cos(i * golden) * r, z = Math.sin(i * golden) * r;
-      const lon = Math.atan2(x, z), lat = -Math.asin(y);
-
-      const el = document.createElement("div");
-      el.className = "s-tile";
-      el.dataset.cursor = "Open";
-      el.dataset.piece = pieces.indexOf(piece);
-      el.style.cssText = `width:${w}px;height:${h}px;margin:${-h / 2}px 0 0 ${-w / 2}px;transform:rotateY(${lon}rad) rotateX(${lat}rad) translateZ(${R}px)`;
-      let canvas = null;
-      if (piece.video) {
-        canvas = document.createElement("canvas");
-        const dpr = Math.min(devicePixelRatio || 1, 2);
-        canvas.width = Math.round(w * dpr);
-        canvas.height = Math.round(h * dpr);
-        el.appendChild(canvas);
-      } else {
-        el.innerHTML = `<img src="${esc(piece.image.src)}" alt="${esc(piece.title)}" draggable="false">`;
-      }
-      sphere.appendChild(el);
-      tiles.push({ el, canvas, ctx: canvas?.getContext("2d"), video: piece.video && sources.get(piece.video), n: [x, -y, z] });
-    }
+  let tiltX = 0, tiltY = 0, tx = 0, ty = 0, running = true;
+  const onMove = (e) => {
+    tx = (e.clientX / innerWidth - 0.5) * 2;
+    ty = (e.clientY / innerHeight - 0.5) * 2;
   };
-  build();
-  let resizeTimer;
-  addEventListener("resize", () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(build, 200);
-  });
+  addEventListener("pointermove", onMove, { passive: true });
 
-  // Rotation (degrees) with inertia; zoom moves the sphere toward the viewer.
-  const P = 1400;
-  let rx = -12, ry = 0, vx = 0, vy = reducedMotion ? 0 : 0.08;
-  let zoom = 0, zoomTarget = 0;
-  const zoomRange = () => [-R * 1.4, P * 0.66 - R];
-  let tiltX = 0, tiltY = 0, tx = 0, ty = 0;
-
-  let drag = null, moved = 0;
-  stage.addEventListener("pointerdown", (e) => {
-    drag = { x: e.clientX, y: e.clientY, id: e.pointerId };
-    moved = 0;
-    stage.classList.add("dragging");
-  });
-  addEventListener("pointermove", (e) => {
-    if (finePointer) {
-      tx = (e.clientX / innerWidth - 0.5) * 2;
-      ty = (e.clientY / innerHeight - 0.5) * 2;
-    }
-    if (!drag || e.pointerId !== drag.id || pinch) return;
-    const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
-    moved += Math.abs(dx) + Math.abs(dy);
-    vy = dx * 0.18;
-    vx = -dy * 0.18;
-    ry += vy;
-    rx = clamp(rx + vx, -70, 70);
-    drag.x = e.clientX;
-    drag.y = e.clientY;
-  });
-  const endDrag = () => {
-    drag = null;
-    stage.classList.remove("dragging");
-  };
-  addEventListener("pointerup", endDrag);
-  addEventListener("pointercancel", endDrag);
-
-  stage.addEventListener("wheel", (e) => {
-    e.preventDefault();
-    const [lo, hi] = zoomRange();
-    zoomTarget = clamp(zoomTarget - e.deltaY * (e.deltaMode === 1 ? 30 : 1) * 0.9, lo, hi);
-  }, { passive: false });
-
-  // Pinch to zoom on touch screens.
-  let pinch = null;
-  const dist = (t) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
-  stage.addEventListener("touchstart", (e) => {
-    if (e.touches.length === 2) pinch = { d: dist(e.touches), z: zoomTarget };
-  }, { passive: true });
-  stage.addEventListener("touchmove", (e) => {
-    if (!pinch || e.touches.length !== 2) return;
-    const [lo, hi] = zoomRange();
-    zoomTarget = clamp(pinch.z + (dist(e.touches) - pinch.d) * 2.2, lo, hi);
-  }, { passive: true });
-  stage.addEventListener("touchend", (e) => e.touches.length < 2 && (pinch = null), { passive: true });
-
-  // Click (not drag) opens the piece.
-  stage.addEventListener("click", (e) => {
-    const tile = e.target.closest(".s-tile");
-    if (tile && moved < 6) openPiece(pieces[tile.dataset.piece]);
-  });
-
+  const start = performance.now();
   const rad = Math.PI / 180;
-  let frame = 0;
-  const tick = () => {
-    if (!drag) {
-      vx *= 0.94;
-      vy = vy * 0.96 + (reducedMotion ? 0 : 0.08) * 0.04; // ease back to a slow spin
-      ry += vy;
-      rx = clamp(rx + vx, -70, 70);
-    }
-    tiltX += (tx * 6 - tiltX) * 0.05;
-    tiltY += (ty * -6 - tiltY) * 0.05;
-    zoom += (zoomTarget - zoom) * 0.12;
-    const ax = (rx + tiltY) * rad, ay = (ry + tiltX) * rad;
-    sphere.style.transform = `translateZ(${zoom}px) rotateX(${rx + tiltY}deg) rotateY(${ry + tiltX}deg)`;
-
-    // How much each tile faces the viewer: front ones are crisp, the far
-    // side shows through faintly. Far-side videos repaint less often.
-    const cy = Math.cos(ay), sy = Math.sin(ay), cx = Math.cos(ax), sx = Math.sin(ax);
-    frame++;
-    for (const t of tiles) {
-      const [x, y, z] = t.n;
-      const z1 = -x * sy + z * cy;
-      const facing = y * sx + z1 * cx;
-      t.el.style.opacity = facing > 0 ? 0.35 + facing * 0.65 : Math.max(0.06, 0.2 + facing * 0.2);
-      if (t.ctx && frame % (facing > -0.1 ? 2 : 8) === 0 && t.video.readyState >= 2) {
-        const v = t.video, cw = t.canvas.width, ch = t.canvas.height;
-        const s = Math.max(cw / v.videoWidth, ch / v.videoHeight);
-        const w = v.videoWidth * s, h = v.videoHeight * s;
-        t.ctx.drawImage(v, (cw - w) / 2, (ch - h) / 2, w, h);
-      }
+  const tick = (now) => {
+    if (!running) return;
+    const t = (now - start) / 1000;
+    tiltX += (tx * 8 - tiltX) * 0.04;
+    tiltY += (-ty * 6 - tiltY) * 0.04;
+    // A slow spin with a gentle sway.
+    const ry = t * 9 + tiltX;
+    const rx = -10 + Math.sin(t * 0.6) * 5 + tiltY;
+    sphere.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+    const cy = Math.cos(ry * rad), sy = Math.sin(ry * rad), cx = Math.cos(rx * rad), sx = Math.sin(rx * rad);
+    for (const tile of tiles) {
+      const [x, y, z] = tile.n;
+      const facing = y * sx + (-x * sy + z * cy) * cx;
+      tile.el.style.opacity = facing > 0 ? 0.4 + facing * 0.6 : Math.max(0.05, 0.18 + facing * 0.18);
     }
     requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
 
-  // Hidden sources can be paused by the browser; keep them going.
-  const replay = () => sources.forEach((v) => v.paused && v.play().catch(() => {}));
-  ["pointerdown", "touchstart"].forEach((ev) => addEventListener(ev, replay, { passive: true }));
-  document.addEventListener("visibilitychange", () => document.visibilityState === "visible" && replay());
+  return () => {
+    running = false;
+    removeEventListener("pointermove", onMove);
+  };
+}
+
+/* ── Collage ────────────────────────────────────────────── */
+// Pieces are dropped into a loose grid of cells, then pushed off-centre at
+// random with random sizes, so they scatter and sometimes overlap.
+
+function collageHtml(pieces) {
+  const count = Math.max(MIN_PIECES, pieces.length);
+  const list = [];
+  while (list.length < count) list.push(...pieces);
+  const items = list.slice(0, count).sort(() => Math.random() - 0.5);
+
+  const mobile = isMobile();
+  const W = innerWidth, cols = mobile ? 2 : 3;
+  const cellW = W / cols, cellH = innerHeight * (mobile ? 0.34 : 0.48);
+  const top = mobile ? 200 : 220;
+  const firstVideo = new Set();
+  let bottom = 0;
+
+  const html = items.map((piece, i) => {
+    const ratio = piece.video ? piece.w / piece.h : piece.image.w / piece.image.h;
+    const col = i % cols, row = Math.floor(i / cols);
+    let w = W * (mobile ? rand(0.42, 0.6) : rand(0.17, 0.3));
+    if (ratio < 1) w *= 0.75; // portraits a little narrower
+    const h = w / ratio;
+    const x = clamp(col * cellW + rand(-0.45, 0.75) * (cellW - w * 0.4), 12, W - w - 12);
+    const y = top + row * cellH + rand(-0.3, 0.55) * cellH;
+    bottom = Math.max(bottom, y + h);
+
+    // One real <video> per film; repeats paint its frames onto a canvas.
+    let media;
+    if (piece.video && !firstVideo.has(piece.video)) {
+      firstVideo.add(piece.video);
+      media = `<video src="${esc(piece.video)}" muted loop playsinline autoplay preload="metadata"></video>`;
+    } else if (piece.video) {
+      media = `<canvas data-mirror="${esc(piece.video)}"></canvas>`;
+    } else {
+      media = `<img src="${esc(piece.image.src)}" alt="${esc(piece.title)}" draggable="false">`;
+    }
+    return `<figure class="c-item" data-cursor="Open" data-piece="${pieces.indexOf(piece)}"
+      style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;z-index:${1 + Math.floor(rand(0, count))};--d:${i * 110}ms">${media}</figure>`;
+  });
+  return { html: html.join(""), height: bottom + 140 };
+}
+
+function initCollage(root, pieces) {
+  const box = $(".collage", root);
+  const build = () => {
+    const { html, height } = collageHtml(pieces);
+    box.innerHTML = html;
+    box.style.height = `${height}px`;
+  };
+  build();
+
+  // Repeated films: paint the visible copies from the original video.
+  const videos = () => new Map($$("video", box).map((v) => [v.getAttribute("src"), v]));
+  let sources = videos();
+  const paint = () => {
+    for (const c of $$("canvas[data-mirror]", box)) {
+      const v = sources.get(c.dataset.mirror);
+      if (!v || v.readyState < 2) continue;
+      const r = c.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) continue;
+      if (c.width !== Math.round(r.width)) {
+        c.width = Math.round(r.width);
+        c.height = Math.round(r.height);
+      }
+      c.getContext("2d").drawImage(v, 0, 0, c.width, c.height);
+    }
+    setTimeout(paint, 40);
+  };
+  paint();
+  const play = () => sources.forEach((v) => v.paused && v.play().catch(() => {}));
+  play();
+  ["pointerdown", "touchstart"].forEach((ev) => addEventListener(ev, play, { passive: true }));
+  document.addEventListener("visibilitychange", () => document.visibilityState === "visible" && play());
+
+  box.addEventListener("click", (e) => {
+    const item = e.target.closest(".c-item");
+    if (item) openPiece(pieces[item.dataset.piece]);
+  });
+  // The hovered piece comes to the front.
+  let topZ = 100;
+  box.addEventListener("pointerover", (e) => {
+    const item = e.target.closest(".c-item");
+    if (item) item.style.zIndex = ++topZ;
+  });
+
+  let lastW = innerWidth, timer;
+  addEventListener("resize", () => {
+    if (Math.abs(innerWidth - lastW) < 80) return; // ignore mobile toolbar resizes
+    lastW = innerWidth;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      build();
+      sources = videos();
+      play();
+    }, 250);
+  });
 }
 
 // A piece seen large, on white. Videos play with sound on demand.
@@ -196,12 +194,40 @@ function openPiece(piece) {
   box.addEventListener("click", (e) => e.target === box && close());
 }
 
+/* ── Boot ───────────────────────────────────────────────── */
+
 (function initExperimental() {
   bootSite();
   const root = $("#lab");
   root.innerHTML = `
     <p class="lab-text ui">${EXPERIMENTAL.text.map(esc).join(" ")}</p>
-    <div class="sphere-stage"><div class="sphere"></div></div>`;
-  $("#site-footer").innerHTML = `<span class="ui muted">Drag to turn, scroll to zoom</span><a class="ui" href="mailto:${esc(SITE.email)}">Contact</a>`;
-  initSphere($(".sphere-stage", root), EXPERIMENTAL.pieces);
+    <div class="collage"></div>
+    <div class="sphere-stage" aria-hidden="true"><div class="sphere"></div></div>`;
+  $("#site-footer").innerHTML = "";
+  initCollage(root, EXPERIMENTAL.pieces);
+
+  const stage = $(".sphere-stage", root);
+  const showCollage = () => $(".collage", root).classList.add("in");
+  if (reducedMotion) {
+    stage.remove();
+    showCollage();
+    return;
+  }
+  document.documentElement.classList.add("sphere-active");
+  const stop = runSphere(stage);
+  let done = false;
+  const finish = () => {
+    if (done) return;
+    done = true;
+    stage.classList.add("leaving");
+    document.documentElement.classList.remove("sphere-active");
+    setTimeout(showCollage, 450);
+    setTimeout(() => {
+      stop();
+      stage.remove();
+    }, 1500);
+  };
+  // Count the five seconds from the first painted frame.
+  requestAnimationFrame(() => setTimeout(finish, SPHERE_MS));
+  stage.addEventListener("click", finish);
 })();

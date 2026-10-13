@@ -121,7 +121,7 @@ function initCursor() {
     y = e.clientY;
     // Pictures and video (project previews, images, films) get the label;
     // any clickable text gets the small inverting square.
-    const media = e.target.closest?.(".item, .s-tile, img[data-cursor], video[data-cursor]");
+    const media = e.target.closest?.(".item, .c-item, img[data-cursor], video[data-cursor]");
     const target = media && media.dataset.cursor ? media : null;
     const link = !target && e.target.closest?.("a, button, [role=button]");
     c.classList.toggle("is-label", !!target);
