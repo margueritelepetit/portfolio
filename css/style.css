@@ -410,6 +410,19 @@ h2.ui {
   font-variant-numeric: tabular-nums;
 }
 
+.entry-sound {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 0;
+  right: 0;
+  text-align: center;
+  transition: opacity 0.6s ease;
+}
+
+.entry.sound-on .entry-sound {
+  opacity: 0;
+}
+
 .entry.leaving .entry-load {
   opacity: 0;
 }
@@ -1346,7 +1359,7 @@ img[data-lightbox],
 .sphere {
   position: absolute;
   left: 50%;
-  top: 54%;
+  top: 57%;
   transform-style: preserve-3d;
   will-change: transform;
 }
@@ -1375,7 +1388,6 @@ img[data-lightbox],
 .c-item {
   position: absolute;
   margin: 0;
-  background: var(--placeholder);
   opacity: 0;
   transform: translateY(18px) scale(0.97);
   filter: blur(6px);

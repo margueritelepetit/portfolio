@@ -5,19 +5,30 @@
 // few pieces, they repeat so the collage feels full.
 
 const SPHERE_MS = 5200;
-const MIN_PIECES = 9;
-const rand = (a, b) => a + Math.random() * (b - a);
+const MIN_PIECES = 12;
+
+// Seeded random numbers: the collage looks scattered but is laid out the
+// same way on every visit (change COLLAGE_SEED for another arrangement).
+const COLLAGE_SEED = 21;
+function seeded(seed) {
+  return () => {
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
 
 /* ── Opening sphere ─────────────────────────────────────── */
 
 function runSphere(stage) {
   const sphere = $(".sphere", stage);
-  const R = Math.min(innerWidth * (isMobile() ? 0.4 : 0.28), innerHeight * 0.34);
+  const R = Math.min(innerWidth * (isMobile() ? 0.46 : 0.4), innerHeight * 0.4);
   const pics = [...SPHERE].sort(() => Math.random() - 0.5);
   const n = pics.length;
   const golden = Math.PI * (3 - Math.sqrt(5));
   const tiles = pics.map((m, i) => {
-    const h = R * 0.27, w = Math.min(h * (m.w / m.h), R * 0.4);
+    const h = R * 0.25, w = Math.min(h * (m.w / m.h), R * 0.36);
     // Fibonacci points: an even spread over the sphere.
     const y = 1 - (2 * (i + 0.5)) / n;
     const r = Math.sqrt(1 - y * y);
@@ -30,10 +41,16 @@ function runSphere(stage) {
     return { el, n: [x, -y, z] };
   });
 
-  let tiltX = 0, tiltY = 0, tx = 0, ty = 0, running = true;
+  // A slow spin; moving the mouse pushes the sphere (the faster the
+  // movement, the stronger the push), then it eases back to its own pace.
+  const BASE = 0.15; // degrees per frame
+  let ry = 0, rx = -10, vy = BASE, vx = 0, running = true, last = null;
   const onMove = (e) => {
-    tx = (e.clientX / innerWidth - 0.5) * 2;
-    ty = (e.clientY / innerHeight - 0.5) * 2;
+    if (last) {
+      vy = clamp(vy + (e.clientX - last.x) * 0.06, -9, 9);
+      vx = clamp(vx - (e.clientY - last.y) * 0.04, -6, 6);
+    }
+    last = { x: e.clientX, y: e.clientY };
   };
   addEventListener("pointermove", onMove, { passive: true });
 
@@ -42,11 +59,11 @@ function runSphere(stage) {
   const tick = (now) => {
     if (!running) return;
     const t = (now - start) / 1000;
-    tiltX += (tx * 8 - tiltX) * 0.04;
-    tiltY += (-ty * 6 - tiltY) * 0.04;
-    // A slow spin with a gentle sway.
-    const ry = t * 9 + tiltX;
-    const rx = -10 + Math.sin(t * 0.6) * 5 + tiltY;
+    vy += (BASE - vy) * 0.03;
+    vx *= 0.94;
+    ry += vy;
+    rx = clamp(rx + vx, -60, 60);
+    rx += (-10 + Math.sin(t * 0.6) * 5 - rx) * 0.01; // gentle sway back to level
     sphere.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
     const cy = Math.cos(ry * rad), sy = Math.sin(ry * rad), cx = Math.cos(rx * rad), sx = Math.sin(rx * rad);
     for (const tile of tiles) {
@@ -65,18 +82,28 @@ function runSphere(stage) {
 }
 
 /* ── Collage ────────────────────────────────────────────── */
-// Pieces are dropped into a loose grid of cells, then pushed off-centre at
-// random with random sizes, so they scatter and sometimes overlap.
+// Pieces are dropped into a loose grid of cells, then pushed off-centre with
+// varied sizes, so they scatter and overlap. Sizes and positions scale with
+// the window, so the arrangement keeps its shape at any width.
 
 function collageHtml(pieces) {
   const count = Math.max(MIN_PIECES, pieces.length);
   const list = [];
   while (list.length < count) list.push(...pieces);
-  const items = list.slice(0, count).sort(() => Math.random() - 0.5);
+  const random = seeded(COLLAGE_SEED);
+  const rand = (a, b) => a + random() * (b - a);
+  // A fixed shuffle that avoids the same piece twice in a row.
+  const items = list.slice(0, count).map((p) => [random(), p]).sort((a, b) => a[0] - b[0]).map(([, p]) => p);
+  for (let i = 1; i < items.length; i++) {
+    if (items[i] === items[i - 1]) {
+      const j = items.findIndex((p, k) => k > i && p !== items[i]);
+      if (j > 0) [items[i], items[j]] = [items[j], items[i]];
+    }
+  }
 
   const mobile = isMobile();
-  const W = innerWidth, cols = mobile ? 2 : 3;
-  const cellW = W / cols, cellH = innerHeight * (mobile ? 0.34 : 0.48);
+  const W = innerWidth, cols = mobile ? 2 : 4;
+  const cellW = W / cols, cellH = W * (mobile ? 0.55 : 0.2);
   const top = mobile ? 200 : 220;
   const firstVideo = new Set();
   let bottom = 0;
@@ -84,7 +111,7 @@ function collageHtml(pieces) {
   const html = items.map((piece, i) => {
     const ratio = piece.video ? piece.w / piece.h : piece.image.w / piece.image.h;
     const col = i % cols, row = Math.floor(i / cols);
-    let w = W * (mobile ? rand(0.42, 0.6) : rand(0.17, 0.3));
+    let w = W * (mobile ? rand(0.42, 0.62) : rand(0.16, 0.3));
     if (ratio < 1) w *= 0.75; // portraits a little narrower
     const h = w / ratio;
     const x = clamp(col * cellW + rand(-0.45, 0.75) * (cellW - w * 0.4), 12, W - w - 12);

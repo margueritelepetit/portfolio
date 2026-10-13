@@ -49,7 +49,7 @@ function paperTexture(canvas) {
 // soft fifth and a faint shimmering overtone sit on top, with a breath of
 // filtered air. Browsers only allow sound after a click or key press on
 // the site, so it starts then if it can't start straight away.
-function introSound() {
+function introSound(onPlaying = () => {}) {
   const AC = window.AudioContext || window.webkitAudioContext;
   if (!AC || reducedMotion) return { stop() {} };
   const ctx = new AC();
@@ -106,10 +106,11 @@ function introSound() {
     const now = ctx.currentTime;
     master.gain.cancelScheduledValues(now);
     master.gain.setValueAtTime(master.gain.value, now);
-    master.gain.linearRampToValueAtTime(0.22, now + 2.5);
+    master.gain.linearRampToValueAtTime(0.22, now + 1.8);
+    onPlaying();
   };
   const unlock = () => ctx.resume().then(fadeIn).catch(() => {});
-  const events = ["pointerdown", "keydown", "touchstart"];
+  const events = ["pointerdown", "pointerup", "keydown", "touchend"];
   events.forEach((ev) => addEventListener(ev, unlock, { passive: true }));
   unlock();
 
@@ -171,6 +172,7 @@ function runEntry() {
     <div class="mosaic" aria-hidden="true"></div>
     <div class="entry-load ui" aria-hidden="true" style="top:${oy + gridH + th * 0.9}px">
       <span>Entering</span><span class="entry-line"><span></span></span><span class="entry-pct">000</span>
+      <span class="entry-sound muted">Click for sound</span>
     </div>`;
 
   const mosaic = $(".mosaic", el);
@@ -215,11 +217,10 @@ function runEntry() {
   const pct = $(".entry-pct", el);
 
   return new Promise((resolve) => {
-    const sound = introSound();
+    const sound = introSound(() => el.classList.add("sound-on"));
     const start = performance.now();
-    let exitAt = reducedMotion ? 600 : INTRO_MS;
+    const exitAt = reducedMotion ? 600 : INTRO_MS;
     let leaving = 0, done = false, shown = 0, nextFade = 0;
-    el.addEventListener("click", () => (exitAt = Math.min(exitAt, performance.now() - start)));
 
     const finish = () => {
       done = true;

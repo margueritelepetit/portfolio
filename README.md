@@ -26,7 +26,7 @@ Each project in `js/data.js` has a `template`:
 All pages share the elements below. The home page and font size follow cathydolle.com:
 - a minimal header: name and Projects on the left, Experimental zone and About on the right
 - the cursor: a thin plus sign; over pictures and any clickable text it becomes a filled square that inverts what is beneath (with a label over pictures)
-- the logo: the browser-tab icon (`assets/mark.svg`, `mark-32/64.png`, `favicon.ico`, all transparent) and, in the About panel, drawn line by line each time it opens (outline only; `assets/logo.svg` is the full-size file)
+- the logo: the browser-tab icon (`assets/mark-32/64.png` and `favicon.ico`, transparent PNGs) and, in the About panel, drawn line by line each time it opens (outline only; `assets/logo.svg` is the full-size file)
 - the image lightbox
 - a slim "next project" line at the end of each project: keep scrolling to fill it, then a wipe opens the next one
 - page transitions: in Chrome, Edge and Safari 18+, the clicked image glides into the next page; other browsers fade
