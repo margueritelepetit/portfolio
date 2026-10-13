@@ -114,7 +114,45 @@ function introSound(onPlaying = () => {}) {
   events.forEach((ev) => addEventListener(ev, unlock, { passive: true }));
   unlock();
 
+  // Entering: a soft airy whoosh that ends on a tiny raindrop. It plays
+  // outside the hum's fade so it stays clear while the hum dies away.
+  const enter = () => {
+    if (ctx.state !== "running") return;
+    const now = ctx.currentTime;
+    const whoosh = ctx.createBufferSource();
+    whoosh.buffer = buf;
+    const sweep = ctx.createBiquadFilter();
+    sweep.type = "bandpass";
+    sweep.Q.value = 2.2;
+    sweep.frequency.setValueAtTime(380, now);
+    sweep.frequency.exponentialRampToValueAtTime(2600, now + 0.75);
+    const wg = ctx.createGain();
+    wg.gain.setValueAtTime(0, now);
+    wg.gain.linearRampToValueAtTime(0.09, now + 0.45);
+    wg.gain.exponentialRampToValueAtTime(0.0001, now + 1.1);
+    whoosh.connect(sweep).connect(wg).connect(ctx.destination);
+    whoosh.start(now);
+    whoosh.stop(now + 1.2);
+
+    // The drop: a high tone that falls fast and fades, with a faint echo.
+    const drop = (t, level) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = "sine";
+      o.frequency.setValueAtTime(1500, t);
+      o.frequency.exponentialRampToValueAtTime(620, t + 0.09);
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(level, t + 0.006);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.32);
+      o.connect(g).connect(ctx.destination);
+      o.start(t);
+      o.stop(t + 0.35);
+    };
+    drop(now + 0.78, 0.09);
+    drop(now + 1.02, 0.025);
+  };
+
   return {
+    enter,
     stop(seconds = 1.5) {
       if (stopped) return;
       stopped = true;
@@ -123,7 +161,7 @@ function introSound(onPlaying = () => {}) {
       master.gain.cancelScheduledValues(now);
       master.gain.setValueAtTime(master.gain.value, now);
       master.gain.linearRampToValueAtTime(0, now + seconds);
-      setTimeout(() => ctx.close().catch(() => {}), seconds * 1000 + 200);
+      setTimeout(() => ctx.close().catch(() => {}), Math.max(seconds, 1.4) * 1000 + 200);
     },
   };
 }
@@ -241,6 +279,7 @@ function runEntry() {
       if (!leaving && t >= exitAt && allLoaded) {
         leaving = t;
         el.classList.add("leaving");
+        sound.enter();
         sound.stop(1.6); // gone by the time the projects appear
         setTimeout(finish, reducedMotion ? 0 : 1600);
       }

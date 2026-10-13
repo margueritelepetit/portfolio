@@ -576,11 +576,11 @@ const PROJECTS = [
       "h": 619
     },
     "thumb": {
-      "src": "assets/2-much/thumb.jpg",
-      "w": 798,
-      "h": 1200,
+      "src": "assets/2-much/01.jpg",
+      "w": 2000,
+      "h": 1331,
       "shape": "P",
-      "focus": "50% 35%"
+      "focus": "88% 35%"
     },
     "video": {
       "src": "https://freight.cargo.site/m/V2841251704613423060336496873645/2MUCH_WEB.mp4",
@@ -1189,6 +1189,12 @@ const INTRO = [
 const EXPERIMENTAL = {
   "text": [
     "Welcome to the experimental zone. Here I explore art through technology with a range of mediums and creative coding, creating shapes and interactive pieces with TouchDesigner, code and graphic softwares."
+  ],
+  // Short notes placed in the white space between the pieces.
+  "notes": [
+    "Light, noise and code.\nShapes that answer back.",
+    "Nodes as a sketchbook:\neach network a small experiment\nin TouchDesigner.",
+    "Real time, generative,\nunfinished on purpose."
   ],
   "pieces": [
     {

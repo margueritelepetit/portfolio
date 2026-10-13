@@ -1,122 +1,151 @@
-// The experimental zone. The text stays at the top. It opens on a slowly
-// turning sphere of black and white project pictures; after about five
-// seconds (or a click) the sphere gives way to a loose collage of the
-// experimental pieces, scattered and overlapping. While there are only a
-// few pieces, they repeat so the collage feels full.
+// The experimental zone. The text stays at the top. It opens on an index
+// scan of black and white project pictures; after about five seconds (or a
+// click) they give way to the experimental pieces, laid out with lots of
+// air like a magazine spread.
 
-const SPHERE_MS = 5200;
-const MIN_PIECES = 12;
+const INDEX_MS = 4800;
 
-// Seeded random numbers: the collage looks scattered but is laid out the
-// same way on every visit (change COLLAGE_SEED for another arrangement).
-const COLLAGE_SEED = 21;
-function seeded(seed) {
-  return () => {
-    seed = (seed + 0x6d2b79f5) | 0;
-    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
+// The collage: a fixed, airy layout in the spirit of magazine spreads.
+// Each slot gives a piece's left edge and width (% of the page width) and
+// its top (in vw, so the whole layout scales with the window). Pieces fill
+// the slots in order and repeat while there are fewer pieces than slots.
+// Some slots run off the page edge on purpose.
+const SLOTS = [
+  { x: 14, y: 6, w: 21, cap: "right" },
+  { x: 57, y: 0, w: 13, cap: "left" },
+  { x: 76, y: 24, w: 27, cap: "below" },
+  { x: 5, y: 58, w: 31, cap: "below" },
+  { x: 47, y: 50, w: 15, cap: "right" },
+  { x: 73, y: 72, w: 16, cap: "left" },
+  { x: 30, y: 96, w: 13, cap: "right" },
+  { x: 54, y: 112, w: 30, cap: "below" },
+];
+// Where the short notes sit (desktop only), in the same units as SLOTS.
+const NOTE_SLOTS = [
+  { x: 40, y: 30 },
+  { x: 67, y: 52 },
+  { x: 9, y: 100 },
+];
+const SLOTS_MOBILE = [
+  { x: 8, y: 0, w: 58, cap: "below" },
+  { x: 44, y: 58, w: 50, cap: "below" },
+  { x: 4, y: 104, w: 62, cap: "below" },
+  { x: 52, y: 150, w: 44, cap: "below" },
+  { x: 12, y: 196, w: 52, cap: "below" },
+  { x: 40, y: 250, w: 56, cap: "below" },
+  { x: 6, y: 300, w: 46, cap: "below" },
+  { x: 36, y: 350, w: 60, cap: "below" },
+];
 
-/* ── Opening sphere ─────────────────────────────────────── */
+/* ── Opening: index scan ────────────────────────────────── */
+// A hairline sweeps down the white page and reveals a precise grid of
+// black and white project pictures, with small plus marks at the grid
+// corners. The pictures then quietly swap places, as if an archive were
+// being indexed, while a counter runs; finally they dissolve one by one.
 
-function runSphere(stage) {
-  const sphere = $(".sphere", stage);
-  const R = Math.min(innerWidth * (isMobile() ? 0.46 : 0.4), innerHeight * 0.4);
-  const pics = [...SPHERE].sort(() => Math.random() - 0.5);
-  const n = pics.length;
-  const golden = Math.PI * (3 - Math.sqrt(5));
-  const tiles = pics.map((m, i) => {
-    const h = R * 0.25, w = Math.min(h * (m.w / m.h), R * 0.36);
-    // Fibonacci points: an even spread over the sphere.
-    const y = 1 - (2 * (i + 0.5)) / n;
-    const r = Math.sqrt(1 - y * y);
-    const x = Math.cos(i * golden) * r, z = Math.sin(i * golden) * r;
-    const el = document.createElement("div");
-    el.className = "s-tile";
-    el.style.cssText = `width:${w}px;height:${h}px;margin:${-h / 2}px 0 0 ${-w / 2}px;transform:rotateY(${Math.atan2(x, z)}rad) rotateX(${-Math.asin(y)}rad) translateZ(${R}px)`;
-    el.innerHTML = `<img src="${esc(m.src)}" alt="" draggable="false">`;
-    sphere.appendChild(el);
-    return { el, n: [x, -y, z] };
+function runIndex(stage) {
+  const pics = SPHERE;
+  const mobile = isMobile();
+  const padX = innerWidth * (mobile ? 0.05 : 0.07);
+  const top = mobile ? 150 : 140, bottom = 64;
+  const areaW = innerWidth - padX * 2, areaH = innerHeight - top - bottom;
+  // Columns and rows of 3:4 cells, complete rows only (a few pictures
+  // may be left out), with the largest cells that fit.
+  let best = { cell: 0 };
+  for (let cols = 4; cols <= 30; cols++) {
+    const rows = Math.floor(pics.length / cols);
+    if (!rows || cols * rows < pics.length * 0.85) continue;
+    const gap = 0.18;
+    const cw = Math.min(areaW / (cols + (cols - 1) * gap), areaH / (rows * 4 / 3 + (rows - 1) * gap * 4 / 3) * 1);
+    if (cw > best.cell) best = { cell: cw, cols, rows };
+  }
+  const { cols, rows } = best;
+  const cw = Math.floor(best.cell), ch = Math.round(cw * 4 / 3), gx = Math.round(cw * 0.18);
+  const gridW = cols * cw + (cols - 1) * gx, gridH = rows * ch + (rows - 1) * gx;
+  const ox = (innerWidth - gridW) / 2, oy = top + (areaH - gridH) / 2;
+
+  const cells = [], marks = [];
+  let html = "";
+  for (let i = 0; i < rows * cols; i++) {
+    const r = Math.floor(i / cols), c = i % cols;
+    html += `<div class="ix-cell" style="left:${ox + c * (cw + gx)}px;top:${oy + r * (ch + gx)}px;width:${cw}px;height:${ch}px"><img src="${esc(pics[i].src)}" alt=""></div>`;
+  }
+  // Plus marks where the gutters cross.
+  for (let r = 0; r <= rows; r++) {
+    for (let c = 0; c <= cols; c++) {
+      const x = ox + c * (cw + gx) - gx / 2, y = oy + r * (ch + gx) - gx / 2;
+      html += `<span class="ix-mark" style="left:${x}px;top:${y}px"></span>`;
+    }
+  }
+  stage.innerHTML = `${html}<span class="ix-scan"></span>
+    <p class="ix-read ui"><span>Indexing</span><span class="ix-count">000 / ${String(rows * cols).padStart(3, "0")}</span></p>`;
+  cells.push(...$$(".ix-cell", stage));
+  marks.push(...$$(".ix-mark", stage));
+  const scan = $(".ix-scan", stage), count = $(".ix-count", stage);
+  const total = String(cells.length).padStart(3, "0");
+  const timers = [];
+  const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+
+  // 1. Sweep: each row appears as the line passes it.
+  const SWEEP = 1500;
+  later(() => stage.classList.add("scanning"), 30);
+  cells.forEach((cell, i) => {
+    const r = Math.floor(i / cols);
+    later(() => cell.classList.add("on"), 120 + ((oy + r * (ch + gx)) / innerHeight) * SWEEP);
   });
+  marks.forEach((m, i) => later(() => m.classList.add("on"), 60 + (i / marks.length) * SWEEP));
 
-  // A slow spin; moving the mouse pushes the sphere (the faster the
-  // movement, the stronger the push), then it eases back to its own pace.
-  const BASE = 0.15; // degrees per frame
-  let ry = 0, rx = -10, vy = BASE, vx = 0, running = true, last = null;
-  const onMove = (e) => {
-    if (last) {
-      vy = clamp(vy + (e.clientX - last.x) * 0.06, -9, 9);
-      vx = clamp(vx - (e.clientY - last.y) * 0.04, -6, 6);
+  // 2. Indexing: pictures swap places, the counter runs.
+  let n = 0;
+  const swap = () => {
+    for (let k = 0; k < 3; k++) {
+      const cell = cells[(Math.random() * cells.length) | 0];
+      const img = $("img", cell);
+      cell.classList.add("blink");
+      setTimeout(() => {
+        img.src = pics[(Math.random() * pics.length) | 0].src;
+        cell.classList.remove("blink");
+      }, 90);
     }
-    last = { x: e.clientX, y: e.clientY };
   };
-  addEventListener("pointermove", onMove, { passive: true });
+  const counter = setInterval(() => {
+    n = Math.min(cells.length, n + Math.ceil(cells.length / 70));
+    count.textContent = `${String(n).padStart(3, "0")} / ${total}`;
+  }, 40);
+  let swapper;
+  later(() => (swapper = setInterval(swap, 120)), SWEEP);
 
-  const start = performance.now();
-  const rad = Math.PI / 180;
-  const tick = (now) => {
-    if (!running) return;
-    const t = (now - start) / 1000;
-    vy += (BASE - vy) * 0.03;
-    vx *= 0.94;
-    ry += vy;
-    rx = clamp(rx + vx, -60, 60);
-    rx += (-10 + Math.sin(t * 0.6) * 5 - rx) * 0.01; // gentle sway back to level
-    sphere.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
-    const cy = Math.cos(ry * rad), sy = Math.sin(ry * rad), cx = Math.cos(rx * rad), sx = Math.sin(rx * rad);
-    for (const tile of tiles) {
-      const [x, y, z] = tile.n;
-      const facing = y * sx + (-x * sy + z * cy) * cx;
-      tile.el.style.opacity = facing > 0 ? 0.4 + facing * 0.6 : Math.max(0.05, 0.18 + facing * 0.18);
-    }
-    requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
-
-  return () => {
-    running = false;
-    removeEventListener("pointermove", onMove);
+  return {
+    // 3. Dissolve, one picture at a time in random order.
+    leave(ms) {
+      clearInterval(swapper);
+      clearInterval(counter);
+      count.textContent = `${total} / ${total}`;
+      stage.classList.add("leaving");
+      [...cells].sort(() => Math.random() - 0.5).forEach((cell, i) =>
+        setTimeout(() => cell.classList.remove("on"), (i / cells.length) * ms * 0.8));
+    },
+    stop() {
+      timers.forEach(clearTimeout);
+      clearInterval(swapper);
+      clearInterval(counter);
+    },
   };
 }
 
 /* ── Collage ────────────────────────────────────────────── */
-// Pieces are dropped into a loose grid of cells, then pushed off-centre with
-// varied sizes, so they scatter and overlap. Sizes and positions scale with
-// the window, so the arrangement keeps its shape at any width.
 
 function collageHtml(pieces) {
-  const count = Math.max(MIN_PIECES, pieces.length);
-  const list = [];
-  while (list.length < count) list.push(...pieces);
-  const random = seeded(COLLAGE_SEED);
-  const rand = (a, b) => a + random() * (b - a);
-  // A fixed shuffle that avoids the same piece twice in a row.
-  const items = list.slice(0, count).map((p) => [random(), p]).sort((a, b) => a[0] - b[0]).map(([, p]) => p);
-  for (let i = 1; i < items.length; i++) {
-    if (items[i] === items[i - 1]) {
-      const j = items.findIndex((p, k) => k > i && p !== items[i]);
-      if (j > 0) [items[i], items[j]] = [items[j], items[i]];
-    }
-  }
-
-  const mobile = isMobile();
-  const W = innerWidth, cols = mobile ? 2 : 4;
-  const cellW = W / cols, cellH = W * (mobile ? 0.55 : 0.2);
-  const top = mobile ? 200 : 220;
+  const slots = isMobile() ? SLOTS_MOBILE : SLOTS;
+  const top = isMobile() ? 52 : 17; // vw below the top of the page, under the text
   const firstVideo = new Set();
   let bottom = 0;
 
-  const html = items.map((piece, i) => {
+  const html = slots.map((slot, i) => {
+    const piece = pieces[i % pieces.length];
     const ratio = piece.video ? piece.w / piece.h : piece.image.w / piece.image.h;
-    const col = i % cols, row = Math.floor(i / cols);
-    let w = W * (mobile ? rand(0.42, 0.62) : rand(0.16, 0.3));
-    if (ratio < 1) w *= 0.75; // portraits a little narrower
-    const h = w / ratio;
-    const x = clamp(col * cellW + rand(-0.45, 0.75) * (cellW - w * 0.4), 12, W - w - 12);
-    const y = top + row * cellH + rand(-0.3, 0.55) * cellH;
-    bottom = Math.max(bottom, y + h);
+    const y = top + slot.y;
+    bottom = Math.max(bottom, y + slot.w / ratio);
 
     // One real <video> per film; repeats paint its frames onto a canvas.
     let media;
@@ -128,10 +157,13 @@ function collageHtml(pieces) {
     } else {
       media = `<img src="${esc(piece.image.src)}" alt="${esc(piece.title)}" draggable="false">`;
     }
-    return `<figure class="c-item" data-cursor="Open" data-piece="${pieces.indexOf(piece)}"
-      style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;z-index:${1 + Math.floor(rand(0, count))};--d:${i * 110}ms">${media}</figure>`;
+    return `<figure class="c-item cap-${slot.cap}" data-cursor="Open" data-piece="${pieces.indexOf(piece)}"
+      style="left:${slot.x}vw;top:${y}vw;width:${slot.w}vw;aspect-ratio:${ratio.toFixed(4)};--d:${i * 140}ms">
+      ${media}<figcaption class="ui"><span class="muted">${pad(i + 1)}</span> ${esc(piece.title)}</figcaption></figure>`;
   });
-  return { html: html.join(""), height: bottom + 140 };
+  const notes = isMobile() ? [] : (EXPERIMENTAL.notes || []).slice(0, NOTE_SLOTS.length).map((text, i) =>
+    `<p class="c-note" style="left:${NOTE_SLOTS[i].x}vw;top:${top + NOTE_SLOTS[i].y}vw;--d:${600 + i * 300}ms">${esc(text).replace(/\n/g, "<br>")}</p>`);
+  return { html: html.join("") + notes.join(""), height: `${bottom + 14}vw` };
 }
 
 function initCollage(root, pieces) {
@@ -139,7 +171,7 @@ function initCollage(root, pieces) {
   const build = () => {
     const { html, height } = collageHtml(pieces);
     box.innerHTML = html;
-    box.style.height = `${height}px`;
+    box.style.height = height;
   };
   build();
 
@@ -229,32 +261,34 @@ function openPiece(piece) {
   root.innerHTML = `
     <p class="lab-text ui">${EXPERIMENTAL.text.map(esc).join(" ")}</p>
     <div class="collage"></div>
-    <div class="sphere-stage" aria-hidden="true"><div class="sphere"></div></div>`;
+    <div class="ix-stage" aria-hidden="true"></div>`;
   $("#site-footer").innerHTML = "";
   initCollage(root, EXPERIMENTAL.pieces);
 
-  const stage = $(".sphere-stage", root);
+  const stage = $(".ix-stage", root);
   const showCollage = () => $(".collage", root).classList.add("in");
   if (reducedMotion) {
     stage.remove();
     showCollage();
     return;
   }
-  document.documentElement.classList.add("sphere-active");
-  const stop = runSphere(stage);
+  document.documentElement.classList.add("ix-active");
+  const index = runIndex(stage);
   let done = false;
   const finish = () => {
     if (done) return;
     done = true;
-    stage.classList.add("leaving");
-    document.documentElement.classList.remove("sphere-active");
-    setTimeout(showCollage, 450);
+    index.leave(1100);
     setTimeout(() => {
-      stop();
+      document.documentElement.classList.remove("ix-active");
+      stage.classList.add("gone");
+      showCollage();
+    }, 1000);
+    setTimeout(() => {
+      index.stop();
       stage.remove();
-    }, 1500);
+    }, 2000);
   };
-  // Count the five seconds from the first painted frame.
-  requestAnimationFrame(() => setTimeout(finish, SPHERE_MS));
+  setTimeout(finish, INDEX_MS);
   stage.addEventListener("click", finish);
 })();
