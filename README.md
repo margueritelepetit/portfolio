@@ -44,9 +44,13 @@ Images are in `assets/<slug>/`, and `w`/`h` must match each image's pixel size. 
 
 ### Videos
 
-The videos currently stream from Cargo (`freight.cargo.site`) because the files are too big for GitHub (Nothing Changed is 139 MB). They will stop working if the Cargo site or its files are deleted. Before that happens, either:
-- upload compressed versions (H.264 .mp4, under ~30 MB) to `assets/` and point `video.src` at them, or
-- host them on Vimeo (a Pro plan gives a direct file link) and use that link.
+Videos are in `assets/video/` as 1280×720 H.264 `.mp4` files, which play in every browser. To add one, convert it on a Mac with:
+
+```bash
+avconvert -s input.mov -p Preset1280x720 -o assets/video/name.mp4
+```
+
+Keep each file under 100 MB (GitHub's limit per file).
 
 ## Preview locally
 

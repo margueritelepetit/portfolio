@@ -8,8 +8,7 @@
     "film"   — videography: full-screen video, then the editorial grid
     "case"   — digital / branding: case study with sections
   Images live in assets/<slug>/ ; w/h are the image's pixel size.
-  Videos currently stream from Cargo (freight.cargo.site). To move
-  them to Vimeo, replace the URL with a direct video file URL.
+  Videos live in assets/video/ as 720p H.264 .mp4 files.
   ─────────────────────────────────────────────────────────────
 */
 
@@ -84,7 +83,7 @@ const PROJECTS = [
       "focus": "50% 45%"
     },
     "video": {
-      "src": "https://freight.cargo.site/m/O2841332771117651242101057786029/NOTHING-CHANGED-web-.mp4",
+      "src": "assets/video/nothing-changed.mp4",
       "poster": "assets/nothing-changed/cover.jpg"
     },
     "subtitle": "Fashion editorial",
@@ -578,7 +577,7 @@ const PROJECTS = [
       "focus": "88% 35%"
     },
     "video": {
-      "src": "https://freight.cargo.site/m/V2841251704613423060336496873645/2MUCH_WEB.mp4",
+      "src": "assets/video/2much.mp4",
       "poster": "assets/2-much/cover.jpg"
     },
     "subtitle": "Fashion editorial",
@@ -1193,19 +1192,19 @@ const EXPERIMENTAL = {
   ],
   "pieces": [
     {
-      "video": "https://freight.cargo.site/m/J2857481310296338492163128561837/4374c5857618427a9acce6ba610a1cc4.MOV",
+      "video": "assets/video/exp-study01.mp4",
       "w": 1080,
       "h": 1920,
       "title": "Study 01"
     },
     {
-      "video": "https://freight.cargo.site/m/I2853725503618083157322836218029/8ecb6f7b97a74209a4883dcbbc36a95a.mov",
+      "video": "assets/video/exp-study02.mp4",
       "w": 720,
       "h": 1174,
       "title": "Study 02"
     },
     {
-      "video": "https://freight.cargo.site/m/T2863888343741102110339806793901/TD-FLOW.mov",
+      "video": "assets/video/exp-tdflow.mp4",
       "w": 2984,
       "h": 1962,
       "title": "TD Flow"
@@ -1219,7 +1218,7 @@ const EXPERIMENTAL = {
       "title": "TouchDesigner network"
     },
     {
-      "video": "https://freight.cargo.site/m/O2857711221549355588191628300461/tt.mov",
+      "video": "assets/video/exp-study03.mp4",
       "w": 3014,
       "h": 1864,
       "title": "Study 03"
