@@ -185,8 +185,13 @@ function initCollage(root, pieces) {
   };
   paint();
   const play = () => sources.forEach((v) => v.paused && v.play().catch(() => {}));
+  const prepare = () => sources.forEach((v) => {
+    quietVideo(v);
+    ["loadeddata", "canplay"].forEach((ev) => v.addEventListener(ev, play));
+  });
+  prepare();
   play();
-  ["pointerdown", "touchstart"].forEach((ev) => addEventListener(ev, play, { passive: true }));
+  onFirstGesture(play);
   document.addEventListener("visibilitychange", () => document.visibilityState === "visible" && play());
 
   box.addEventListener("click", (e) => {
@@ -208,6 +213,7 @@ function initCollage(root, pieces) {
     timer = setTimeout(() => {
       build();
       sources = videos();
+      prepare();
       play();
     }, 250);
   });

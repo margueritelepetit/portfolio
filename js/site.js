@@ -459,6 +459,30 @@ function ambientHum(onPlaying = () => {}) {
   };
 }
 
+/* ── Silent autoplay helpers ────────────────────────────── */
+// Safari only autoplays a video it is sure is silent and inline, so set
+// every flag it checks. If it still refuses (Low Power Mode, or the site's
+// auto-play setting), videos start on the visitor's first click, tap or key.
+
+function quietVideo(v) {
+  v.muted = true;
+  v.defaultMuted = true;
+  v.playsInline = true;
+  v.setAttribute("muted", "");
+  v.setAttribute("playsinline", "");
+  v.setAttribute("webkit-playsinline", "");
+  return v;
+}
+
+function onFirstGesture(fn) {
+  const events = ["pointerdown", "pointerup", "touchend", "keydown", "click"];
+  const run = () => {
+    events.forEach((ev) => removeEventListener(ev, run, true));
+    fn();
+  };
+  events.forEach((ev) => addEventListener(ev, run, { capture: true, passive: true }));
+}
+
 /* ── Boot shared parts ──────────────────────────────────── */
 
 function bootSite() {

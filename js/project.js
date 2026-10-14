@@ -250,6 +250,8 @@ function caseHtml(p, num) {
 function initInlineVideos(root) {
   const vids = $$("video[data-autoplay]", root);
   if (!vids.length) return;
+  vids.forEach(quietVideo);
+  onFirstGesture(() => vids.forEach((v) => v.paused && v.play().catch(() => {})));
   const io = new IntersectionObserver(
     (entries) => entries.forEach((e) => (e.isIntersecting ? e.target.play().catch(() => {}) : e.target.pause())),
     { threshold: 0.2 }

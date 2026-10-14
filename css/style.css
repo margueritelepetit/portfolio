@@ -1319,6 +1319,14 @@ img[data-lightbox],
   padding: 0 var(--pad) 10vh;
 }
 
+/* Never show Safari's own play button over the videos. */
+video::-webkit-media-controls,
+video::-webkit-media-controls-start-playback-button,
+video::-webkit-media-controls-overlay-play-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
 /* ── Experimental zone ──────────────────────────────────── */
 /* White page, a short centred line of text, an opening index of
    project pictures, then the experimental pieces laid out like a magazine. */
