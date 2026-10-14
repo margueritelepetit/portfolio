@@ -7,7 +7,7 @@
 
 :root {
   --bg: #ffffff;
-  --fg: #000000;
+  --fg: #2a2a2a; /* ink: a soft dark grey, never pure black on text */
   --muted: #a3a3a3;
   --line: #e6e6e6;
   --placeholder: #f1f1f1;
@@ -322,7 +322,7 @@ h2.ui {
   inset: 0;
   z-index: 90;
   background: #fff;
-  color: #000;
+  color: var(--fg);
   overflow: hidden;
   transition: opacity 0.7s ease, visibility 0.7s;
 }
@@ -399,7 +399,7 @@ h2.ui {
 .entry-line span {
   position: absolute;
   inset: 0;
-  background: #000;
+  background: var(--fg);
   transform: scaleX(0);
   transform-origin: left;
 }
@@ -970,7 +970,7 @@ img[data-lightbox],
   position: fixed;
   inset: 0;
   z-index: 150;
-  background: #000;
+  background: #0b0b0b;
   transform: translateY(100%);
   transition: transform 0.65s var(--ease);
   pointer-events: none;
