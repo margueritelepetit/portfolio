@@ -733,7 +733,7 @@ body.gallery {
   opacity: 1;
   filter: blur(0);
   transform: none;
-  transition: opacity 1.6s ease 0.3s, filter 2.2s cubic-bezier(0.25, 0.1, 0.25, 1) 0.3s, transform 2.4s var(--ease-out) 0.3s;
+  transition: opacity 3s ease 0.3s, filter 4.2s cubic-bezier(0.25, 0.1, 0.25, 1) 0.3s, transform 4.6s var(--ease-out) 0.3s;
 }
 
 @media (prefers-reduced-motion: reduce) {
