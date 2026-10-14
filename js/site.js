@@ -54,12 +54,9 @@ const LOGO_PATHS = [
   "M318.0 243.9C318.1 245.3 320.2 249.0 320.6 252.0C321.1 255.0 321.4 258.2 320.9 262.0C320.4 265.8 319.7 270.2 317.6 275.0C315.6 279.8 311.9 286.8 308.6 291.0C305.3 295.2 302.6 297.4 298.0 300.3C293.4 303.2 286.7 306.3 281.0 308.4C275.3 310.4 269.7 312.0 264.0 312.7C258.3 313.5 254.5 314.0 247.0 312.9C239.5 311.9 224.8 307.5 219.0 306.3C213.2 305.2 213.9 305.8 212.0 306.3C210.1 306.7 208.6 308.0 207.8 309.0C207.1 310.0 207.3 311.1 207.5 312.0C207.7 312.9 207.9 313.7 209.0 314.5C210.1 315.3 210.0 315.9 214.0 316.7C218.0 317.4 225.7 318.9 233.0 319.1C240.3 319.4 250.8 319.0 258.0 318.2C265.2 317.4 269.3 316.9 276.0 314.4C282.7 311.8 293.0 306.1 298.2 303.0C303.5 299.9 304.0 300.2 307.4 296.0C310.9 291.8 316.3 284.5 319.0 278.0C321.7 271.5 323.2 262.3 323.5 257.0C323.8 251.7 321.6 248.2 321.0 246.0C320.4 243.8 320.5 244.3 320.0 243.9C319.5 243.6 317.9 242.6 318.0 243.9Z",
 ];
 
-// Each contour is stroked on as a thin outline at one steady pace
-// (pathLength 1 makes the dash maths trivial). Replays every time About opens.
+// The filled logo comes into focus from a soft blur each time About opens.
 const logoSvg = () =>
-  `<svg class="about-logo" viewBox="58 86 384 328" aria-label="${esc(SITE.name)} logo" role="img">${LOGO_PATHS.map(
-    (d) => `<path d="${d}" pathLength="1"/>`
-  ).join("")}</svg>`;
+  `<svg class="about-logo" viewBox="58 86 384 328" aria-label="${esc(SITE.name)} logo" role="img"><path fill-rule="evenodd" d="${LOGO_PATHS.join("")}"/></svg>`;
 
 function renderAbout() {
   const el = document.createElement("div");
@@ -89,12 +86,6 @@ function renderAbout() {
       </div>
     </div>`;
   document.body.appendChild(el);
-
-  // Same drawing speed for every line: each one's duration follows its length.
-  const paths = $$(".about-logo path", el);
-  const lengths = paths.map((p) => p.getTotalLength?.() || 1);
-  const longest = Math.max(...lengths);
-  paths.forEach((p, i) => p.style.setProperty("--dur", `${(10 * lengths[i]) / longest}s`));
 
   const toggle = $(".about-toggle");
   const setOpen = (open) => {

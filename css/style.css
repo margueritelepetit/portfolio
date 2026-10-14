@@ -717,28 +717,31 @@ body.gallery {
   height: auto;
   margin-bottom: 22px;
   overflow: visible;
+  /* comes into focus: blurred and faint, then sharp */
+  opacity: 0;
+  filter: blur(14px);
+  transform: scale(1.04);
+  /* reset only after the panel has faded out */
+  transition: opacity 0s 0.5s, filter 0s 0.5s, transform 0s 0.5s;
 }
 
 .about-logo path {
-  fill: none;
-  stroke: #c4c4c4;
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-  stroke-dasharray: 1 1;
-  stroke-dashoffset: 1;
-  /* reset only after the panel has faded out */
-  transition: stroke-dashoffset 0s 0.5s;
+  fill: #808080;
 }
 
-.about-open .about-logo path {
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset var(--dur, 10s) linear 0.4s;
+.about-open .about-logo {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+  transition: opacity 1.6s ease 0.3s, filter 2.2s cubic-bezier(0.25, 0.1, 0.25, 1) 0.3s, transform 2.4s var(--ease-out) 0.3s;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .about-logo path,
-  .about-open .about-logo path {
-    stroke-dashoffset: 0;
+  .about-logo,
+  .about-open .about-logo {
+    opacity: 1;
+    filter: none;
+    transform: none;
     transition: none;
   }
 }
